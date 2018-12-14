@@ -1,0 +1,15 @@
+- means not started
++ means in progress
+# means completed
+
+Preparation
+	- Define Requirements / Interface
+	- Collect / Organize Set Information
+	- Collect / Organize Card Images
+	- Design Database
+Implementation
+	- Create Database
+	- Parse JSON
+	- Populate Database
+	- Implement User Actions
+
