@@ -3,10 +3,15 @@
 # means completed
 
 Preparation
-	- Define Requirements / Interface
-	- Collect / Organize Set Information
-	- Collect / Organize Card Images
-	- Design Database
+	# Define Requirements / Interface
+	# Collect / Organize Set Information
+	+ Collect / Organize Card Images
+		Missing:
+			RIX hadana's climb (download error)
+			RIX kitesail corsair (download error)
+			RIX sphinx's decree (download error)
+			UMA (not yet available)
+	# Design Database
 Implementation
 	- Create Database
 	- Parse JSON
