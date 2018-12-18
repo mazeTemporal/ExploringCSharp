@@ -7,13 +7,10 @@ Preparation
 	# Collect / Organize Set Information
 	+ Collect / Organize Card Images
 		Missing:
-			RIX hadana's climb (download error)
-			RIX kitesail corsair (download error)
-			RIX sphinx's decree (download error)
 			UMA (not yet available)
 	# Design Database
 Implementation
-	- Create Database
+	# Create Database
 	- Parse JSON
 	- Populate Database
 	- Implement User Actions
