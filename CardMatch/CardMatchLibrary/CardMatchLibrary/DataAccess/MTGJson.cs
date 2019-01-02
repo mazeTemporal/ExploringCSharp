@@ -95,19 +95,16 @@ namespace CardMatchLibrary.DataAccess
       {
         if (JsonCardIsValid(jsonCard))
         {
-          ReleaseModel release = new ReleaseModel();
-          release.cardNumber = jsonCard["number"].ToString();
-
           CardModel card = new CardModel();
           card.isBase = JsonCardIsBase(jsonCard);
           card.name = jsonCard["name"].ToString();
-          release.card = card;
 
-          ImageModel image = new ImageModel(cardSetCode);
-          image.fileName = card.name + ".xlhq.jpg";
-          image.frame = DataConnector.GetFrameModel(
+          ReleaseModel release = new ReleaseModel(cardSetCode);
+          release.card = card;
+          release.cardNumber = jsonCard["number"].ToString();
+          release.imageFile = card.name + ".xlhq.jpg";
+          release.frame = DataConnector.GetFrameModel(
             jsonCard["frameVersion"].ToString());
-          release.image = image;
 
           cardSet.releases.Add(release);
         }

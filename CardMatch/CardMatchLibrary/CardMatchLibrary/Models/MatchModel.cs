@@ -13,13 +13,13 @@ namespace CardMatchLibrary.Models
     /// Represents the base card image.
     /// </summary>
     /// <value>The base image.</value>
-    public ImageModel baseImage { get; set; }
+    public ReleaseModel baseImage { get; set; }
 
     /// <summary>
     /// Represents the cover card image.
     /// </summary>
     /// <value>The cover image.</value>
-    public ImageModel coverImage { get; set; }
+    public ReleaseModel coverImage { get; set; }
 
 
     /// <summary>

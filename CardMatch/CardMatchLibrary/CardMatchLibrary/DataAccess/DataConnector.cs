@@ -45,18 +45,24 @@ namespace CardMatchLibrary.DataAccess
       // create the card
       CreateCard(conn, release.card);
 
-      // create the image
-      CreateImage(conn, release.image);
-
       // create the release
       conn.OpenCommand();
       conn.CommandSetText(
-        "INSERT INTO Release ( cardSet, image, card, cardNumber ) "
-        + "VALUES ( @cardSet, @image, @card, @cardNumber )");
+        "INSERT INTO Release "
+        + "( canonicalImage, cardSet, card, cardNumber, frame, "
+        + "matchStatus, hasCutout, cardSetCode, imageFile )"
+        + " VALUES "
+        + "( @canonicalImage, @cardSet, @card, @cardNumber, @frame, "
+        + "@matchStatus, @hasCutout, @cardSetCode, @imageFile )");
+      conn.CommandSetValue("@canonicalImage", release.canonicalImageId);
       conn.CommandSetValue("@cardSet", cardSet.id);
-      conn.CommandSetValue("@image", release.image.id);
       conn.CommandSetValue("@card", release.card.id);
       conn.CommandSetValue("@cardNumber", release.cardNumber);
+      conn.CommandSetValue("@frame", release.frame.id);
+      conn.CommandSetValue("@matchStatus", release.matchStatus);
+      conn.CommandSetValue("@hasCutout", release.hasCutout);
+      conn.CommandSetValue("@cardSetCode", release.cardSetCode);
+      conn.CommandSetValue("@imageFile", release.imageFile);
       release.id = conn.CommandInsertGetId();
       conn.CloseCommand();
     }
@@ -67,7 +73,7 @@ namespace CardMatchLibrary.DataAccess
       card.id = GetCardId(card.name, conn);
       if (-1 == card.id)
       {
-        // create the release
+        // create the card
         conn.OpenCommand();
         conn.CommandSetText(
           "INSERT INTO Card ( isBase, name ) "
@@ -77,23 +83,6 @@ namespace CardMatchLibrary.DataAccess
         card.id = conn.CommandInsertGetId();
         conn.CloseCommand();
       }
-    }
-
-    private static void CreateImage(DBConnection conn, ImageModel image)
-    {
-      // create the release
-      conn.OpenCommand();
-      conn.CommandSetText(
-        "INSERT INTO Image ( frame, matchStatus, hasCutout, canonicalImage, fileName, cardSetCode ) "
-        + "VALUES ( @frame, @matchStatus, @hasCutout, @canonicalImage, @fileName, @cardSetCode )");
-      conn.CommandSetValue("@frame", image.frame.id);
-      conn.CommandSetValue("@matchStatus", image.matchStatus);
-      conn.CommandSetValue("@hasCutout", image.hasCutout);
-      conn.CommandSetValue("@canonicalImage", image.canonicalImageId);
-      conn.CommandSetValue("@fileName", image.fileName);
-      conn.CommandSetValue("@cardSetCode", image.cardSetCode);
-      image.id = conn.CommandInsertGetId();
-      conn.CloseCommand();
     }
 
     public static void CreateFrame(FrameModel frame)
@@ -212,24 +201,20 @@ namespace CardMatchLibrary.DataAccess
         + ")",
         CREATE_IF + "Release("
         + "id" + PRIMARY_KEY
+        + "canonicalImage" + NN_REF + "Release(id), "
         + "cardSet" + NN_REF + "CardSet(id), "
         + "card" + NN_REF + "Card(id), "
-        + "image" + NN_REF + "Image(id), "
-        + "cardNumber TEXT NOT NULL"
+        + "cardNumber TEXT NOT NULL, "
+        + "frame" + NN_REF + "Frame(id), "
+        + "matchStatus TEXT NOT NULL, "
+        + "hasCutout INTEGER NOT NULL, "
+        + "cardSetCode TEXT NOT NULL, "
+        + "imageFile TEXT NOT NULL"
         + ")",
         CREATE_IF + "Card("
         + "id" + PRIMARY_KEY
         + "isBase INTEGER NOT NULL, "
         + "name TEXT NOT NULL UNIQUE"
-        + ")",
-        CREATE_IF + "Image("
-        + "id" + PRIMARY_KEY
-        + "frame" + NN_REF + "Frame(id), "
-        + "canonicalImage" + NN_REF + "Image(id), "
-        + "hasCutout INTEGER NOT NULL, "
-        + "matchStatus TEXT NOT NULL, "
-        + "cardSetCode TEXT NOT NULL, "
-        + "fileName TEXT NOT NULL"
         + ")",
         CREATE_IF + "Frame("
         + "id" + PRIMARY_KEY
@@ -239,8 +224,8 @@ namespace CardMatchLibrary.DataAccess
         CREATE_IF + "Match("
         + "id" + PRIMARY_KEY
         + "judgment TEXT NOT NULL, "
-        + "baseImage" + NN_REF + "Image(id), "
-        + "coverImage" + NN_REF + "Image(id), "
+        + "baseImage" + NN_REF + "Release(id), "
+        + "coverImage" + NN_REF + "Release(id), "
         + "UNIQUE (baseImage, coverImage)"
         + ")"
       };
