@@ -11,7 +11,7 @@ Preparation
 	# Design Database
 Implementation
 	# Create Database
-	- Parse JSON
-	- Populate Database
+	# Parse JSON
+	# Populate Database
 	- Implement User Actions
 

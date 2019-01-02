@@ -1,7 +1,11 @@
-Data/
-Public/card/
+Public/
 Backend/Offline/.vs/
 Backend/Offline/Offline/bin/
 Backend/Offline/Offline/obj/
 Backend/Offline/Offline/Properties/
+CardMatchLibrary/packages/
+CardMatchLibrary/.vs/
+CardMatchLibrary/CardMatchLibrary/bin/
+CardMatchLibrary/CardMatchLibrary/obj/
+CardMatchLibrary/CardMatchLibrary/Data/
 
