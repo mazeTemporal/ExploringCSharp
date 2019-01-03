@@ -46,6 +46,9 @@ namespace CardMatchLibrary.DataAccess
       CreateCard(conn, release.card);
 
       // create the release
+      release.cardSetId = cardSet.id;
+      release.cardSetCode = cardSet.code;
+      release.VerifyImageFile();
       conn.OpenCommand();
       conn.CommandSetText(
         "INSERT INTO Release "
@@ -55,7 +58,7 @@ namespace CardMatchLibrary.DataAccess
         + "( @canonicalImage, @cardSet, @card, @cardNumber, @frame, "
         + "@matchStatus, @hasCutout, @cardSetCode, @imageFile )");
       conn.CommandSetValue("@canonicalImage", release.canonicalImageId);
-      conn.CommandSetValue("@cardSet", cardSet.id);
+      conn.CommandSetValue("@cardSet", release.cardSetId);
       conn.CommandSetValue("@card", release.card.id);
       conn.CommandSetValue("@cardNumber", release.cardNumber);
       conn.CommandSetValue("@frame", release.frame.id);
@@ -63,6 +66,7 @@ namespace CardMatchLibrary.DataAccess
       conn.CommandSetValue("@hasCutout", release.hasCutout);
       conn.CommandSetValue("@cardSetCode", release.cardSetCode);
       conn.CommandSetValue("@imageFile", release.imageFile);
+
       release.id = conn.CommandInsertGetId();
       conn.CloseCommand();
     }
@@ -185,6 +189,54 @@ namespace CardMatchLibrary.DataAccess
       ));
     }
 
+    public static ReleaseModel GetReleaseNeedImage()
+    {
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "SELECT Release.*, Card.name FROM Release "
+        + "JOIN Card ON Release.card = Card.id "
+        + "WHERE imageFile = '' LIMIT 1");
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      ReleaseModel release = new ReleaseModel();
+      release.card = new CardModel();
+
+      if (1 == dataTable.Rows.Count)
+      { 
+        release.cardSetCode = (string)dataTable.Rows[0]["cardSetCode"];
+        release.id = (int)(Int64)dataTable.Rows[0]["id"];
+        release.cardNumber = (string)dataTable.Rows[0]["cardNumber"];
+        release.card = new CardModel();
+        release.card.name = (string)dataTable.Rows[0]["name"];
+      }
+      return (release);
+    }
+
+    public static void ReleaseAssignImage(ReleaseModel release)
+    {
+      // ensure file exists
+      release.VerifyImageFile();
+
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "UPDATE Release SET imageFile = @imageFile "
+        + "WHERE cardSetCode = @cardSetCode "
+        + "AND cardNumber = @cardNumber");
+      conn.CommandSetValue("@imageFile", release.imageFile);
+      conn.CommandSetValue("@cardSetCode", release.cardSetCode);
+      conn.CommandSetValue("@cardNumber", release.cardNumber);
+      conn.CommandExecuteNonQuery();
+      conn.CloseCommand();
+      conn.CloseConnection();
+    }
+
     public static void CreateTables()
     {
       const string CREATE_IF = "CREATE TABLE IF NOT EXISTS ";
@@ -209,7 +261,8 @@ namespace CardMatchLibrary.DataAccess
         + "matchStatus TEXT NOT NULL, "
         + "hasCutout INTEGER NOT NULL, "
         + "cardSetCode TEXT NOT NULL, "
-        + "imageFile TEXT NOT NULL"
+        + "imageFile TEXT NOT NULL, "
+        + "UNIQUE (cardSet, cardNumber)"
         + ")",
         CREATE_IF + "Card("
         + "id" + PRIMARY_KEY

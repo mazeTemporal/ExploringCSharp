@@ -1,0 +1,33 @@
+﻿@model CardMatchLibrary.Models.ReleaseModel
+
+@{
+    ViewBag.Title = "Assign Image Filename";
+    Layout = "~/Views/Shared/_Process.cshtml";
+}
+
+<h2>Assign Image Filename</h2>
+
+@using (Html.BeginForm())
+{
+  <div>
+  @Html.Label("Set Code:")
+  @Html.TextBoxFor(m => m.cardSetCode)
+  </div>
+  
+  <div>
+  @Html.Label("Card Name:")
+  @Html.TextBoxFor(m => m.card.name)
+  </div>
+  
+  <div>
+  @Html.Label("Card Number:")
+  @Html.TextBoxFor(m => m.cardNumber)
+  </div>
+  
+  <div>
+  @Html.Label("Image Filename:")
+  @Html.TextBoxFor(m => m.imageFile)
+  </div>
+  
+  <input type="submit" value="Assign Filename" />
+}

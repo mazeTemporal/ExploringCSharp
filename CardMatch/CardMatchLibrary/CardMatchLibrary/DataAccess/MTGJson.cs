@@ -99,8 +99,9 @@ namespace CardMatchLibrary.DataAccess
           card.isBase = JsonCardIsBase(jsonCard);
           card.name = jsonCard["name"].ToString();
 
-          ReleaseModel release = new ReleaseModel(cardSetCode);
+          ReleaseModel release = new ReleaseModel();
           release.card = card;
+          release.cardNumber = cardSetCode;
           release.cardNumber = jsonCard["number"].ToString();
           release.imageFile = card.name + ".xlhq.jpg";
           release.frame = DataConnector.GetFrameModel(

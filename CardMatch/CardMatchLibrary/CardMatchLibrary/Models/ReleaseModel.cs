@@ -4,11 +4,6 @@ namespace CardMatchLibrary.Models
 {
   public class ReleaseModel
   {
-    public ReleaseModel(string cardSetCode)
-    {
-      this.cardSetCode = cardSetCode;
-    }
-
     /// <summary>
     /// Path to image folder.
     /// </summary>
@@ -36,21 +31,19 @@ namespace CardMatchLibrary.Models
     /// Represents the name of the image file.
     /// </summary>
     /// <value>The name of the file.</value>
-    private string _imageFile;
-    public string imageFile
-    {
-      get { return (_imageFile); }
-      set
-      {
-        _imageFile = File.Exists(GetPath(value)) ? value : "";
-      }
-    }
+    public string imageFile { get; set; }
 
     /// <summary>
     /// Gets or sets the card set code.
     /// </summary>
     /// <value>The card set code.</value>
     public string cardSetCode { get; set; }
+
+    /// <summary>
+    /// Gets or sets the card set code.
+    /// </summary>
+    /// <value>The card set code.</value>
+    public int cardSetId { get; set; } = -1;
 
     /// <summary>
     /// Represents the canonical version of duplicate card arts.
@@ -85,6 +78,14 @@ namespace CardMatchLibrary.Models
     /// </summary>
     /// <value>True if the cutout exists.</value>
     public bool hasCutout { get; set; } = false;
+
+    public void VerifyImageFile()
+    {
+      if (!File.Exists(GetPath(imageFile)))
+      {
+        imageFile = "";
+      }
+    }
 
     /// <summary>
     /// Gets path to image file.

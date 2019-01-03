@@ -1,0 +1,15 @@
+﻿@model CardMatchLibrary.Models.CardSetModel
+
+@{
+    ViewBag.Title = "Add Set";
+    Layout = "~/Views/Shared/_Process.cshtml";
+}
+
+<h2>Add Set</h2>
+
+@using (Html.BeginForm())
+{
+  @Html.Label("Set Code:")
+  @Html.TextBoxFor(m => m.code)
+  <input type="submit" value="Add Set" />
+}

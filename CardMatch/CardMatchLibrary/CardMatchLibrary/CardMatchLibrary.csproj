@@ -110,7 +110,6 @@
     <Content Include="packages.config" />
     <Content Include="Views\Process\Index.cshtml" />
     <Content Include="Views\Shared\_Process.cshtml" />
-    <Content Include="Views\Process\JudgeMatchable.cshtml" />
     <Content Include="Views\Process\AssignFilename.cshtml" />
     <Content Include="Views\Process\AddSet.cshtml" />
   </ItemGroup>

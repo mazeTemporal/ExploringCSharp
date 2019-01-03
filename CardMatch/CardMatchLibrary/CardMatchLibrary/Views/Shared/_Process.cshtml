@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+  <nav>
+    <ul>
+      <li>@Html.ActionLink("Home", "Index", "Home")</li>
+      <li>@Html.ActionLink("Process", "Index", "Process")</li>
+      <li>@Html.ActionLink("Create Database", "CreateDatabase", "Process")</li>
+      <li>@Html.ActionLink("Add Set", "AddSet", "Process")</li>
+      <li>@Html.ActionLink("Assign Image Filename", "AssignFilename", "Process")</li>
+      <li>@Html.ActionLink("Judge Matchability", "JudgeMatchable", "Process")</li>
+    </ul>
+  </nav>
+  @RenderBody()
+</body>
+</html>
