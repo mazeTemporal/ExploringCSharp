@@ -1,6 +1,7 @@
 ﻿using System;
 using CardMatchLibrary.Models;
 using System.Data;
+using System.Collections.Generic;
 
 namespace CardMatchLibrary.DataAccess
 {
@@ -37,6 +38,9 @@ namespace CardMatchLibrary.DataAccess
         conn.CommitTransaction();
         conn.CloseTransaction();
         conn.CloseConnection();
+
+        // update canonicalImage
+        DetectCanonical();
       }
     }
 
@@ -235,6 +239,75 @@ namespace CardMatchLibrary.DataAccess
       conn.CommandExecuteNonQuery();
       conn.CloseCommand();
       conn.CloseConnection();
+    }
+
+    public static void DetectCanonical()
+    {
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      // where no releases of a card+frame have defined canonical
+      conn.CommandSetText(
+        "UPDATE Release Set canonicalImage = Release.id " +
+        "WHERE Release.id IN " +
+        "(" +
+          "SELECT Release.id FROM " +
+          "(" +
+            "SELECT Release.card, Release.frame, " +
+              "COUNT(DISTINCT Release.canonicalImage) AS canonicalCount " +
+            "FROM Release JOIN Card ON Release.card = Card.id " +
+            "GROUP BY Release.card, Release.frame " +
+          ") AS DefaultCanonical " +
+          "JOIN Release ON Release.card = DefaultCanonical.card " +
+            "AND Release.frame = DefaultCanonical.frame " +
+          "WHERE canonicalCount = 1 " +
+            "AND canonicalImage = -1 " +
+          "GROUP BY Release.card, Release.frame " +
+        ")"
+      );
+      conn.CommandExecuteNonQuery();
+      conn.CloseCommand();
+      conn.CloseConnection();
+    }
+
+    public static List<ReleaseModel> GetReleaseNeedCanonical()
+    {
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      // get one unset canonical and all set canonical for card+frame
+      conn.CommandSetText(
+        "SELECT Release.id, Release.canonicalImage, Release.cardSetCode, " +
+          "Release.imageFile, Frame.frame " +
+        "FROM Release " +
+        "JOIN " +
+        "(" +
+          "SELECT Release.card, Release.frame " +
+          "FROM Release " +
+          "WHERE Release.canonicalImage = -1 " +
+          "LIMIT 1" +
+        ") AS r ON Release.card = r.card AND Release.frame = r.frame " +
+        "JOIN Frame ON Release.frame = Frame.id " +
+        "GROUP BY Release.canonicalImage"
+      );
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      List<ReleaseModel> releases = new List<ReleaseModel>();
+      foreach (DataRow row in dataTable.Rows)
+      {
+        ReleaseModel release = new ReleaseModel();
+        release.id = (int)(long)row["id"];
+        release.canonicalImageId = (int)(long)row["canonicalImage"];
+        release.cardSetCode = (string)row["cardSetCode"];
+        release.imageFile = (string)row["imageFile"];
+        release.frame = GetFrameModel((string)row["frame"]);
+        releases.Add(release);
+      }
+
+      return (releases);
     }
 
     public static void CreateTables()

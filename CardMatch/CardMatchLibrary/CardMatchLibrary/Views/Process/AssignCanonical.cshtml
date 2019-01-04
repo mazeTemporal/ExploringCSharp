@@ -1,0 +1,19 @@
+﻿@model IEnumerable<CardMatchLibrary.Models.ReleaseModel>
+
+@{
+    ViewBag.Title = "Assign Canonical Image";
+    Layout = "~/Views/Shared/_Process.cshtml";
+}
+
+<h2>Assign Canonical Image</h2>
+@foreach (var m in Model)
+{
+  string unassigned = @m.canonicalImageId == -1 ? "background-color: Red;" : "";
+  <ul style="@unassigned">
+    <li>@m.id</li>
+    <li>@m.canonicalImageId</li>
+    <li>@m.cardSetCode</li>
+    <li>@m.imageFile</li>
+    <li>@m.frame.yOffset</li>
+  </ul>
+}

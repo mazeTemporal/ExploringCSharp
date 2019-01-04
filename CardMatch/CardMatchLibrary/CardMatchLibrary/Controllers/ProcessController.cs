@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using CardMatchLibrary.Models;
 using CardMatchLibrary.DataAccess;
+using System.Collections.Generic;
 
 namespace CardMatchLibrary.Controllers
 {
@@ -42,6 +43,21 @@ namespace CardMatchLibrary.Controllers
     {
       DataConnector.ReleaseAssignImage(release);
       return RedirectToAction("AssignFilename");
+    }
+
+    [HttpGet]
+    public ActionResult AssignCanonical()
+    {
+      List<ReleaseModel> releases = DataConnector.GetReleaseNeedCanonical();
+      return View(releases);
+    }
+
+    [HttpPost]
+    public ActionResult AssignCanonical(ReleaseModel release)
+    {
+      //!!!
+      //DataConnector.ReleaseAssignCanonical(release);
+      return RedirectToAction("AssignCanonical");
     }
   }
 }
