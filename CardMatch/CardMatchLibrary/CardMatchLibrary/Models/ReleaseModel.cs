@@ -7,7 +7,7 @@ namespace CardMatchLibrary.Models
     /// <summary>
     /// Path to image folder.
     /// </summary>
-    private const string IMAGE_PATH = "./Data/Image/";
+    private const string IMAGE_PATH = "/Data/Image/";
 
     /// <summary>
     /// Represents the database id.
@@ -81,7 +81,7 @@ namespace CardMatchLibrary.Models
 
     public void VerifyImageFile()
     {
-      if (!File.Exists(GetPath(imageFile)))
+      if (!File.Exists("." + GetPath(imageFile)))
       {
         imageFile = "";
       }

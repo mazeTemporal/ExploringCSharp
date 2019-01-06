@@ -45,6 +45,12 @@ namespace CardMatchLibrary.Controllers
       return RedirectToAction("AssignFilename");
     }
 
+    public ActionResult DetectCanonical()
+    {
+      DataConnector.DetectCanonical();
+      return Redirect("AssignCanonical");
+    }
+
     [HttpGet]
     public ActionResult AssignCanonical()
     {
@@ -55,8 +61,7 @@ namespace CardMatchLibrary.Controllers
     [HttpPost]
     public ActionResult AssignCanonical(ReleaseModel release)
     {
-      //!!!
-      //DataConnector.ReleaseAssignCanonical(release);
+      DataConnector.ReleaseAssignCanonical(release);
       return RedirectToAction("AssignCanonical");
     }
   }

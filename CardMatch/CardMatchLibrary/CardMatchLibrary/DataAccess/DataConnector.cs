@@ -262,6 +262,7 @@ namespace CardMatchLibrary.DataAccess
             "AND Release.frame = DefaultCanonical.frame " +
           "WHERE canonicalCount = 1 " +
             "AND canonicalImage = -1 " +
+            "AND imageFile != '' " +
           "GROUP BY Release.card, Release.frame " +
         ")"
       );
@@ -286,6 +287,7 @@ namespace CardMatchLibrary.DataAccess
           "SELECT Release.card, Release.frame " +
           "FROM Release " +
           "WHERE Release.canonicalImage = -1 " +
+          "AND Release.imageFile != '' " +
           "LIMIT 1" +
         ") AS r ON Release.card = r.card AND Release.frame = r.frame " +
         "JOIN Frame ON Release.frame = Frame.id " +
@@ -308,6 +310,21 @@ namespace CardMatchLibrary.DataAccess
       }
 
       return (releases);
+    }
+
+    public static void ReleaseAssignCanonical(ReleaseModel release)
+    {
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "UPDATE Release Set canonicalImage = @canonicalImage WHERE id = @id"
+      );
+      conn.CommandSetValue("@canonicalImage", release.canonicalImageId);
+      conn.CommandSetValue("@id", release.id);
+      conn.CommandExecuteNonQuery();
+      conn.CloseCommand();
+      conn.CloseConnection();
     }
 
     public static void CreateTables()
