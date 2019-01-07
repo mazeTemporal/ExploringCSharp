@@ -7,6 +7,22 @@
 
 <h2>Assign Canonical Image</h2>
 @if (Model.Count() > 0){
+  <style>
+  .frame2003 {
+    width: 630px;
+    height: 461px;
+    background-repeat: no-repeat;
+    background-position: -57px -117px;
+    zoom: 40%;
+  }
+  .frame2015 {
+    width: 630px;
+    height: 461px;
+    background-repeat: no-repeat;
+    background-position: -57px -117px;
+    zoom: 40%;
+  }
+  </style>
   using (Html.BeginForm())
   {
     <div>
@@ -19,16 +35,17 @@
       {
         string unassigned = @m.canonicalImageId == -1 ? "background-color: Red;" : "";
         string imageSrc = @Url.Content(m.GetPath());
+        string frameType = "frame" + m.frame;
         
-        <span style="@unassigned">
+        <div style="float:left;@unassigned">
           <label>
             @Html.RadioButton("canonicalImageId", m.id)
-            <img src= "@imageSrc" style="height: 400px;" alt="IMAGES" />
+            <div class="@frameType" style="background-image: url('@imageSrc');"></div>
           </label>
-        </span>
+        </div>
       }
     </div>
-
+    
     <input type="submit" value="Assign Canonical" />
   }
 } else {

@@ -52,7 +52,7 @@ namespace CardMatchLibrary.DataAccess
     private static bool FrameVersionIsValid(JObject jsonCard)
     {
       string frameVersion = jsonCard.Value<string>("frameVersion");
-      return (-1 < DataConnector.GetFrameModel(frameVersion).id);
+      return ("2003" == frameVersion || "2015" == frameVersion);
     }
 
     private static bool JsonCardIsValid(JObject jsonCard)
@@ -104,8 +104,7 @@ namespace CardMatchLibrary.DataAccess
           release.cardNumber = cardSetCode;
           release.cardNumber = jsonCard["number"].ToString();
           release.imageFile = card.name + ".xlhq.jpg";
-          release.frame = DataConnector.GetFrameModel(
-            jsonCard["frameVersion"].ToString());
+          release.frame = jsonCard["frameVersion"].ToString();
 
           cardSet.releases.Add(release);
         }

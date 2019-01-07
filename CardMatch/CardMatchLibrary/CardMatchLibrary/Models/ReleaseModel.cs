@@ -55,7 +55,7 @@ namespace CardMatchLibrary.Models
     /// Represents the format of the art box.
     /// </summary>
     /// <value>The art frame.</value>
-    public FrameModel frame { get; set; }
+    public string frame { get; set; }
 
     /// <summary>
     /// Possible values for match status.

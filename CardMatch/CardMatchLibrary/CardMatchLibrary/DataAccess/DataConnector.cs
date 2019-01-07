@@ -65,7 +65,7 @@ namespace CardMatchLibrary.DataAccess
       conn.CommandSetValue("@cardSet", release.cardSetId);
       conn.CommandSetValue("@card", release.card.id);
       conn.CommandSetValue("@cardNumber", release.cardNumber);
-      conn.CommandSetValue("@frame", release.frame.id);
+      conn.CommandSetValue("@frame", release.frame);
       conn.CommandSetValue("@matchStatus", release.matchStatus);
       conn.CommandSetValue("@hasCutout", release.hasCutout);
       conn.CommandSetValue("@cardSetCode", release.cardSetCode);
@@ -93,21 +93,6 @@ namespace CardMatchLibrary.DataAccess
       }
     }
 
-    public static void CreateFrame(FrameModel frame)
-    {
-      DBConnection conn = new DBConnection();
-      conn.OpenConnection();
-      conn.OpenCommand();
-      conn.CommandSetText(
-        "INSERT OR IGNORE INTO Frame ( frame, yOffset ) "
-        + "VALUES ( @frame, @yOffset )");
-      conn.CommandSetValue("@frame", frame.frame);
-      conn.CommandSetValue("@yOffset", frame.yOffset);
-      conn.CommandExecuteNonQuery();
-      conn.CloseCommand();
-      conn.CloseConnection();
-    }
-
     public static void CreateMatch(MatchModel match)
     {
       DBConnection conn = new DBConnection();
@@ -122,30 +107,6 @@ namespace CardMatchLibrary.DataAccess
       conn.CommandExecuteNonQuery();
       conn.CloseCommand();
       conn.CloseConnection();
-    }
-
-    public static FrameModel GetFrameModel(string frame)
-    {
-      var dataTable = new DataTable();
-      DBConnection conn = new DBConnection();
-      conn.OpenConnection();
-      conn.OpenCommand();
-      conn.CommandSetText(
-        "SELECT id, yOffset FROM Frame WHERE frame = @frame");
-      conn.CommandSetValue("@frame", frame);
-      conn.CommandExecuteDataTable(dataTable);
-      conn.CloseCommand();
-      conn.CloseConnection();
-
-      if (1 != dataTable.Rows.Count)
-      {
-        return (new FrameModel(-1, "", 0));
-      }
-      return (new FrameModel(
-        (int)(Int64)dataTable.Rows[0]["id"],
-        frame,
-        (int)(Int64)dataTable.Rows[0]["yOffset"]
-      ));
     }
 
     private static int GetId(string commandText, string identifier, string value, DBConnection conn = null)
@@ -280,7 +241,7 @@ namespace CardMatchLibrary.DataAccess
       // get one unset canonical and all set canonical for card+frame
       conn.CommandSetText(
         "SELECT Release.id, Release.canonicalImage, Release.cardSetCode, " +
-          "Release.imageFile, Frame.frame " +
+          "Release.imageFile, Release.frame " +
         "FROM Release " +
         "JOIN " +
         "(" +
@@ -290,7 +251,7 @@ namespace CardMatchLibrary.DataAccess
           "AND Release.imageFile != '' " +
           "LIMIT 1" +
         ") AS r ON Release.card = r.card AND Release.frame = r.frame " +
-        "JOIN Frame ON Release.frame = Frame.id " +
+        "WHERE Release.imageFile != '' " +
         "GROUP BY Release.canonicalImage"
       );
       conn.CommandExecuteDataTable(dataTable);
@@ -305,7 +266,7 @@ namespace CardMatchLibrary.DataAccess
         release.canonicalImageId = (int)(long)row["canonicalImage"];
         release.cardSetCode = (string)row["cardSetCode"];
         release.imageFile = (string)row["imageFile"];
-        release.frame = GetFrameModel((string)row["frame"]);
+        release.frame = (string)row["frame"];
         releases.Add(release);
       }
 
@@ -347,7 +308,7 @@ namespace CardMatchLibrary.DataAccess
         + "cardSet" + NN_REF + "CardSet(id), "
         + "card" + NN_REF + "Card(id), "
         + "cardNumber TEXT NOT NULL, "
-        + "frame" + NN_REF + "Frame(id), "
+        + "frame TEXT NOT NULL, "
         + "matchStatus TEXT NOT NULL, "
         + "hasCutout INTEGER NOT NULL, "
         + "cardSetCode TEXT NOT NULL, "
@@ -358,11 +319,6 @@ namespace CardMatchLibrary.DataAccess
         + "id" + PRIMARY_KEY
         + "isBase INTEGER NOT NULL, "
         + "name TEXT NOT NULL UNIQUE"
-        + ")",
-        CREATE_IF + "Frame("
-        + "id" + PRIMARY_KEY
-        + "yOffset INTEGER NOT NULL, "
-        + "frame TEXT NOT NULL UNIQUE"
         + ")",
         CREATE_IF + "Match("
         + "id" + PRIMARY_KEY
@@ -383,9 +339,6 @@ namespace CardMatchLibrary.DataAccess
         conn.CloseCommand();
       }
       conn.CloseConnection();
-
-      CreateFrame(new FrameModel("2003"));
-      CreateFrame(new FrameModel("2015"));
     }
   }
 }
