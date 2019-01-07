@@ -64,5 +64,19 @@ namespace CardMatchLibrary.Controllers
       DataConnector.ReleaseAssignCanonical(release);
       return RedirectToAction("AssignCanonical");
     }
+
+    [HttpGet]
+    public ActionResult JudgeMatchable()
+    {
+      ReleaseModel release = DataConnector.GetReleaseNeedJudgeMatchability();
+      return View(release);
+    }
+
+    [HttpPost]
+    public ActionResult JudgeMatchable(ReleaseModel release)
+    {
+      DataConnector.ReleaseAssignMatchability(release);
+      return RedirectToAction("JudgeMatchable");
+    }
   }
 }

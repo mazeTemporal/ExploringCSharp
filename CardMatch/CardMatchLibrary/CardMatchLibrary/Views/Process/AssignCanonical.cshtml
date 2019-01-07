@@ -34,7 +34,7 @@
       @foreach (var m in Model.OrderBy(m => m.canonicalImageId))
       {
         string unassigned = @m.canonicalImageId == -1 ? "background-color: Red;" : "";
-        string imageSrc = @Url.Content(m.GetPath());
+        string imageSrc = @Url.Content(@Model.GetPath()).Replace("'", "\\'").Replace("\"", "\\\"");
         string frameType = "frame" + m.frame;
         
         <div style="float:left;@unassigned">

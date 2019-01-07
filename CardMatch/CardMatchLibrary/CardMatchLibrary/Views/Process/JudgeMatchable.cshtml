@@ -1,0 +1,68 @@
+﻿@model CardMatchLibrary.Models.ReleaseModel
+
+@{
+    ViewBag.Title = "Judge Matchable";
+    Layout = "~/Views/Shared/_Process.cshtml";
+}
+
+<h2>Judge Matchability</h2>
+@if (Model.id > -1){
+  <style>
+  .overlay:after {
+    border-top: 1px solid red;
+    width: 100%;
+    bottom: 0;
+    position: absolute;
+    content: '';
+  }
+  .frame2003 {
+    width: 630px;
+    height: 461px;
+    background-repeat: no-repeat;
+    background-position: -57px -300px;
+    zoom: 40%;
+  }
+  .frame2003:after {
+    height: 10%;
+  }
+  .frame2015 {
+    width: 630px;
+    height: 461px;
+    background-repeat: no-repeat;
+    background-position: -57px -117px;
+    zoom: 100%;
+    position: relative;
+  }
+  .frame2015:after {
+    height: 83%;
+  }
+  </style>
+
+  using (Html.BeginForm())
+  {
+    string imageSrc = @Url.Content(@Model.GetPath()).Replace("'", "\\'").Replace("\"", "\\\"");
+    string frameType = "frame" + @Model.frame;
+   
+    <div>
+      @Html.Label("Id:")
+      @Html.TextBoxFor(m => m.id)
+    </div>
+    
+    <div class="overlay @frameType" style="background-image: url('@imageSrc');"></div>
+    
+    <div>
+      <label>
+        @Html.RadioButton("matchStatus", "Matchable")
+        <text>Matchable</text>
+      </label>
+      <label>
+        @Html.RadioButton("matchStatus", "Unmatchable")
+        <text>Unmatchable</text>
+      </label>
+    </div>
+    
+    <input type="submit" value="Judge Matchable" />
+  }
+} else {
+  <p>All Images Judged</p>
+}

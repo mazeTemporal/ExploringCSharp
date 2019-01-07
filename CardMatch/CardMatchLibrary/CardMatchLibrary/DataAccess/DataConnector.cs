@@ -288,6 +288,50 @@ namespace CardMatchLibrary.DataAccess
       conn.CloseConnection();
     }
 
+    public static ReleaseModel GetReleaseNeedJudgeMatchability()
+    {
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      // is canonical image, matchStatus unmatched
+      conn.CommandSetText(
+        "SELECT id, cardSetCode, imageFile, frame FROM Release "
+        + "WHERE canonicalImage == id AND matchStatus = @matchStatus "
+        + "LIMIT 1"
+      );
+      conn.CommandSetValue("@matchStatus", ReleaseModel.MatchStatus.Unchecked);
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      ReleaseModel release = new ReleaseModel();
+      if (1 == dataTable.Rows.Count)
+      {
+        release.id = (int)(Int64)dataTable.Rows[0]["id"];
+        release.cardSetCode = (string)dataTable.Rows[0]["cardSetCode"];
+        release.imageFile = (string)dataTable.Rows[0]["imageFile"];
+        release.frame = (string)dataTable.Rows[0]["frame"];
+        release.matchStatus = ReleaseModel.MatchStatus.Unchecked;
+      }
+      return (release);
+    }
+
+    public static void ReleaseAssignMatchability(ReleaseModel release)
+    {
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "UPDATE Release Set matchStatus = @matchStatus WHERE id = @id"
+      );
+      conn.CommandSetValue("@matchStatus", release.matchStatus);
+      conn.CommandSetValue("@id", release.id);
+      conn.CommandExecuteNonQuery();
+      conn.CloseCommand();
+      conn.CloseConnection();
+    }
+
     public static void CreateTables()
     {
       const string CREATE_IF = "CREATE TABLE IF NOT EXISTS ";
