@@ -113,6 +113,7 @@
     <Content Include="Views\Process\AddSet.cshtml" />
     <Content Include="Views\Process\AssignCanonical.cshtml" />
     <Content Include="Views\Process\JudgeMatchable.cshtml" />
+    <Content Include="Views\Process\NeedCutout.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

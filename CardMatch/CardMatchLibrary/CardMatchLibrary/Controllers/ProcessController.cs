@@ -78,5 +78,12 @@ namespace CardMatchLibrary.Controllers
       DataConnector.ReleaseAssignMatchability(release);
       return RedirectToAction("JudgeMatchable");
     }
+
+    [HttpGet]
+    public ActionResult NeedCutout()
+    {
+      List<ReleaseModel> releases = DataConnector.GetReleaseNeedCutout();
+      return View(releases);
+    }
   }
 }

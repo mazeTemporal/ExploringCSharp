@@ -118,6 +118,14 @@ namespace CardMatchLibrary.DataAccess
       }
     }
 
+    public void CommandPrepare()
+    {
+      if (CommandExists())
+      {
+        command.Prepare();
+      }
+    }
+
     public int CommandExecuteNonQuery()
     {
       int changeCount = -1;

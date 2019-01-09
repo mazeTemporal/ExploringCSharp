@@ -96,5 +96,14 @@ namespace CardMatchLibrary.Models
       return (IMAGE_PATH + cardSetCode + "/" + (null == name ? imageFile : name));
     }
 
+    public string GetCutoutPath()
+    {
+      return (GetPath() + ".png");
+    }
+
+    public bool CutoutFileExists()
+    {
+      return (File.Exists("." + GetCutoutPath()));
+    }
   }
 }

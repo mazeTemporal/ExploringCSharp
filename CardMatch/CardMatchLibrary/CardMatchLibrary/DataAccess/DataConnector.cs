@@ -2,6 +2,7 @@
 using CardMatchLibrary.Models;
 using System.Data;
 using System.Collections.Generic;
+using Mono.Data.Sqlite;
 
 namespace CardMatchLibrary.DataAccess
 {
@@ -326,6 +327,61 @@ namespace CardMatchLibrary.DataAccess
         "UPDATE Release Set matchStatus = @matchStatus WHERE id = @id"
       );
       conn.CommandSetValue("@matchStatus", release.matchStatus);
+      conn.CommandSetValue("@id", release.id);
+      conn.CommandExecuteNonQuery();
+      conn.CloseCommand();
+      conn.CloseConnection();
+    }
+
+    public static List<ReleaseModel> GetReleaseNeedCutout()
+    {
+      // get potential releases
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      // matchStatus Matchable, hasCutout false
+      conn.CommandSetText(
+        "SELECT id, cardSetCode, imageFile, cardNumber FROM Release "
+        + "WHERE matchStatus = @matchStatus AND hasCutout = @hasCutout"
+      );
+      conn.CommandSetValue("@matchStatus", ReleaseModel.MatchStatus.Matchable);
+      conn.CommandSetValue("@hasCutout", false);
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      List<ReleaseModel> releases = new List<ReleaseModel>();
+      foreach (DataRow row in dataTable.Rows)
+      {
+        ReleaseModel release = new ReleaseModel();
+        release.id = (int)(Int64)row["id"];
+        release.cardSetCode = (string)row["cardSetCode"];
+        release.imageFile = (string)row["imageFile"];
+        release.cardNumber = (string)row["cardNumber"];
+        release.hasCutout = release.CutoutFileExists();
+        if (release.hasCutout)
+        {
+          // update database
+          ReleaseSetCutout(release);
+        }
+        else
+        {
+          releases.Add(release);
+        }
+      }
+      return (releases);
+    }
+
+    public static void ReleaseSetCutout(ReleaseModel release)
+    {
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "UPDATE Release SET hasCutout = @hasCutout WHERE id = @id"
+      );
+      conn.CommandSetValue("@hasCutout", release.hasCutout);
       conn.CommandSetValue("@id", release.id);
       conn.CommandExecuteNonQuery();
       conn.CloseCommand();
