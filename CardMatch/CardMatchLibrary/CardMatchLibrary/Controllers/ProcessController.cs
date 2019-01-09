@@ -85,5 +85,12 @@ namespace CardMatchLibrary.Controllers
       List<ReleaseModel> releases = DataConnector.GetReleaseNeedCutout();
       return View(releases);
     }
+
+    [HttpGet]
+    public ActionResult GenerateMatches()
+    {
+      DataConnector.GenerateMatches();
+      return Redirect("/Process/");
+    }
   }
 }

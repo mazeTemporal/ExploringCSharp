@@ -388,6 +388,32 @@ namespace CardMatchLibrary.DataAccess
       conn.CloseConnection();
     }
 
+    public static void GenerateMatches()
+    {
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      // create matches of each cutout cover with each canonical base
+      conn.CommandSetText(
+        "INSERT OR IGNORE INTO Match( judgment, baseImage, coverImage )" +
+        "SELECT @judgment, baseImage, coverImage FROM (" +
+          "SELECT Base.id AS 'baseImage' FROM Release AS 'Base' " +
+          "JOIN Card ON Base.card = Card.id " +
+          "WHERE Card.isBase = 1 " +
+          "AND Base.canonicalImage = Base.id " +
+        ") CROSS JOIN ( " +
+          "SELECT Cover.id AS 'coverImage' FROM Release AS 'Cover' " +
+          "JOIN Card ON Cover.card = Card.id " +
+          "WHERE Cover.hasCutout = 1 " +
+          "AND Card.isBase = 0 " +
+        ")"
+      );
+      conn.CommandSetValue("@judgment", MatchModel.Judgment.Unchecked);
+      conn.CommandExecuteNonQuery();
+      conn.CloseCommand();
+      conn.CloseConnection();
+    }
+
     public static void CreateTables()
     {
       const string CREATE_IF = "CREATE TABLE IF NOT EXISTS ";
