@@ -155,6 +155,37 @@ namespace CardMatchLibrary.DataAccess
       ));
     }
 
+    public static ReleaseModel GetReleaseModel(int id)
+    {
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "SELECT id, cardNumber, cardSetCode, imageFile, canonicalImage, "
+        + "frame, matchStatus, hasCutout "
+        + "FROM Release WHERE id = @id"
+      );
+      conn.CommandSetValue("@id", id);
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      ReleaseModel release = new ReleaseModel();
+      if (1 == dataTable.Rows.Count)
+      {
+        release.id = Convert.ToInt32(dataTable.Rows[0]["id"]);
+        release.cardNumber = (string)dataTable.Rows[0]["cardNumber"];
+        release.cardSetCode = (string)dataTable.Rows[0]["cardSetCode"];
+        release.imageFile = (string)dataTable.Rows[0]["imageFile"];
+        release.canonicalImageId = Convert.ToInt32(dataTable.Rows[0]["canonicalImage"]);
+        release.frame = (string)dataTable.Rows[0]["frame"];
+        release.matchStatus = (ReleaseModel.MatchStatus)Convert.ToInt32(dataTable.Rows[0]["matchStatus"]);
+        release.hasCutout = Convert.ToBoolean(dataTable.Rows[0]["hasCutout"]);
+      }
+      return (release);
+    }
+
     public static ReleaseModel GetReleaseNeedImage()
     {
       var dataTable = new DataTable();
@@ -174,9 +205,9 @@ namespace CardMatchLibrary.DataAccess
 
       if (1 == dataTable.Rows.Count)
       { 
-        release.cardSetCode = (string)dataTable.Rows[0]["cardSetCode"];
         release.id = (int)(Int64)dataTable.Rows[0]["id"];
         release.cardNumber = (string)dataTable.Rows[0]["cardNumber"];
+        release.cardSetCode = (string)dataTable.Rows[0]["cardSetCode"];
         release.card = new CardModel();
         release.card.name = (string)dataTable.Rows[0]["name"];
       }
@@ -295,7 +326,7 @@ namespace CardMatchLibrary.DataAccess
       DBConnection conn = new DBConnection();
       conn.OpenConnection();
       conn.OpenCommand();
-      // is canonical image, matchStatus unmatched
+      // is canonical image, matchStatus unchecked
       conn.CommandSetText(
         "SELECT id, cardSetCode, imageFile, frame FROM Release "
         + "WHERE canonicalImage == id AND matchStatus = @matchStatus "
@@ -324,7 +355,7 @@ namespace CardMatchLibrary.DataAccess
       conn.OpenConnection();
       conn.OpenCommand();
       conn.CommandSetText(
-        "UPDATE Release Set matchStatus = @matchStatus WHERE id = @id"
+        "UPDATE Release SET matchStatus = @matchStatus WHERE id = @id"
       );
       conn.CommandSetValue("@matchStatus", release.matchStatus);
       conn.CommandSetValue("@id", release.id);
@@ -409,6 +440,47 @@ namespace CardMatchLibrary.DataAccess
         ")"
       );
       conn.CommandSetValue("@judgment", MatchModel.Judgment.Unchecked);
+      conn.CommandExecuteNonQuery();
+      conn.CloseCommand();
+      conn.CloseConnection();
+    }
+
+    public static MatchModel GetMatchNeedJudgment()
+    {
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "SELECT id, baseImage, coverImage FROM Match "
+        + "WHERE judgment == @judgment "
+        + "LIMIT 1"
+      );
+      conn.CommandSetValue("@judgment", MatchModel.Judgment.Unchecked);
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      MatchModel match = new MatchModel();
+      if (1 == dataTable.Rows.Count)
+      {
+        match.id = (int)(Int64)dataTable.Rows[0]["id"];
+        match.baseImage = GetReleaseModel(Convert.ToInt32(dataTable.Rows[0]["baseImage"]));
+        match.coverImage = GetReleaseModel(Convert.ToInt32(dataTable.Rows[0]["coverImage"]));
+      }
+      return (match);
+    }
+
+    public static void MatchAssignJudgment(MatchModel match)
+    {
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "UPDATE Match SET judgment = @judgment WHERE id = @id"
+      );
+      conn.CommandSetValue("@judgment", match.judgment);
+      conn.CommandSetValue("@id", match.id);
       conn.CommandExecuteNonQuery();
       conn.CloseCommand();
       conn.CloseConnection();

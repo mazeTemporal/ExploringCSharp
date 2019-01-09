@@ -90,7 +90,21 @@ namespace CardMatchLibrary.Controllers
     public ActionResult GenerateMatches()
     {
       DataConnector.GenerateMatches();
-      return Redirect("/Process/");
+      return RedirectToAction("JudgeMatch");
+    }
+
+    [HttpGet]
+    public ActionResult JudgeMatch()
+    {
+      MatchModel match = DataConnector.GetMatchNeedJudgment();
+      return View(match);
+    }
+
+    [HttpPost]
+    public ActionResult JudgeMatch(MatchModel match)
+    {
+      DataConnector.MatchAssignJudgment(match);
+      return RedirectToAction("JudgeMatch");
     }
   }
 }

@@ -1,0 +1,62 @@
+﻿@model CardMatchLibrary.Models.MatchModel
+
+@{
+    ViewBag.Title = "Judge Match";
+    Layout = "~/Views/Shared/_Process.cshtml";
+}
+
+<h2>Judge Match</h2>
+@if (Model.id > -1){
+  string basePath = @Model.baseImage.GetPath();
+  string coverPath = @Model.coverImage.GetPath();
+  string cutoutPath = @Model.coverImage.GetCutoutPath();
+  string frameType = "frame" + @Model.coverImage.frame;
+  
+  <style>
+    .image-container {
+      position: relative;
+      zoom: 60%;
+      overflow: hidden;
+    }
+    .coverImage {
+      -webkit-mask-image: url('@cutoutPath');
+      mask-image: url('@cutoutPath');
+      position: absolute;
+      left: 0;
+    }
+    .frame2003 {
+      top: 0px;
+    }
+    .frame2015 {
+      top: 380px;
+    }
+  </style>
+  
+  using (Html.BeginForm())
+  {
+    <div>
+      @Html.Label("Id:")
+      @Html.TextBoxFor(m => m.id)
+    </div>
+    
+    <div class="image-container">
+      <img src="@basePath">
+      <img class="coverImage @frameType" src="@coverPath">
+    </div>
+    
+    <div>
+      <label>
+        @Html.RadioButton("judgment", "Match")
+        <text>Match</text>
+      </label>
+      <label>
+        @Html.RadioButton("judgment", "Nonmatch")
+        <text>Nonmatch</text>
+      </label>
+    </div>
+    
+    <input type="submit" value="Judge Match" />
+  }
+} else {
+  <p>All Matches Judged</p>
+}
