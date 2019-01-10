@@ -7,7 +7,7 @@ namespace CardMatchLibrary.Models
     /// Represents the database id.
     /// </summary>
     /// <value>The identifier.</value>
-    public int id { get; set; }
+    public int id { get; set; } = -1;
 
     /// <summary>
     /// If the card is treated as the base or cover when matching.
