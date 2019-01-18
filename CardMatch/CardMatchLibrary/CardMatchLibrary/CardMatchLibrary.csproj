@@ -81,6 +81,8 @@
     <Folder Include="DataAccess\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Process\" />
+    <Folder Include="Views\Display\" />
+    <Folder Include="Views\Update\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -97,6 +99,8 @@
     <Compile Include="DataAccess\DBConnection.cs" />
     <Compile Include="DataAccess\MTGJson.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
+    <Compile Include="Controllers\DisplayController.cs" />
+    <Compile Include="Controllers\UpdateController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
@@ -109,12 +113,18 @@
     <Content Include="packages.config" />
     <Content Include="Views\Process\Index.cshtml" />
     <Content Include="Views\Shared\_Process.cshtml" />
-    <Content Include="Views\Process\AssignFilename.cshtml" />
-    <Content Include="Views\Process\AddSet.cshtml" />
     <Content Include="Views\Process\AssignCanonical.cshtml" />
     <Content Include="Views\Process\JudgeMatchable.cshtml" />
     <Content Include="Views\Process\NeedCutout.cshtml" />
     <Content Include="Views\Process\JudgeMatch.cshtml" />
+    <Content Include="Views\Shared\_Display.cshtml" />
+    <Content Include="Views\Display\Index.cshtml" />
+    <Content Include="Views\Display\Lands.cshtml" />
+    <Content Include="Views\Display\SelectLand.cshtml" />
+    <Content Include="Views\Update\Index.cshtml" />
+    <Content Include="Views\Update\AddSet.cshtml" />
+    <Content Include="Views\Update\AssignFilename.cshtml" />
+    <Content Include="Views\Shared\_Update.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

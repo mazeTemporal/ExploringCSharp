@@ -294,8 +294,8 @@ namespace CardMatchLibrary.DataAccess
       foreach (DataRow row in dataTable.Rows)
       {
         ReleaseModel release = new ReleaseModel();
-        release.id = (int)(long)row["id"];
-        release.canonicalImageId = (int)(long)row["canonicalImage"];
+        release.id = Convert.ToInt32(row["id"]);
+        release.canonicalImageId = Convert.ToInt32(row["canonicalImage"]);
         release.cardSetCode = (string)row["cardSetCode"];
         release.imageFile = (string)row["imageFile"];
         release.frame = (string)row["frame"];
@@ -386,7 +386,7 @@ namespace CardMatchLibrary.DataAccess
       foreach (DataRow row in dataTable.Rows)
       {
         ReleaseModel release = new ReleaseModel();
-        release.id = (int)(Int64)row["id"];
+        release.id = Convert.ToInt32(row["id"]);
         release.cardSetCode = (string)row["cardSetCode"];
         release.imageFile = (string)row["imageFile"];
         release.cardNumber = (string)row["cardNumber"];
@@ -484,6 +484,62 @@ namespace CardMatchLibrary.DataAccess
       conn.CommandExecuteNonQuery();
       conn.CloseCommand();
       conn.CloseConnection();
+    }
+
+    public static List<ReleaseModel> GetBases()
+    {
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "SELECT DISTINCT Release.id, cardSetCode, imageFile FROM Match "
+        + "JOIN Release ON Match.baseImage = Release.id "
+        + "WHERE Match.judgment = @judgment"
+      );
+      conn.CommandSetValue("@judgment", MatchModel.Judgment.Match);
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      List<ReleaseModel> releases = new List<ReleaseModel>();
+      foreach (DataRow row in dataTable.Rows)
+      {
+        ReleaseModel release = new ReleaseModel();
+        release.id = Convert.ToInt32(row["id"]);
+        release.cardSetCode = (string)row["cardSetCode"];
+        release.imageFile = (string)row["imageFile"];
+        releases.Add(release);
+      }
+      return (releases);
+    }
+
+    public static List<MatchModel> GetMatchesWithBase(int baseId)
+    {
+      var dataTable = new DataTable();
+      DBConnection conn = new DBConnection();
+      conn.OpenConnection();
+      conn.OpenCommand();
+      conn.CommandSetText(
+        "SELECT id, baseImage, coverImage FROM Match "
+        + "WHERE baseImage = @baseImage AND judgment = @judgment"
+      );
+      conn.CommandSetValue("@baseImage", baseId);
+      conn.CommandSetValue("@judgment", MatchModel.Judgment.Match);
+      conn.CommandExecuteDataTable(dataTable);
+      conn.CloseCommand();
+      conn.CloseConnection();
+
+      List<MatchModel> matches = new List<MatchModel>();
+      foreach (DataRow row in dataTable.Rows)
+      {
+        MatchModel match = new MatchModel();
+        match.id = Convert.ToInt32(row["id"]);
+        match.baseImage = GetReleaseModel(Convert.ToInt32(row["baseImage"]));
+        match.coverImage = GetReleaseModel(Convert.ToInt32(row["coverImage"]));
+        matches.Add(match);
+      }
+      return (matches);
     }
 
     public static void CreateTables()

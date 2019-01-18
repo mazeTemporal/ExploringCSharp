@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CardMatchLibrary.Models.MatchModel>
+
+@{
+    ViewBag.Title = "Display Land Matches";
+    Layout = "~/Views/Shared/_Display.cshtml";
+}
+
+<h2>Display Land Matches</h2>
+@if (Model.Count() > 0){
+  
+  <style>
+    .image-container {
+      position: relative;
+      zoom: 60%;
+      overflow: hidden;
+      float: left;
+    }
+    .coverImage {
+      position: absolute;
+      left: 0;
+    }
+    .frame2003 {
+      top: 0px;
+    }
+    .frame2015 {
+      top: 380px;
+    }
+  </style>
+  
+  <div>
+    @foreach (var m in Model.OrderBy(m => m.coverImage.canonicalImageId))
+    {
+      string basePath = m.baseImage.GetPath();
+      string coverPath = m.coverImage.GetPath();
+      string cutoutPath = m.coverImage.GetCutoutPath();
+      string frameType = "frame" + m.coverImage.frame;
+      <div class="image-container">
+        <img src="@basePath">
+        <img class="coverImage @frameType" src="@coverPath"
+             style="-webkit-mask-image: url('@cutoutPath'); mask-image: url('@cutoutPath');">
+      </div>
+    }
+  </div>
+} else {
+  <p>No Matches With That Land</p>
+}
