@@ -1,6 +1,8 @@
 CardMatchLibrary/packages/
 CardMatchLibrary/.vs/
 CardMatchLibrary/CardMatchLibrary/bin/
+CardMatchLibrary/CardMatchLibrary.Test/bin/
 CardMatchLibrary/CardMatchLibrary/obj/
+CardMatchLibrary/CardMatchLibrary.Test/obj/
 CardMatchLibrary/CardMatchLibrary/Data/
 

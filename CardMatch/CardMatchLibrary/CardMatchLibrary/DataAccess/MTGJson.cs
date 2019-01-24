@@ -8,30 +8,28 @@ namespace CardMatchLibrary.DataAccess
 {
   public static class MTGJson
   {
-    private static string CleanSetCode(string rawCardSetCode)
+    public static readonly string PATH = "./Data/MTGJSON/";
+
+    public static string CleanSetCode(string rawCardSetCode)
     {
       return (rawCardSetCode.ToUpper());
     }
 
-    private static string GetMtGSetFilePath(string cardSetCode)
+    public static string GetMtGSetFilePath(string cardSetCode)
     {
-      const string PATH = "./Data/MTGJSON/";
       return (PATH + cardSetCode + ".json");
     }
 
-    private static bool BorderColorIsValid(JObject jsonCard)
+    public static bool BorderColorIsValid(string borderColor)
     {
-      string borderColor = jsonCard.Value<string>("borderColor");
       return (
         borderColor == "black" ||
         borderColor == "white"
       );
     }
 
-    private static bool LayoutIsValid(JObject jsonCard)
+    public static bool LayoutIsValid(string layout, string side)
     {
-      string layout = jsonCard.Value<string>("layout");
-      string side = jsonCard.Value<string>("side") ?? "";
       return (
         layout == "normal" ||
         layout == "leveler" ||
@@ -42,35 +40,38 @@ namespace CardMatchLibrary.DataAccess
       );
     }
 
-    private static bool TypeIsValid(JObject jsonCard)
+    public static bool TypeIsValid(List<string> types)
     {
-      return (
-        !jsonCard["types"].ToObject<List<string>>().Contains("Planeswalker")
-      );
+      return (!types.Contains("Planeswalker"));
     }
 
-    private static bool FrameVersionIsValid(JObject jsonCard)
+    public static bool FrameVersionIsValid(string frameVersion)
     {
-      string frameVersion = jsonCard.Value<string>("frameVersion");
       return ("2003" == frameVersion || "2015" == frameVersion);
     }
 
+    public static bool SuperTypeIsBase(List<string> supertypes)
+    {
+      return (supertypes.Contains("Basic"));
+    }
+
+    //!!! needs intregration test
     private static bool JsonCardIsValid(JObject jsonCard)
     {
       return (
         jsonCard.Value<bool>("hasFoil") &&
-        BorderColorIsValid(jsonCard) &&
-        LayoutIsValid(jsonCard) &&
-        TypeIsValid(jsonCard) &&
-        FrameVersionIsValid(jsonCard)
+        BorderColorIsValid(jsonCard.Value<string>("borderColor")) &&
+        LayoutIsValid(
+          jsonCard.Value<string>("layout"),
+          jsonCard.Value<string>("side") ?? ""
+        ) &&
+        TypeIsValid(jsonCard["types"].ToObject<List<string>>()) &&
+        FrameVersionIsValid(jsonCard.Value<string>("frameVersion"))
       );
     }
 
-    private static bool JsonCardIsBase(JObject jsonCard)
-    {
-      return(jsonCard["supertypes"].ToObject<List<string>>().Contains("Basic"));
-    }
-
+    //!!! needs integration test
+    //!!! refactor to reduce responsibilities
     public static CardSetModel ReadJson(string rawCardSetCode)
     {
       // read json
@@ -96,7 +97,8 @@ namespace CardMatchLibrary.DataAccess
         if (JsonCardIsValid(jsonCard))
         {
           CardModel card = new CardModel();
-          card.isBase = JsonCardIsBase(jsonCard);
+          card.isBase = SuperTypeIsBase(
+            jsonCard["supertypes"].ToObject<List<string>>());
           card.name = jsonCard["name"].ToString();
 
           ReleaseModel release = new ReleaseModel();
