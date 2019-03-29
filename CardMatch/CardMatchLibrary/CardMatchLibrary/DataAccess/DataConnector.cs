@@ -284,6 +284,7 @@ namespace CardMatchLibrary.DataAccess
           "LIMIT 1" +
         ") AS r ON Release.card = r.card AND Release.frame = r.frame " +
         "WHERE Release.imageFile != '' " +
+          "AND ( Release.canonicalImage = -1 OR Release.canonicalImage = Release.id )" +
         "GROUP BY Release.canonicalImage"
       );
       conn.CommandExecuteDataTable(dataTable);
