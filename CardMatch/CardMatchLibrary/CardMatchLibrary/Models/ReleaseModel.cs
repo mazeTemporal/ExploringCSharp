@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
+
 namespace CardMatchLibrary.Models
 {
   public class ReleaseModel
@@ -99,6 +101,17 @@ namespace CardMatchLibrary.Models
     public string GetCutoutPath()
     {
       return (GetPath() + ".png");
+    }
+
+    public string GetCutoutPathWeb()
+    {
+      string[] pathParts = GetPath().Split('/');
+      if (pathParts.Length > 0)
+      {
+        int last = pathParts.Length - 1;
+        pathParts[last] = Uri.EscapeUriString(pathParts[last]);
+      }
+      return (String.Join("/", pathParts) + ".png");
     }
 
     public bool CutoutFileExists()

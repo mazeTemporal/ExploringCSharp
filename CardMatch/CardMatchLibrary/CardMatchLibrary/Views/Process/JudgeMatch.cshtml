@@ -9,7 +9,7 @@
 @if (Model.id > -1){
   string basePath = @Model.baseImage.GetPath();
   string coverPath = @Model.coverImage.GetPath();
-  string cutoutPath = @Model.coverImage.GetCutoutPath();
+  string cutoutPath = @Model.coverImage.GetCutoutPathWeb();
   string frameType = "frame" + @Model.coverImage.frame;
   
   <style>
