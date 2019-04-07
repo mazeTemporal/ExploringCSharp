@@ -1,5 +1,8 @@
 MusicMVC/packages/
 MusicMVC/.vs/
 MusicMVC/MusicMVC/bin/
+MusicMVC/DataLibrary/bin/
 MusicMVC/MusicMVC/obj/
+MusicMVC/DataLibrary/obj/
+MusicMVC/MusicDB.sqlite
 
