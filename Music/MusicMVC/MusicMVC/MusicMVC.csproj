@@ -64,6 +64,7 @@
     <Folder Include="Content\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\" />
+    <Folder Include="Validation\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -71,6 +72,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Models\SongModel.cs" />
+    <Compile Include="Models\GroupModel.cs" />
+    <Compile Include="Validation\ListNotEmptyAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
