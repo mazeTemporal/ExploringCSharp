@@ -1,0 +1,49 @@
+Allow users to browse music information.
+
+Browsing methods:
+	- paginate songs alphabetically
+	- paginate groups alphabetically
+	- search songs by title
+	- search groups by name
+
+Song pages:
+	- song name
+	- list the groups who created it
+	- list urls where the song can be found
+	- lyrics if available, <NA> if song has no lyrics, <Lyrics Needed> if lyrics not yet compiled
+
+Group pages:
+	- list various names of the group
+	- list songs the group contributed to
+	- list smaller groups that make up the group (a group may contain multiple artists who also produced music independently)
+	- list larger groups that the group is a part of
+	- list urls where the group has official pages
+	- date I last checked songs of this group
+
+Allow admin to create and update information.
+
+Create:
+	- song
+		- name
+		- contributing groups
+		- source urls
+		- lyrics
+	- group
+		- subgroups
+		- supergroups
+	- subgroup relationship
+		- group
+		- subgroup
+	- supergroup relationship
+		- group
+		- supergroup
+	- url where song can be found
+		- song
+		- url
+	- group name
+		- group
+		- name
+	- url to group's official page
+		- group
+		- url
+
