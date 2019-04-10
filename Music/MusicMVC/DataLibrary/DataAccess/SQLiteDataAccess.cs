@@ -16,21 +16,30 @@ namespace DataLibrary.DataAccess
       return (new SQLiteConnection(CONNECTION_STRING));
     }
 
-    public static List<T> LoadData<T>(string query)
+    public static List<T> LoadData<T>(string sql)
     {
       using (IDbConnection connection = GetConnection())
       {
-        var result = connection.Query<T>(query);
+        var result = connection.Query<T>(sql);
         return (result.ToList());
       }
     }
 
-    public static int SaveData<T>(string query, T data)
+    public static int SaveData<T>(string sql, T data)
     {
       using (IDbConnection connection = GetConnection())
       {
-        int rowsAffected = connection.Execute(query);
+        int rowsAffected = connection.Execute(sql, data);
         return (rowsAffected);
+      }
+    }
+
+    public static int InsertGetId<T>(string sql, T data)
+    {
+      using (IDbConnection connection = GetConnection())
+      {
+        int newId = connection.Query<int>(sql, data).Single();
+        return (newId);
       }
     }
   }
