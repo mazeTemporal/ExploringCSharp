@@ -1,0 +1,17 @@
+My brother requested that I make this for him so I am going to interrupt my other projects until this is at a usable state.
+
+What he wants:
+
+You can save your recipes into the app, then once a week pick out the meals you want to prepare and it will create a shopping list for you with all of the ingredients from the recipes.
+
+Additional requirements after some questions and clarifications:
+
+- It would be great if you can open a copy of the cooking instructions as a PDF
+- The ingredients should be sorted by category because that is how they are found in a grocery store.
+- Duplicate ingredients are combined
+- Ingredient amounts are either by weight or by volume
+- If a duplicate ingredient is listed by weight and another by volume, they are listed separately instead of being combined
+- It need to accept both US and metric units
+- It would be cool if you could share your recipes with friends
+
+
