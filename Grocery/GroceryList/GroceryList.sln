@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryList", "GroceryList\GroceryList.csproj", "{97471676-C14A-4B81-8574-039F0B49060A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{2DC9FDCA-1456-4785-8274-46AD6157ED55}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97471676-C14A-4B81-8574-039F0B49060A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97471676-C14A-4B81-8574-039F0B49060A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97471676-C14A-4B81-8574-039F0B49060A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97471676-C14A-4B81-8574-039F0B49060A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DC9FDCA-1456-4785-8274-46AD6157ED55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DC9FDCA-1456-4785-8274-46AD6157ED55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DC9FDCA-1456-4785-8274-46AD6157ED55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DC9FDCA-1456-4785-8274-46AD6157ED55}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
