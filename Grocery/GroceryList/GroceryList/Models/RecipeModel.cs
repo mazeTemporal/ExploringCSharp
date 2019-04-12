@@ -5,8 +5,10 @@ namespace GroceryList.Models
 {
   public class RecipeModel
   {
+    public int Id { get; set; }
+
     [Required]
-    public string Recipe { get; set; }
+    public string Name { get; set; }
 
     public List<IngredientModel> Ingredients;
 

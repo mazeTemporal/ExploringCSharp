@@ -1,0 +1,31 @@
+﻿@model GroceryList.Models.RecipeModel
+
+@{
+  ViewBag.Title = Model.Name;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+  <div>
+    @Html.ActionLink(
+      "Instructions",
+      "GetPDF",
+      "Recipe",
+      new { file = @Model.PDF },
+      null
+    )
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>@Html.DisplayNameFor(recipe => recipe.Ingredients[0].Name)</th>
+        <th>@Html.DisplayNameFor(recipe => recipe.Ingredients[0].Amount)</th>
+        <th>@Html.DisplayNameFor(recipe => recipe.Ingredients[0].Unit)</th>
+      </tr>
+    </thead>
+    <tbody>
+      @Html.DisplayFor(model => model.Ingredients)
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,15 @@
+﻿@model GroceryList.Models.IngredientModel
+<tr>
+  <td>
+    @Html.TextBoxFor(ingredient => ingredient.Name)
+  </td>
+  <td>
+    @Html.TextBoxFor(ingredient => ingredient.Amount)
+  </td>
+  <td>
+    @Html.EnumDropDownListFor(
+      ingredient => ingredient.Unit,
+      "Select Unit"
+    )
+  </td>
+</tr>

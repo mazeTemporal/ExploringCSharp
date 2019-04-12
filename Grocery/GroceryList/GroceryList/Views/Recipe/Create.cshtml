@@ -1,0 +1,46 @@
+﻿@model GroceryList.Models.RecipeModel
+
+@{
+  ViewBag.Title = "Create A New Recipe";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using ( Html.BeginForm() )
+{
+  <div>
+    @Html.LabelFor(recipe => recipe.Name)
+    <br>
+    @Html.TextBoxFor(recipe => recipe.Name)
+  </div>
+  <div>
+    <br>
+    @Html.LabelFor(recipe => recipe.Ingredients)
+    <button>Add Ingredient</button>
+    <br>
+    <table>
+      <thead>
+        <tr>
+          <th>
+            @Html.LabelFor(recipe => recipe.Ingredients[0].Name)
+          </th>
+          <th>
+            @Html.LabelFor(recipe => recipe.Ingredients[0].Amount)
+          </th>
+          <th>
+            @Html.LabelFor(recipe => recipe.Ingredients[0].Unit)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @Html.EditorFor(recipe => recipe.Ingredients[0])
+      </tbody>
+    </table>
+  </div>
+  <div>
+    @Html.LabelFor(recipe => recipe.PDF)
+    <br>
+    @Html.TextBoxFor(recipe => recipe.PDF)
+  </div>
+  <input type="submit" value="Create Recipe">
+}

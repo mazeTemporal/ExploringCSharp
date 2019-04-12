@@ -6,6 +6,7 @@ namespace GroceryList.Models
   {
     public enum UnitType
     {
+      Item,
       Gram,
       Millileter,
       Liter,
@@ -20,8 +21,10 @@ namespace GroceryList.Models
       Gallon
     }
 
+    public int Id { get; set; }
+
     [Required]
-    public string Ingredient { get; set; }
+    public string Name { get; set; }
 
     [Required]
     public double Amount { get; set; }
@@ -29,7 +32,6 @@ namespace GroceryList.Models
     [Required]
     public UnitType Unit { get; set; }
 
-    [Required]
     public string Category { get; set; }
   }
 }
