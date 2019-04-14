@@ -104,7 +104,7 @@ namespace GroceryList.Controllers
     {
       //!!! should be database lookup
       RecipeModel recipe = recipes.FirstOrDefault(x => x.Name == name);
-      if (string.IsNullOrEmpty(recipe.Name))
+      if (null == recipe || !ModelState.IsValid)
       {
         return RedirectToAction("Create");
       }
@@ -116,7 +116,7 @@ namespace GroceryList.Controllers
     {
       //!!! should be database lookup
       RecipeModel recipe = recipes.FirstOrDefault(x => x.Name == name);
-      if (string.IsNullOrEmpty(recipe.Name))
+      if (null == recipe || !ModelState.IsValid)
       {
         return RedirectToAction("Create");
       }
