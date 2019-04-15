@@ -6,6 +6,9 @@
   @RenderSection("headerScripts", false)
 </head>
 <body>
+  <nav>
+    @Html.ActionLink("Recipes", "Index", "Recipe")
+  </nav>
   @RenderBody()
 </body>
 </html>

@@ -4,7 +4,7 @@
   ViewBag.Title = "Edit " + Model.Name;
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@ViewBag.Title: (@Html.ActionLink("View Recipe", "Show", "Recipe", new { @name = @Model.Name }, null))</h2>
 
 @using ( Html.BeginForm() )
 {

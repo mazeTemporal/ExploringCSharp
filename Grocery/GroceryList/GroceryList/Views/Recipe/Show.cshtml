@@ -4,7 +4,7 @@
   ViewBag.Title = Model.Name;
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@ViewBag.Title: (@Html.ActionLink("Edit Recipe", "Edit", "Recipe", new { @name = @Model.Name }, null))</h2>
 
 <div>
   <div>
@@ -16,6 +16,7 @@
       null
     )
   </div>
+  <h3>Ingredients:</h3>
   <table>
     <thead>
       <tr>
