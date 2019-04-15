@@ -94,6 +94,7 @@
     <Content Include="Views\Shared\EditorTemplates\IngredientModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\IngredientModel.cshtml" />
     <Content Include="Scripts\jquery-3.4.0.min.js" />
+    <Content Include="Scripts\dynamic-form.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

@@ -1,5 +1,5 @@
 ﻿@model GroceryList.Models.IngredientModel
-<tr>
+<tr class="ingredient">
   <td>
     @Html.TextBoxFor(ingredient => ingredient.Name)
   </td>
@@ -11,5 +11,8 @@
       ingredient => ingredient.Unit,
       "Select Unit"
     )
+  </td>
+  <td>
+    <button class="remove" type="button" onclick="removeFormEntry(this, 'ingredient')">Remove Ingredient</button>
   </td>
 </tr>

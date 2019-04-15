@@ -4,9 +4,14 @@
   ViewBag.Title = "Create A New Recipe";
 }
 
+@section headerScripts {
+  <script src="~/Scripts/jquery-3.4.0.min.js"></script>
+  <script src="~/Scripts/dynamic-form.js"></script>
+}
+
 <h2>@ViewBag.Title</h2>
 
-@using ( Html.BeginForm() )
+@using ( Html.BeginForm("Create", "Recipe", FormMethod.Post, new { id = "create-recipe" }) )
 {
   <div>
     @Html.LabelFor(recipe => recipe.Name)
@@ -16,7 +21,7 @@
   <div>
     <br>
     @Html.LabelFor(recipe => recipe.Ingredients)
-    <button>Add Ingredient</button>
+    <button type="button" onclick="appendFormEntry('ingredients', 'ingredient')">Add Ingredient</button>
     <br>
     <table>
       <thead>
@@ -32,7 +37,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="ingredients">
         @Html.EditorFor(recipe => recipe.Ingredients[0])
       </tbody>
     </table>
@@ -42,5 +47,13 @@
     <br>
     @Html.TextBoxFor(recipe => recipe.PDF)
   </div>
-  <input type="submit" value="Create Recipe">
+  <button type="submit">Create Recipe</button>
 }
+
+<script>
+  // fix dynamic indexes before submitting form
+  $('#create-recipe').submit(function(){
+    updateEntryIndex('ingredients', 'ingredient');
+    return(true);
+  });
+</script>
