@@ -11,4 +11,9 @@
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.110" />
     <PackageReference Include="Dapper" Version="1.60.6" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataAccess\" />
+    <Folder Include="BusinessLogic\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
 </Project>
