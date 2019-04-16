@@ -2,15 +2,18 @@
 <tr class="ingredient">
   <td>
     @Html.TextBoxFor(ingredient => ingredient.Name)
+    @Html.ValidationMessageFor(ingredient => ingredient.Name)
   </td>
   <td>
     @Html.TextBoxFor(ingredient => ingredient.Amount)
+    @Html.ValidationMessageFor(ingredient => ingredient.Amount)
   </td>
   <td>
     @Html.EnumDropDownListFor(
       ingredient => ingredient.Unit,
       "Select Unit"
     )
+    @Html.ValidationMessageFor(ingredient => ingredient.Unit)
   </td>
   <td>
     <button class="remove" type="button" onclick="removeFormEntry(this, 'ingredient')">Remove Ingredient</button>

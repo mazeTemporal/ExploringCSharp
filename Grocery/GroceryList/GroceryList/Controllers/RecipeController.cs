@@ -14,6 +14,7 @@ namespace GroceryList.Controllers
       {
         new RecipeModel
         {
+          Id = 15,
           Name = "Spaghetti",
           Ingredients = new List<IngredientModel>
           {
@@ -29,6 +30,7 @@ namespace GroceryList.Controllers
         },
         new RecipeModel
         {
+          Id = 20,
           Name = "French Toast",
           Ingredients = new List<IngredientModel>
           {
@@ -50,6 +52,7 @@ namespace GroceryList.Controllers
           PDF = "67890.pdf"
         },
         new RecipeModel{
+          Id = 48,
           Name = "Burrito",
           Ingredients = new List<IngredientModel>
           {
@@ -95,9 +98,16 @@ namespace GroceryList.Controllers
     [HttpPost]
     public ActionResult Create(RecipeModel recipe)
     {
-      //!!! verify model
-      //!!! save to database
-      return RedirectToAction("Show", new { name = recipe.Name });
+      // verify model
+      if (!ModelState.IsValid)
+      {
+        return View();
+      }
+      else
+      {
+        //!!! save to database
+        return RedirectToAction("Show", new { name = recipe.Name });
+      }
     }
 
     public ActionResult Show(string name)
@@ -126,9 +136,16 @@ namespace GroceryList.Controllers
     [HttpPost]
     public ActionResult Edit(RecipeModel recipe)
     {
-      //!!! verity model
-      //!!! save to database
-      return RedirectToAction("Show", new { name = recipe.Name });
+      // verify model
+      if (!ModelState.IsValid)
+      {
+        return RedirectToAction("Edit", new { name = recipe.Name });
+      }
+      else
+      {
+        //!!! save to database
+        return RedirectToAction("Show", new { name = recipe.Name });
+      }
     }
 
     [HttpPost]

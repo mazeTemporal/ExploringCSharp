@@ -27,6 +27,7 @@ namespace GroceryList.Models
     public string Name { get; set; }
 
     [Required]
+    [RegularExpression(@"\d*\.?\d+", ErrorMessage = "Amount must be a number or decimal.")]
     public double Amount { get; set; }
 
     [Required]

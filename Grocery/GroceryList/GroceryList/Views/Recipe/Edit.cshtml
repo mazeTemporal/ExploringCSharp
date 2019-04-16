@@ -4,19 +4,28 @@
   ViewBag.Title = "Edit " + Model.Name;
 }
 
+@section headerScripts {
+  <script src="~/Scripts/jquery-3.4.0.min.js"></script>
+  <script src="~/Scripts/jquery.validate.min.js"></script>
+  <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+  <script src="~/Scripts/dynamic-form.js"></script>
+}
+
 <h2>@ViewBag.Title: (@Html.ActionLink("View Recipe", "Show", "Recipe", new { @name = @Model.Name }, null))</h2>
 
-@using ( Html.BeginForm() )
+@using ( Html.BeginForm("Edit", "Recipe", FormMethod.Post, new { id = "edit-recipe" }) )
 {
+  @Html.Hidden("Id")
   <div>
     @Html.LabelFor(recipe => recipe.Name)
     <br>
     @Html.TextBoxFor(recipe => recipe.Name)
+    @Html.ValidationMessageFor(recipe => recipe.Name)
   </div>
   <div>
     <br>
     @Html.LabelFor(recipe => recipe.Ingredients)
-    <button>Add Ingredient</button>
+    <button type="button" onclick="appendFormEntry('ingredients', 'ingredient')">Add Ingredient</button>
     <br>
     <table>
       <thead>
@@ -32,7 +41,7 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="ingredients">
         @Html.EditorFor(recipe => recipe.Ingredients)
       </tbody>
     </table>
@@ -44,3 +53,11 @@
   </div>
   <input type="submit" value="Update Recipe">
 }
+
+<script>
+  // fix dynamic indexes before submitting form
+  $('#edit-recipe').submit(function(){
+    updateEntryIndex('ingredients', 'ingredient');
+    return(true);
+  });
+</script>

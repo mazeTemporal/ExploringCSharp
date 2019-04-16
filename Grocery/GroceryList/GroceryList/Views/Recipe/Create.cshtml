@@ -6,6 +6,8 @@
 
 @section headerScripts {
   <script src="~/Scripts/jquery-3.4.0.min.js"></script>
+  <script src="~/Scripts/jquery.validate.min.js"></script>
+  <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
   <script src="~/Scripts/dynamic-form.js"></script>
 }
 
@@ -17,6 +19,7 @@
     @Html.LabelFor(recipe => recipe.Name)
     <br>
     @Html.TextBoxFor(recipe => recipe.Name)
+    @Html.ValidationMessageFor(recipe => recipe.Name)
   </div>
   <div>
     <br>
@@ -47,7 +50,7 @@
     <br>
     @Html.TextBoxFor(recipe => recipe.PDF)
   </div>
-  <button type="submit">Create Recipe</button>
+  <input type="submit" value="Create Recipe">
 }
 
 <script>

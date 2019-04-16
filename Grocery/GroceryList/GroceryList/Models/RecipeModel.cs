@@ -10,6 +10,7 @@ namespace GroceryList.Models
     [Required]
     public string Name { get; set; }
 
+    [Required]
     public List<IngredientModel> Ingredients { get; set; }
 
     public string PDF { get; set; }
