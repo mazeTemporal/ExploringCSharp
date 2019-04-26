@@ -98,6 +98,17 @@ namespace CardMatchLibrary.Models
       return (IMAGE_PATH + cardSetCode + "/" + (null == name ? imageFile : name));
     }
 
+    public string GetPathWeb(string name = null)
+    {
+      string[] pathParts = GetPath().Split('/');
+      if (pathParts.Length > 0)
+      {
+        int last = pathParts.Length - 1;
+        pathParts[last] = Uri.EscapeUriString(pathParts[last]);
+      }
+      return (String.Join("/", pathParts));
+    }
+
     public string GetCutoutPath()
     {
       return (GetPath() + ".png");
@@ -105,11 +116,11 @@ namespace CardMatchLibrary.Models
 
     public string GetCutoutPathWeb()
     {
-      string[] pathParts = GetPath().Split('/');
+      string[] pathParts = GetPathWeb().Split('/');
       if (pathParts.Length > 0)
       {
         int last = pathParts.Length - 1;
-        pathParts[last] = Uri.EscapeUriString(pathParts[last]);
+        pathParts[last] = pathParts[last].Replace("'", @"\'");
       }
       return (String.Join("/", pathParts) + ".png");
     }

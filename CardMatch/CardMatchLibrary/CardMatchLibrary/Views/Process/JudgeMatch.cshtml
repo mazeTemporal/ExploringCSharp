@@ -7,11 +7,11 @@
 
 <h2>Judge Match</h2>
 @if (Model.id > -1){
-  string basePath = @Model.baseImage.GetPath();
-  string coverPath = @Model.coverImage.GetPath();
+  string basePath = @Model.baseImage.GetPathWeb();
+  string coverPath = @Model.coverImage.GetPathWeb();
   string cutoutPath = @Model.coverImage.GetCutoutPathWeb();
   string frameType = "frame" + @Model.coverImage.frame;
-  
+
   <style>
     .image-container {
       position: relative;
@@ -19,8 +19,8 @@
       overflow: hidden;
     }
     .coverImage {
-      -webkit-mask-image: url('@cutoutPath');
-      mask-image: url('@cutoutPath');
+      -webkit-mask-image: url('@Html.Raw(@cutoutPath)');
+      mask-image: url('@Html.Raw(@cutoutPath)');
       position: absolute;
       left: 0;
     }
