@@ -20,7 +20,15 @@ namespace AlgorithmMath
     private List<int> Digits
     {
       get { return (new List<int>(_digits)); }
-      set { _digits = new List<int>(value); }
+      set
+      {
+        _digits = (value as IEnumerable<int>)
+          .Reverse()
+          .SkipWhile(x => 0 == x) // remove unnecessary preceeding zeros
+          .Reverse()
+          .DefaultIfEmpty(0) // avoid empty list
+          .ToList();
+      }
     }
 
     private int this[int i]
@@ -36,11 +44,14 @@ namespace AlgorithmMath
 
     public IntegerString(string s)
     {
+      // check valid input
       Regex validInteger = new Regex(@"^-?\d+$", RegexOptions.Compiled);
       if (!validInteger.IsMatch(s))
       {
         throw new ArgumentException("Invalid integer string: " + s);
       }
+
+      // check if negative
       if ('-' == s[0])
       {
         isNegative = true;
