@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using Dapper;
 using DataLibrary.Models;
 
@@ -57,6 +59,37 @@ namespace DataLibrary.DataAccess
             return (0);
           }
         }
+      }
+    }
+
+    public static List<RecipeModel> ReadAllRecipes()
+    {
+      using (IDbConnection connection = SQLiteDataAccess.GetConnection())
+      {
+        // get recipe
+        string sql = @"
+          SELECT R.*, RI.*, I.*, U.*, C.*
+          FROM Recipe R
+          JOIN RecipeIngredient RI ON R.Id = RI.Recipe
+          JOIN Unit U ON RI.Unit = U.Id
+          JOIN Ingredient I ON RI.Ingredient = I.Id
+          JOIN Category C ON I.Category = C.Id
+        ";
+        return connection.Query<
+          RecipeModel,
+          RecipeIngredientModel,
+          IngredientModel,
+          UnitModel,
+          CategoryModel,
+          RecipeModel
+          >(sql, (recipe, recipeIngredient, ingredient, unit, category) =>
+          {
+            ingredient.Category = category;
+            recipeIngredient.Unit = unit;
+            recipeIngredient.Ingredient = ingredient;
+            recipe.RecipeIngredients.Add(recipeIngredient);
+            return recipe;
+          }).ToList();
       }
     }
 
