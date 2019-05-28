@@ -7,9 +7,6 @@ namespace DataLibrary.DataAccess
   {
     private const string CONNECTION_STRING = "Data Source=./Data/GroceryDB.sqlite; Version=3;";
 
-    public static IDbConnection GetConnection()
-    {
-      return (new SQLiteConnection(CONNECTION_STRING));
-    }
+    public static IDbConnection GetConnection() => new SQLiteConnection(CONNECTION_STRING);
   }
 }
