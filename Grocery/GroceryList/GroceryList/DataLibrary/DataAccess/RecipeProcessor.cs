@@ -4,7 +4,7 @@ using DataLibrary.Models;
 
 namespace DataLibrary.DataAccess
 {
-  public static class RecipeAccess
+  public static class RecipeProcessor
   {
     public static int CreateRecipe(RecipeModel recipe)
     {

@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>GroceryList</RootNamespace>
     <AssemblyName>GroceryList</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +59,11 @@
     <Reference Include="System.Web.Mvc">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="System.Data" />
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -67,6 +72,9 @@
     <Folder Include="Views\Recipe\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
+    <Folder Include="DataLibrary\" />
+    <Folder Include="DataLibrary\Models\" />
+    <Folder Include="DataLibrary\DataAccess\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -77,6 +85,13 @@
     <Compile Include="Models\RecipeModel.cs" />
     <Compile Include="Models\IngredientModel.cs" />
     <Compile Include="Controllers\RecipeController.cs" />
+    <Compile Include="DataLibrary\Models\CategoryModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="DataLibrary\Models\IngredientModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="DataLibrary\Models\RecipeIngredientModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="DataLibrary\Models\RecipeModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="DataLibrary\Models\UnitModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="DataLibrary\DataAccess\RecipeProcessor.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="DataLibrary\DataAccess\SQLiteDataAccess.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
