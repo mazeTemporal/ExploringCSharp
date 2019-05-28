@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using System.Data.SQLite;
+using Mono.Data.Sqlite;
 
 namespace DataLibrary.DataAccess
 {
@@ -7,6 +7,6 @@ namespace DataLibrary.DataAccess
   {
     private const string CONNECTION_STRING = "Data Source=./Data/GroceryDB.sqlite; Version=3;";
 
-    public static IDbConnection GetConnection() => new SQLiteConnection(CONNECTION_STRING);
+    public static IDbConnection GetConnection() => new SqliteConnection(CONNECTION_STRING);
   }
 }

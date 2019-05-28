@@ -19,7 +19,7 @@ namespace DataLibrary.DataAccess
           {
             // create recipe
             sql = @"INSERT INTO Recipe ( Name, PDF ) VALUES ( @RecipeName, @PDF )";
-            int totalInserts = connection.Execute(sql, 
+            int totalInserts = connection.Execute(sql,
               new { RecipeName = recipe.Name, PDF = recipe.PDF });
 
             foreach (RecipeIngredientModel recipeIngredient in recipe.RecipeIngredients)
@@ -28,10 +28,10 @@ namespace DataLibrary.DataAccess
               sql = @"INSERT OR IGNORE INTO Ingredient
                 ( Name, Category ) VALUES
                 ( @IngredientName, ( SELECT Id FROM Category C WHERE C.Category = 'Uncategorized' ) )";
-              totalInserts += connection.Execute(sql, 
+              totalInserts += connection.Execute(sql,
                 new { IngredientName = recipeIngredient.Ingredient.Name });
 
-                // join recipe with ingredient
+              // join recipe with ingredient
               sql = @"INSERT INTO RecipeIngredient
                 ( Recipe, Ingredient, Amount, Unit ) VALUES
                 ( ( SELECT Id FROM Recipe R WHERE R.Name = @RecipeName ),
@@ -39,10 +39,13 @@ namespace DataLibrary.DataAccess
                 @Amount,
                 ( SELECT Id FROM Unit U WHERE U.Unit = @Unit))";
               totalInserts += connection.Execute(sql,
-                new { RecipeName = recipe.Name,
+                new
+                {
+                  RecipeName = recipe.Name,
                   IngredientName = recipeIngredient.Ingredient.Name,
                   Amount = recipeIngredient.Amount,
-                  Unit = recipeIngredient.Unit.Unit });
+                  Unit = recipeIngredient.Unit.Unit
+                });
             }
 
             transaction.Commit();
@@ -60,7 +63,7 @@ namespace DataLibrary.DataAccess
     public static RecipeModel ReadRecipe(string recipeName)
     {
       // model to be populated with nested data
-      RecipeModel outputRecipe = new RecipeModel() { Name = name };
+      RecipeModel outputRecipe = new RecipeModel() { Name = recipeName };
 
       using (IDbConnection connection = SQLiteDataAccess.GetConnection())
       {
@@ -107,9 +110,12 @@ namespace DataLibrary.DataAccess
             // update recipe
             sql = @"UPDATE Recipe SET Name = @RecipeName, PDF = @PDF WHERE RecipeId = @Id";
             int rowsUpdated = connection.Execute(sql,
-              new { RecipeName = recipe.Name,
+              new
+              {
+                RecipeName = recipe.Name,
                 PDF = recipe.PDF,
-                RecipeId = recipe.Id });
+                RecipeId = recipe.Id
+              });
 
             // delete recipe ingredients
             sql = @"DELETE FROM RecipeIngredient RI WHERE RI.Recipe = @RecipeId";
@@ -123,7 +129,7 @@ namespace DataLibrary.DataAccess
               ( IngredientName, Category ) VALUES
               ( @Name, ( SELECT Id FROM Category C WHERE C.Category = 'Uncategorized' ) )";
               rowsUpdated += connection.Execute(sql,
-                new { IngredientName = recipeIngredient.Ingredient.Name});
+                new { IngredientName = recipeIngredient.Ingredient.Name });
 
               // create recipe ingredients
               sql = @"INSERT INTO RecipeIngredient
@@ -133,10 +139,13 @@ namespace DataLibrary.DataAccess
                 @Amount
                 ( SELECT Id FROM Unit U WHERE U.Unit = @Unit ) )";
               rowsUpdated += connection.Execute(sql,
-                new { RecipeId = recipe.Id,
+                new
+                {
+                  RecipeId = recipe.Id,
                   IngredientName = recipeIngredient.Ingredient.Name,
                   Amount = recipeIngredient.Amount,
-                  Unit = recipeIngredient.Unit.Unit });
+                  Unit = recipeIngredient.Unit.Unit
+                });
             }
 
             transaction.Commit();
@@ -172,7 +181,7 @@ namespace DataLibrary.DataAccess
             // delete recipe
             sql = @"DELETE FROM Recipe R WHERE R.Name = @RecipeName";
             rowsDeleted = connection.Execute(sql,
-              new { RecipeName = recipeName } );
+              new { RecipeName = recipeName });
 
             transaction.Commit();
             return (rowsDeleted);

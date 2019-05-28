@@ -85,13 +85,13 @@
     <Compile Include="Models\RecipeModel.cs" />
     <Compile Include="Models\IngredientModel.cs" />
     <Compile Include="Controllers\RecipeController.cs" />
-    <Compile Include="DataLibrary\Models\CategoryModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="DataLibrary\Models\IngredientModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="DataLibrary\Models\RecipeIngredientModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="DataLibrary\Models\RecipeModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="DataLibrary\Models\UnitModel.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="DataLibrary\DataAccess\RecipeProcessor.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
-    <Compile Include="DataLibrary\DataAccess\SQLiteDataAccess.cs" Condition=" '$(EnableDefaultCompileItems)' == 'true' " />
+    <Compile Include="DataLibrary\DataAccess\RecipeProcessor.cs" />
+    <Compile Include="DataLibrary\DataAccess\SQLiteDataAccess.cs" />
+    <Compile Include="DataLibrary\Models\CategoryModel.cs" />
+    <Compile Include="DataLibrary\Models\IngredientModel.cs" />
+    <Compile Include="DataLibrary\Models\RecipeIngredientModel.cs" />
+    <Compile Include="DataLibrary\Models\RecipeModel.cs" />
+    <Compile Include="DataLibrary\Models\UnitModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
