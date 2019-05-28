@@ -28,14 +28,14 @@ namespace DataLibrary.DataAccess
             {
               // create ingredient
               sql = @"INSERT OR IGNORE INTO Ingredient
-                ( Name, Category ) VALUES
+                ( Name, CategoryId ) VALUES
                 ( @IngredientName, ( SELECT Id FROM Category C WHERE C.Category = 'Uncategorized' ) )";
               totalInserts += connection.Execute(sql,
                 new { IngredientName = recipeIngredient.Ingredient.Name });
 
               // join recipe with ingredient
               sql = @"INSERT INTO RecipeIngredient
-                ( Recipe, Ingredient, Amount, Unit ) VALUES
+                ( RecipeId, IngredientId, Amount, UnitId ) VALUES
                 ( ( SELECT Id FROM Recipe R WHERE R.Name = @RecipeName ),
                 ( SELECT Id FROM Ingredient I WHERE I.Name = @IngredientName ),
                 @Amount,
@@ -64,32 +64,41 @@ namespace DataLibrary.DataAccess
 
     public static List<RecipeModel> ReadAllRecipes()
     {
+      Dictionary<string, RecipeModel> output = new Dictionary<string, RecipeModel>();
+
       using (IDbConnection connection = SQLiteDataAccess.GetConnection())
       {
-        // get recipe
         string sql = @"
           SELECT R.*, RI.*, I.*, U.*, C.*
           FROM Recipe R
-          JOIN RecipeIngredient RI ON R.Id = RI.Recipe
-          JOIN Unit U ON RI.Unit = U.Id
-          JOIN Ingredient I ON RI.Ingredient = I.Id
-          JOIN Category C ON I.Category = C.Id
+          JOIN RecipeIngredient RI ON R.Id = RI.RecipeId
+          JOIN Unit U ON RI.UnitId = U.Id
+          JOIN Ingredient I ON RI.IngredientId = I.Id
+          JOIN Category C ON I.CategoryId = C.Id
         ";
-        return connection.Query<
+
+        connection.Query<
           RecipeModel,
           RecipeIngredientModel,
           IngredientModel,
           UnitModel,
           CategoryModel,
-          RecipeModel
+          RecipeModel // not used, populating external object
           >(sql, (recipe, recipeIngredient, ingredient, unit, category) =>
           {
             ingredient.Category = category;
             recipeIngredient.Unit = unit;
             recipeIngredient.Ingredient = ingredient;
-            recipe.RecipeIngredients.Add(recipeIngredient);
+            if (!output.ContainsKey(recipe.Name))
+            {
+              recipe.RecipeIngredients = new List<RecipeIngredientModel>();
+              output.Add(recipe.Name, recipe);
+            }
+            output[recipe.Name].RecipeIngredients.Add(recipeIngredient);
             return recipe;
-          }).ToList();
+          });
+
+        return output.Values.ToList();
       }
     }
 
@@ -104,10 +113,10 @@ namespace DataLibrary.DataAccess
         string sql = @"
           SELECT R.*, RI.*, I.*, U.*, C.*
           FROM Recipe R
-          JOIN RecipeIngredient RI ON R.Id = RI.Recipe
-          JOIN Unit U ON RI.Unit = U.Id
-          JOIN Ingredient I ON RI.Ingredient = I.Id
-          JOIN Category C ON I.Category = C.Id
+          JOIN RecipeIngredient RI ON R.Id = RI.RecipeId
+          JOIN Unit U ON RI.UnitId = U.Id
+          JOIN Ingredient I ON RI.IngredientId = I.Id
+          JOIN Category C ON I.CategoryId = C.Id
           WHERE R.Name = @RecipeName
         ";
         connection.Query<
@@ -141,7 +150,7 @@ namespace DataLibrary.DataAccess
           try
           {
             // update recipe
-            sql = @"UPDATE Recipe SET Name = @RecipeName, PDF = @PDF WHERE RecipeId = @Id";
+            sql = @"UPDATE Recipe SET Name = @RecipeName, PDF = @PDF WHERE Id = @Id";
             int rowsUpdated = connection.Execute(sql,
               new
               {
@@ -151,7 +160,7 @@ namespace DataLibrary.DataAccess
               });
 
             // delete recipe ingredients
-            sql = @"DELETE FROM RecipeIngredient RI WHERE RI.Recipe = @RecipeId";
+            sql = @"DELETE FROM RecipeIngredient RI WHERE RI.RecipeId = @RecipeId";
             rowsUpdated += connection.Execute(sql,
               new { RecipeId = recipe.Id });
 
@@ -159,14 +168,14 @@ namespace DataLibrary.DataAccess
             {
               // create ingredients if necessary
               sql = @"INSERT OR IGNORE INTO Ingredient
-              ( IngredientName, Category ) VALUES
+              ( IngredientName, CategoryId ) VALUES
               ( @Name, ( SELECT Id FROM Category C WHERE C.Category = 'Uncategorized' ) )";
               rowsUpdated += connection.Execute(sql,
                 new { IngredientName = recipeIngredient.Ingredient.Name });
 
               // create recipe ingredients
               sql = @"INSERT INTO RecipeIngredient
-                ( Recipe, Ingredient, Amount, Unit ) VALUES
+                ( RecipeId, IngredientId, Amount, UnitId ) VALUES
                 ( @RecipeId,
                 ( SELECT Id FROM Ingredient I WHERE I.Name = @IngredientName ),
                 @Amount
@@ -206,7 +215,7 @@ namespace DataLibrary.DataAccess
           {
             // delete recipe ingredients
             sql = @"DELETE FROM RecipeIngredient RI
-              WHERE RI.Recipe =
+              WHERE RI.RecipeId =
                 ( SELECT Id FROM Recipe R WHERE R.Name = @RecipeName)";
             int rowsDeleted = connection.Execute(sql,
               new { RecipeName = recipeName });
