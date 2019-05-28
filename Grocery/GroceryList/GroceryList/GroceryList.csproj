@@ -75,6 +75,7 @@
     <Folder Include="DataLibrary\" />
     <Folder Include="DataLibrary\Models\" />
     <Folder Include="DataLibrary\DataAccess\" />
+    <Folder Include="Translate\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="DataLibrary\Models\RecipeIngredientModel.cs" />
     <Compile Include="DataLibrary\Models\RecipeModel.cs" />
     <Compile Include="DataLibrary\Models\UnitModel.cs" />
+    <Compile Include="Translate\ModelTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DataLibrary.DataAccess;
 using GroceryList.Models;
+using GroceryList.Translate;
 
 namespace GroceryList.Controllers
 {
@@ -84,6 +86,9 @@ namespace GroceryList.Controllers
 
     public ActionResult Index()
     {
+      List<RecipeModel> recipes = RecipeProcessor.ReadAllRecipes()
+        .Select(ModelTranslator.TranslateRecipeModel)
+        .ToList();
       //!!! database lookup
       return View(recipes);
     }
