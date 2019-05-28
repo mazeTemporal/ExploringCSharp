@@ -11,85 +11,11 @@ namespace GroceryList.Controllers
 {
   public class RecipeController : Controller
   {
-    //!!! sample data for mock up testing
-    public List<RecipeModel> recipes = new List<RecipeModel>
-      {
-        new RecipeModel
-        {
-          Id = 15,
-          Name = "Spaghetti",
-          Ingredients = new List<IngredientModel>
-          {
-            new IngredientModel
-            {
-              Name = "Spaghetti Noodle",
-              Amount = 0.5,
-              Unit = IngredientModel.UnitType.Pound,
-              Category = "Pasta"
-            }
-          },
-          PDF = "12345.pdf"
-        },
-        new RecipeModel
-        {
-          Id = 20,
-          Name = "French Toast",
-          Ingredients = new List<IngredientModel>
-          {
-            new IngredientModel
-            {
-              Name = "Flour",
-              Amount = 0.5,
-              Unit = IngredientModel.UnitType.Pound,
-              Category = "Baking"
-            },
-            new IngredientModel
-            {
-              Name = "Egg",
-              Amount = 1,
-              Unit = IngredientModel.UnitType.Item,
-              Category = "Produce"
-            }
-          },
-          PDF = "67890.pdf"
-        },
-        new RecipeModel{
-          Id = 48,
-          Name = "Burrito",
-          Ingredients = new List<IngredientModel>
-          {
-            new IngredientModel
-            {
-              Name = "Tortilla",
-              Amount = 3,
-              Unit = IngredientModel.UnitType.Item,
-              Category = "Foreign"
-            },
-            new IngredientModel
-            {
-              Name = "Ground Beef",
-              Amount = 1,
-              Unit = IngredientModel.UnitType.Pound,
-              Category = "Meat"
-            },
-            new IngredientModel
-            {
-              Name = "Grated Chedar Cheese",
-              Amount = 0.25,
-              Unit = IngredientModel.UnitType.Pound,
-              Category = "Produce"
-            }
-          },
-          PDF = "789456.pdf"
-        }
-      };
-
     public ActionResult Index()
     {
       List<RecipeModel> recipes = RecipeProcessor.ReadAllRecipes()
         .Select(ModelTranslator.TranslateRecipeModel)
         .ToList();
-      //!!! database lookup
       return View(recipes);
     }
 
@@ -117,8 +43,7 @@ namespace GroceryList.Controllers
 
     public ActionResult Show(string name)
     {
-      //!!! should be database lookup
-      RecipeModel recipe = recipes.FirstOrDefault(x => x.Name == name);
+      RecipeModel recipe = ModelTranslator.TranslateRecipeModel(RecipeProcessor.ReadRecipe(name));
       if (null == recipe || !ModelState.IsValid)
       {
         return RedirectToAction("Create");
@@ -129,8 +54,7 @@ namespace GroceryList.Controllers
     [HttpGet]
     public ActionResult Edit(string name)
     {
-      //!!! should be database lookup
-      RecipeModel recipe = recipes.FirstOrDefault(x => x.Name == name);
+      RecipeModel recipe = ModelTranslator.TranslateRecipeModel(RecipeProcessor.ReadRecipe(name));
       if (null == recipe || !ModelState.IsValid)
       {
         return RedirectToAction("Create");

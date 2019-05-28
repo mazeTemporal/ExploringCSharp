@@ -105,7 +105,7 @@ namespace DataLibrary.DataAccess
     public static RecipeModel ReadRecipe(string recipeName)
     {
       // model to be populated with nested data
-      RecipeModel outputRecipe = new RecipeModel() { Name = recipeName };
+      RecipeModel output = null;
 
       using (IDbConnection connection = SQLiteDataAccess.GetConnection())
       {
@@ -119,6 +119,7 @@ namespace DataLibrary.DataAccess
           JOIN Category C ON I.CategoryId = C.Id
           WHERE R.Name = @RecipeName
         ";
+
         connection.Query<
           RecipeModel,
           RecipeIngredientModel,
@@ -128,14 +129,20 @@ namespace DataLibrary.DataAccess
           RecipeModel // not used, populate external object
           >(sql, (recipe, recipeIngredient, ingredient, unit, category) =>
           {
+            if (output == null)
+            {
+              recipe.RecipeIngredients = new List<RecipeIngredientModel>();
+              output = recipe;
+            }
             ingredient.Category = category;
             recipeIngredient.Unit = unit;
             recipeIngredient.Ingredient = ingredient;
-            outputRecipe.RecipeIngredients.Add(recipeIngredient);
+            output.RecipeIngredients.Add(recipeIngredient);
             return (recipe); // not used
           }, new { RecipeName = recipeName });
+
+        return output;
       }
-      return (outputRecipe);
     }
 
     public static int UpdateRecipe(RecipeModel recipe)
