@@ -72,7 +72,7 @@ namespace GroceryList.Controllers
       }
       else
       {
-        //!!! save to database
+        RecipeProcessor.UpdateRecipe(ModelTranslator.TranslateRecipeModel(recipe));
         return RedirectToAction("Show", new { name = recipe.Name });
       }
     }

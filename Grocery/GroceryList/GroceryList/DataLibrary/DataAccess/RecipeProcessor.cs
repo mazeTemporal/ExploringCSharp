@@ -152,22 +152,19 @@ namespace DataLibrary.DataAccess
         connection.Open();
         using (IDbTransaction transaction = connection.BeginTransaction())
         {
-          string sql;
-
           try
           {
             // update recipe
-            sql = @"UPDATE Recipe SET Name = @RecipeName, PDF = @PDF WHERE Id = @Id";
+            string sql = @"UPDATE Recipe SET Name = @Name, PDF = @PDF WHERE Id = @Id";
             int rowsUpdated = connection.Execute(sql,
-              new
-              {
-                RecipeName = recipe.Name,
+              new {
+                Name = recipe.Name,
                 PDF = recipe.PDF,
-                RecipeId = recipe.Id
+                Id = recipe.Id
               });
 
             // delete recipe ingredients
-            sql = @"DELETE FROM RecipeIngredient RI WHERE RI.RecipeId = @RecipeId";
+            sql = @"DELETE FROM RecipeIngredient WHERE RecipeIngredient.RecipeId = @RecipeId";
             rowsUpdated += connection.Execute(sql,
               new { RecipeId = recipe.Id });
 
@@ -175,23 +172,23 @@ namespace DataLibrary.DataAccess
             {
               // create ingredients if necessary
               sql = @"INSERT OR IGNORE INTO Ingredient
-              ( IngredientName, CategoryId ) VALUES
+              ( Name, CategoryId ) VALUES
               ( @Name, ( SELECT Id FROM Category C WHERE C.Category = 'Uncategorized' ) )";
               rowsUpdated += connection.Execute(sql,
-                new { IngredientName = recipeIngredient.Ingredient.Name });
+                new { Name = recipeIngredient.Ingredient.Name });
 
               // create recipe ingredients
               sql = @"INSERT INTO RecipeIngredient
                 ( RecipeId, IngredientId, Amount, UnitId ) VALUES
                 ( @RecipeId,
-                ( SELECT Id FROM Ingredient I WHERE I.Name = @IngredientName ),
-                @Amount
+                ( SELECT Id FROM Ingredient I WHERE I.Name = @Name ),
+                @Amount,
                 ( SELECT Id FROM Unit U WHERE U.Unit = @Unit ) )";
               rowsUpdated += connection.Execute(sql,
                 new
                 {
                   RecipeId = recipe.Id,
-                  IngredientName = recipeIngredient.Ingredient.Name,
+                  Name = recipeIngredient.Ingredient.Name,
                   Amount = recipeIngredient.Amount,
                   Unit = recipeIngredient.Unit.Unit
                 });
@@ -221,14 +218,14 @@ namespace DataLibrary.DataAccess
           try
           {
             // delete recipe ingredients
-            sql = @"DELETE FROM RecipeIngredient RI
-              WHERE RI.RecipeId =
+            sql = @"DELETE FROM RecipeIngredient
+              WHERE RecipeIngredient.RecipeId =
                 ( SELECT Id FROM Recipe R WHERE R.Name = @RecipeName)";
             int rowsDeleted = connection.Execute(sql,
               new { RecipeName = recipeName });
 
             // delete recipe
-            sql = @"DELETE FROM Recipe R WHERE R.Name = @RecipeName";
+            sql = @"DELETE FROM Recipe WHERE Recipe.Name = @RecipeName";
             rowsDeleted = connection.Execute(sql,
               new { RecipeName = recipeName });
 
