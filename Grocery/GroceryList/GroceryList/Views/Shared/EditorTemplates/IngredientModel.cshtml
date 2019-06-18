@@ -5,15 +5,15 @@
     @Html.ValidationMessageFor(ingredient => ingredient.Name)
   </td>
   <td>
-    @Html.TextBoxFor(ingredient => ingredient.Amount)
-    @Html.ValidationMessageFor(ingredient => ingredient.Amount)
+    @Html.TextBoxFor(ingredient => ingredient.DisplayAmount)
+    @Html.ValidationMessageFor(ingredient => ingredient.DisplayAmount)
   </td>
   <td>
     @Html.EnumDropDownListFor(
-      ingredient => ingredient.Unit,
+      ingredient => ingredient.DisplayUnit,
       "Select Unit"
     )
-    @Html.ValidationMessageFor(ingredient => ingredient.Unit)
+    @Html.ValidationMessageFor(ingredient => ingredient.DisplayUnit)
   </td>
   <td>
     <button class="remove" type="button" onclick="removeFormEntry(this, 'ingredient')">Remove Ingredient</button>

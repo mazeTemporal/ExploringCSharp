@@ -43,6 +43,7 @@ namespace GroceryList.Controllers
 
     public ActionResult Show(string name)
     {
+      var yolo = RecipeProcessor.ReadRecipe(name);
       RecipeModel recipe = ModelTranslator.TranslateRecipeModel(RecipeProcessor.ReadRecipe(name));
       if (null == recipe || !ModelState.IsValid)
       {

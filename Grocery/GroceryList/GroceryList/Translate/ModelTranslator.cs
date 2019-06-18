@@ -44,65 +44,67 @@ namespace GroceryList.Translate
 
     public static Models.IngredientModel TranslateIngredientModel(RecipeIngredientModel dbIngredient)
     {
-      Models.IngredientModel displayIngredient = new Models.IngredientModel
+      Models.IngredientModel displayIngredient = new Models.IngredientModel(dbIngredient.Amount, TranslateUnitModel(dbIngredient.Unit))
       {
         Id = dbIngredient.Ingredient.Id,
         Name = dbIngredient.Ingredient.Name,
-        Amount = dbIngredient.Amount,
         Category = dbIngredient.Ingredient.Category.Category
       };
-
-      displayIngredient.Unit = TranslateUnitModel(dbIngredient.Unit);
 
       return displayIngredient;
     }
 
     public static RecipeIngredientModel TranslateIngredientModel(Models.IngredientModel displayIngredient)
     {
-      RecipeIngredientModel dbIngredient = new RecipeIngredientModel()
-      {
-        Ingredient = new IngredientModel(),
-        Amount = displayIngredient.Amount,
-        Unit = TranslateUnitModel(displayIngredient.Unit)
-      };
-
-      dbIngredient.Ingredient.Name = displayIngredient.Name;
-      dbIngredient.Ingredient.Category = new CategoryModel
+      CategoryModel category = new CategoryModel
       {
         Category = displayIngredient.Category
+      };
+
+      IngredientModel ingredient = new IngredientModel()
+      {
+        Name = displayIngredient.Name,
+        Category = category
+      };
+
+      RecipeIngredientModel dbIngredient = new RecipeIngredientModel()
+      {
+        Ingredient = ingredient,
+        Amount = displayIngredient.DbAmount,
+        Unit = TranslateUnitModel(displayIngredient.DbUnit)
       };
 
       return dbIngredient;
     }
 
-    public static Models.IngredientModel.UnitType TranslateUnitModel(UnitModel dbUnit)
+    public static Models.UnitConversionModel.DbUnitType TranslateUnitModel(UnitModel dbUnit)
     {
       switch (dbUnit.Unit)
       {
         case "Gram":
-          return Models.IngredientModel.UnitType.Gram;
+          return Models.UnitConversionModel.DbUnitType.Gram;
         case "Milliliter":
-          return Models.IngredientModel.UnitType.Milliliter;
+          return Models.UnitConversionModel.DbUnitType.Milliliter;
         case "Item":
-          return Models.IngredientModel.UnitType.Item;
+          return Models.UnitConversionModel.DbUnitType.Item;
         default:
-          throw new ArgumentException("Unrecognized UnitModel Unit");
+          throw new ArgumentException($"Unrecognized DbUnitType: {dbUnit.Unit}");
       }
     }
 
-    public static UnitModel TranslateUnitModel(Models.IngredientModel.UnitType displayUnit)
+    public static UnitModel TranslateUnitModel(Models.UnitConversionModel.DbUnitType displayUnit)
     {
       UnitModel dbUnit = new UnitModel();
 
       switch (displayUnit)
       {
-        case Models.IngredientModel.UnitType.Gram:
+        case Models.UnitConversionModel.DbUnitType.Gram:
           dbUnit.Unit = "Gram";
           break;
-        case Models.IngredientModel.UnitType.Milliliter:
+        case Models.UnitConversionModel.DbUnitType.Milliliter:
           dbUnit.Unit = "Milliliter";
           break;
-        case Models.IngredientModel.UnitType.Item:
+        case Models.UnitConversionModel.DbUnitType.Item:
           dbUnit.Unit = "Item";
           break;
         default:

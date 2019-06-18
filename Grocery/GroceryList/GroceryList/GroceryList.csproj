@@ -94,6 +94,7 @@
     <Compile Include="DataLibrary\Models\RecipeModel.cs" />
     <Compile Include="DataLibrary\Models\UnitModel.cs" />
     <Compile Include="Translate\ModelTranslator.cs" />
+    <Compile Include="Models\UnitConversionModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
