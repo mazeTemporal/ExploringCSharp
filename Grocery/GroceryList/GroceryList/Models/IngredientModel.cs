@@ -8,7 +8,7 @@ namespace GroceryList.Models
     {
       Item,
       Gram,
-      Millileter,
+      Milliliter,
       Liter,
       Ounce,
       Pound,

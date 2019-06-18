@@ -82,7 +82,7 @@ namespace GroceryList.Translate
         case "Gram":
           return Models.IngredientModel.UnitType.Gram;
         case "Milliliter":
-          return Models.IngredientModel.UnitType.Millileter;
+          return Models.IngredientModel.UnitType.Milliliter;
         case "Item":
           return Models.IngredientModel.UnitType.Item;
         default:
@@ -99,7 +99,7 @@ namespace GroceryList.Translate
         case Models.IngredientModel.UnitType.Gram:
           dbUnit.Unit = "Gram";
           break;
-        case Models.IngredientModel.UnitType.Millileter:
+        case Models.IngredientModel.UnitType.Milliliter:
           dbUnit.Unit = "Milliliter";
           break;
         case Models.IngredientModel.UnitType.Item:
