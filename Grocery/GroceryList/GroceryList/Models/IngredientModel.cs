@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,7 +39,7 @@ namespace GroceryList.Models
     [RegularExpression(@"\d*\.?\d+", ErrorMessage = "Amount must be a number or decimal.")]
     public double DisplayAmount
     {
-      get { return _displayAmount; }
+      get { return RoundToEighth(_displayAmount); }
       set
       {
         _displayAmount = value;
@@ -119,5 +120,7 @@ namespace GroceryList.Models
         .OrderByDescending(x => x.RangeMin) // select largest remaining unit
         .First().DisplayUnit;
     }
+
+    private static double RoundToEighth(double amount) => Math.Round(amount * 8) / 8;
   }
 }
