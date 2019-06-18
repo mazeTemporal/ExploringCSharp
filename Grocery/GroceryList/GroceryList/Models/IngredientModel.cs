@@ -78,6 +78,18 @@ namespace GroceryList.Models
     [System.Web.Mvc.HiddenInput(DisplayValue = false)]
     public UnitConversionModel.DbUnitType DbUnit { get; set; }
 
+    // Amounts for Showing
+    [Display(Name = "Amount (US)")]
+    public double UsAmount { get { return RoundToEighth(GetDisplayAmount(UsUnit, UnitConversionModel.UnitSystem.US)); } }
+    [Display(Name = "Amount (Metric)")]
+    public double MetricAmount { get { return RoundToEighth(GetDisplayAmount(MetricUnit, UnitConversionModel.UnitSystem.Metric)); } }
+
+    // Units for Showing
+    [Display(Name = "Unit (US)")]
+    public UnitConversionModel.DisplayUnitType UsUnit { get { return GetDisplayUnit(UnitConversionModel.UnitSystem.US); } }
+    [Display(Name = "Unit (Metric)")]
+    public UnitConversionModel.DisplayUnitType MetricUnit { get { return GetDisplayUnit(UnitConversionModel.UnitSystem.Metric); } }
+
     public string Category { get; set; }
 
     public IngredientModel() {
@@ -88,8 +100,8 @@ namespace GroceryList.Models
     {
       DbUnit = dbUnit;
       DbAmount = dbAmount;
-      UpdateDisplayUnit();
-      UpdateDisplayAmount();
+      DisplayUnit = GetDisplayUnit();
+      DisplayAmount = GetDisplayAmount(DisplayUnit);
       initialized = true;
     }
 
@@ -103,18 +115,19 @@ namespace GroceryList.Models
       DbUnit = UnitConversions.First(x => x.DisplayUnit == DisplayUnit).DbUnit;
     }
 
-    private void UpdateDisplayAmount(UnitConversionModel.UnitSystem system = UnitConversionModel.UnitSystem.US)
+    private double GetDisplayAmount(UnitConversionModel.DisplayUnitType displayUnit,
+      UnitConversionModel.UnitSystem system = UnitConversionModel.UnitSystem.US)
     {
-      DisplayAmount = DbAmount * UnitConversions.First(x => 
+      return DbAmount * UnitConversions.First(x => 
         x.DbUnit == DbUnit &&
-        x.DisplayUnit == DisplayUnit &&
+        x.DisplayUnit == displayUnit &&
         x.System == system
       ).ConversionRate;
     }
 
-    private void UpdateDisplayUnit(UnitConversionModel.UnitSystem system = UnitConversionModel.UnitSystem.US)
+    private UnitConversionModel.DisplayUnitType GetDisplayUnit(UnitConversionModel.UnitSystem system = UnitConversionModel.UnitSystem.US)
     {
-      DisplayUnit = UnitConversions
+      return UnitConversions
         .Where(x => x.DbUnit == DbUnit && x.System == system) // get candidate units
         .Where(x => DbAmount >= x.RangeMin) // avoid inappropriately large units
         .OrderByDescending(x => x.RangeMin) // select largest remaining unit
