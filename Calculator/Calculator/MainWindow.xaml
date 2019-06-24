@@ -5,8 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Calculator" Height="322" Width="228">
+
+    <DockPanel>
+        <!-- Menu Bar -->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <TextBlock Text="View" />
+            <TextBlock Text="Edit" />
+            <TextBlock Text="Help" />
+        </StackPanel>
+
+        <!-- Application -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Screen -->
+            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+                       Text="0" />
+
+            <!-- Buttons -->
+
+            <!-- Row 1: Memory Buttons -->
+            <Button Grid.Row="1" Grid.Column="0" Content="MC" />
+            <Button Grid.Row="1" Grid.Column="1" Content="MR" />
+            <Button Grid.Row="1" Grid.Column="2" Content="MS" />
+            <Button Grid.Row="1" Grid.Column="3" Content="M+" />
+            <Button Grid.Row="1" Grid.Column="4" Content="M-" />
+
+            <!-- Row 2 -->
+            <Button Grid.Row="2" Grid.Column="0" Content="&lt;-" />
+            <Button Grid.Row="2" Grid.Column="1" Content="CE" />
+            <Button Grid.Row="2" Grid.Column="2" Content="C" />
+            <Button Grid.Row="2" Grid.Column="3" Content="+-" />
+            <Button Grid.Row="2" Grid.Column="4" Content="root" />
+            
+            <!-- Row 3 -->
+            <Button Grid.Row="3" Grid.Column="0" Content="7" />
+            <Button Grid.Row="3" Grid.Column="1" Content="8" />
+            <Button Grid.Row="3" Grid.Column="2" Content="9" />
+            <Button Grid.Row="3" Grid.Column="3" Content="/" />
+            <Button Grid.Row="3" Grid.Column="4" Content="%" />
+
+            <!-- Row 4 -->
+            <Button Grid.Row="4" Grid.Column="0" Content="4" />
+            <Button Grid.Row="4" Grid.Column="1" Content="5" />
+            <Button Grid.Row="4" Grid.Column="2" Content="6" />
+            <Button Grid.Row="4" Grid.Column="3" Content="*" />
+            <Button Grid.Row="4" Grid.Column="4" Content="1/x" />
+
+            <!-- Row 5 -->
+            <Button Grid.Row="5" Grid.Column="0" Content="1" />
+            <Button Grid.Row="5" Grid.Column="1" Content="2" />
+            <Button Grid.Row="5" Grid.Column="2" Content="3" />
+            <Button Grid.Row="5" Grid.Column="3" Content="-" />
+            <Button Grid.Row="5" Grid.Column="4" Content="=" Grid.RowSpan="2" />
+
+            <!-- Row 6 -->
+            <Button Grid.Row="6" Grid.Column="0" Content="0" Grid.ColumnSpan="2" />
+            <Button Grid.Row="6" Grid.Column="2" Content="." />
+            <Button Grid.Row="6" Grid.Column="3" Content="+" />
+        </Grid>
+    </DockPanel>
 </Window>
