@@ -1,3 +1,4 @@
+packages/
 .vs/
-Calculator/bin/
-Calculator/obj/
+*/bin/*
+*/obj/*
