@@ -275,5 +275,40 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Throws<DivideByZeroException>(() => calc.MultiplicitiveInverse());
         }
+
+        [Theory]
+        [InlineData("4", "-4")]
+        [InlineData("-4", "4")]
+        [InlineData("0.18", "-0.18")]
+        public void AdditiveInverse_ShouldModifyInputString(string inputString, string expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString
+            };
+
+            // Act
+            calc.AdditiveInverse();
+
+            // Assert
+            Assert.Equal(expected, calc.InputString);
+        }
+
+        [Fact]
+        public void AdditiveInverse_ShouldIgnoreInputZero()
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = "0"
+            };
+
+            // Act
+            calc.AdditiveInverse();
+
+            // Assert
+            Assert.Equal("0", calc.InputString);
+        }
     }
 }
