@@ -156,7 +156,10 @@ namespace CalculatorLibrary
 
         public void Clear()
         {
-            //!!! stub
+            InputString = "0";
+            TotalValue = 0;
+            MemoryValue = 0;
+            CurrentOperation = Operation.None;
         }
 
         public void MemorySave()
