@@ -45,7 +45,14 @@ namespace CalculatorLibrary
 
         public void RemoveLastDigit()
         {
-            //!!! stub
+            if (InputString.Length == 1 || InputString.Length == 2 && InputString[0] == '-')
+            {
+                InputString = "0";
+            }
+            else
+            {
+                InputString = InputString.Substring(0, InputString.Length - 1);
+            }
         }
 
         public void Add()
