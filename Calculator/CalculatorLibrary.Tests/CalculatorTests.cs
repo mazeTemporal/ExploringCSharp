@@ -310,5 +310,27 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal("0", calc.InputString);
         }
+
+        [Theory]
+        [InlineData("0", 5, "0")]
+        [InlineData("78", 0, "0")]
+        [InlineData("20", 10, "2")]
+        [InlineData("1.2", -30, "-0.36")]
+        [InlineData("-30", 1.2, "-0.36")]
+        public void Percent_ShouldModifyInputString(string inputString, double totalValue, string expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString,
+                TotalValue = totalValue
+            };
+
+            // Act
+            calc.Percent();
+
+            // Assert
+            Assert.Equal(expected, calc.InputString);
+        }
     }
 }
