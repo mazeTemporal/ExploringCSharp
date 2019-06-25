@@ -242,7 +242,38 @@ namespace CalculatorLibrary.Tests
             };
 
             // Assert
-            Assert.Throws<DivideByZeroException>(calc.Divide);
+            Assert.Throws<DivideByZeroException>(() => calc.Divide());
+        }
+
+        [Theory]
+        [InlineData("4", "0.25")]
+        [InlineData("-4", "-0.25")]
+        public void MultiplicitiveInverse_ShouldModifyInputString(string inputString, string expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString
+            };
+
+            // Act
+            calc.MultiplicitiveInverse();
+
+            // Assert
+            Assert.Equal(expected, calc.InputString);
+        }
+
+        [Fact]
+        public void MultiplicitiveInverse_ShouldThrowIfInputZero()
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = "0"
+            };
+
+            // Assert
+            Assert.Throws<DivideByZeroException>(() => calc.MultiplicitiveInverse());
         }
     }
 }
