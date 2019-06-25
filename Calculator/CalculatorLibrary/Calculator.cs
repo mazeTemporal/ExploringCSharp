@@ -172,7 +172,7 @@ namespace CalculatorLibrary
             MemoryValue = 0;
         }
 
-        public void MemoryRetrieve()
+        public void MemoryRecall()
         {
             InputString = MemoryValue.ToString();
         }

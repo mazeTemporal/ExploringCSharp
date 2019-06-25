@@ -531,7 +531,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
-        public void MemoryRetrieve_ShouldModifyInputString()
+        public void MemoryRecall_ShouldModifyInputString()
         {
             // Arrange
             double memoryValue = -2.63;
@@ -542,7 +542,7 @@ namespace CalculatorLibrary.Tests
             };
 
             // Act
-            calc.MemoryRetrieve();
+            calc.MemoryRecall();
 
             // Assert
             Assert.Equal(memoryValue.ToString(), calc.InputString);
