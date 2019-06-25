@@ -424,5 +424,38 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(expectedTotal, calc.TotalValue, DOUBLE_PRECISION);
         }
+
+        [Theory]
+        [InlineData("0", "0")]
+        [InlineData("1", "1")]
+        [InlineData("16", "4")]
+        [InlineData("3.24", "1.8")]
+        public void SquareRoot_ShouldModifyInputString(string inputString, string expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString
+            };
+
+            // Act
+            calc.SquareRoot();
+
+            // Assert
+            Assert.Equal(expected, calc.InputString);
+        }
+
+        [Fact]
+        public void SquareRoot_ShouldThrowIfInputNegative()
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = "-1"
+            };
+
+            // Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() =>calc.SquareRoot());
+        }
     }
 }
