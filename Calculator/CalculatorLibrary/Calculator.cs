@@ -86,7 +86,11 @@ namespace CalculatorLibrary
 
         public void Divide()
         {
-            //!!! stub
+            if (InputString == "0")
+            {
+                throw new DivideByZeroException();
+            }
+            TotalValue /= GetInputStringValue();
         }
 
         public void MultiplicitiveInverse()
