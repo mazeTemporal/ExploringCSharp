@@ -457,5 +457,21 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>calc.SquareRoot());
         }
+
+        [Fact]
+        public void ClearEntry_ShouldModifyInputString()
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = "15.8"
+            };
+
+            // Act
+            calc.ClearEntry();
+
+            // Assert
+            Assert.Equal("0", calc.InputString);
+        }
     }
 }
