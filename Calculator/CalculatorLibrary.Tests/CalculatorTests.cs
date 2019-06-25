@@ -96,5 +96,44 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(inputString, calc.InputString);
         }
+
+        [Theory]
+        [InlineData("20", "2")]
+        [InlineData("1.5", "1.")]
+        [InlineData("84.", "84")]
+        [InlineData("-34", "-3")]
+        public void RemoveLastDigit_ShouldModifyInputString(string inputString, string expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString
+            };
+
+            // Act
+            calc.RemoveLastDigit();
+
+            // Assert
+            Assert.Equal(expected, calc.InputString);
+        }
+
+        [Theory]
+        [InlineData("0")]
+        [InlineData("8")]
+        [InlineData("-4")]
+        public void RemoveLastDigit_ShouldReplaceSingleDigitWithZero(string inputString)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString
+            };
+
+            // Act
+            calc.RemoveLastDigit();
+
+            // Assert
+            Assert.Equal("0", calc.InputString);
+        }
     }
 }
