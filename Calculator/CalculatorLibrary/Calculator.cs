@@ -184,7 +184,7 @@ namespace CalculatorLibrary
 
         public void MemorySubtract()
         {
-            //!!! stub
+            MemoryValue -= GetInputStringValue();
         }
     }
 }
