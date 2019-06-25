@@ -104,7 +104,7 @@ namespace CalculatorLibrary
 
         public void AdditiveInverse()
         {
-            //!!! stub
+            InputString = (-1 * GetInputStringValue()).ToString();
         }
 
         public void Percent()
