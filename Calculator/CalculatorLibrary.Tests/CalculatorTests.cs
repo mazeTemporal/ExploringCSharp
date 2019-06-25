@@ -60,5 +60,41 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => calc.AppendDigit(digit));
         }
+
+        [Theory]
+        [InlineData("0", "0.")]
+        [InlineData("51", "51.")]
+        public void AppendDecimal_ShouldModifyInputString(string inputString, string expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator
+            {
+                InputString = inputString
+            };
+
+            // Act
+            calc.AppendDecimal();
+
+            // Assert
+            Assert.Equal(expected, calc.InputString);
+        }
+
+        [Theory]
+        [InlineData("0.")]
+        [InlineData("-74.14")]
+        public void AppendDecimal_ShouldIgnoreSecondDecimal(string inputString)
+        {
+            // Arrange
+            Calculator calc = new Calculator
+            {
+                InputString = inputString
+            };
+
+            // Act
+            calc.AppendDecimal();
+
+            // Assert
+            Assert.Equal(inputString, calc.InputString);
+        }
     }
 }
