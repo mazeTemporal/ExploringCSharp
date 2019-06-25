@@ -21,7 +21,18 @@ namespace CalculatorLibrary
 
         public void AppendDigit(int digit)
         {
-            //!!! stub
+            if (digit < 0 || digit > 9)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            if (InputString == "0")
+            {
+                InputString = digit.ToString();
+            }
+            else
+            {
+                InputString += digit;
+            }
         }
 
         public void AppendDecimal()
