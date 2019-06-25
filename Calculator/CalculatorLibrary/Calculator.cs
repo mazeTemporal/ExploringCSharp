@@ -14,8 +14,8 @@ namespace CalculatorLibrary
             Multiply,
             Divide
         };
-        public double CurrentValue { get; set; } = 0;
-        public double PreviousValue { get; set; } = 0;
+        public double InputValue { get; set; } = 0;
+        public double TotalValue { get; set; } = 0;
         public double MemoryValue { get; set; } = 0;
         public Operation CurrentOperation { get; set; } = Operation.None;
 
