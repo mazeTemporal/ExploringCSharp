@@ -10,6 +10,8 @@ namespace CalculatorLibrary.Tests
 {
     public class CalculatorTests
     {
+        const int DOUBLE_PRECISION = 14;
+
         [Theory]
         [InlineData(0)]
         [InlineData(5)]
@@ -155,7 +157,7 @@ namespace CalculatorLibrary.Tests
             calc.Add();
 
             // Assert
-            Assert.Equal(expected, calc.TotalValue);
+            Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
         }
 
         [Theory]
@@ -177,7 +179,7 @@ namespace CalculatorLibrary.Tests
             calc.Subtract();
 
             // Assert
-            Assert.Equal(expected, calc.TotalValue);
+            Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
         }
 
         [Theory]
@@ -204,7 +206,7 @@ namespace CalculatorLibrary.Tests
             calc.Multiply();
 
             // Assert
-            Assert.Equal(expected, calc.TotalValue);
+            Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
         }
     }
 }

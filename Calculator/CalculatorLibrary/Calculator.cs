@@ -76,7 +76,12 @@ namespace CalculatorLibrary
 
         public void Multiply()
         {
-            //!!! stub
+            double total = TotalValue * GetInputStringValue();
+            if (double.IsInfinity(total))
+            {
+                total = double.IsPositiveInfinity(total) ? double.MaxValue : double.MinValue;
+            }
+            TotalValue = total;
         }
 
         public void Divide()
