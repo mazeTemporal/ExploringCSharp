@@ -66,16 +66,19 @@ namespace CalculatorLibrary
 
         public void Add()
         {
+            CurrentOperation = Operation.Add;
             TotalValue += GetInputStringValue();
         }
 
         public void Subtract()
         {
+            CurrentOperation = Operation.Subtract;
             TotalValue -= GetInputStringValue();
         }
 
         public void Multiply()
         {
+            CurrentOperation = Operation.Multiply;
             double total = TotalValue * GetInputStringValue();
             if (double.IsInfinity(total))
             {
@@ -86,6 +89,7 @@ namespace CalculatorLibrary
 
         public void Divide()
         {
+            CurrentOperation = Operation.Divide;
             if (InputString == "0")
             {
                 throw new DivideByZeroException();
