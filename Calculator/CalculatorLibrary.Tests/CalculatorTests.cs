@@ -137,7 +137,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("7.94", 5.2, 12.69)]
+        [InlineData("7.94", 5.2, 13.14)]
         [InlineData("47", -4.67, 42.33)]
         [InlineData("-56", 12, -44)]
         [InlineData("14", double.MaxValue, double.MaxValue)]

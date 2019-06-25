@@ -55,9 +55,18 @@ namespace CalculatorLibrary
             }
         }
 
+        private double GetInputStringValue()
+        {
+            if (double.TryParse(InputString, out double output))
+            {
+                return output;
+            }
+            return InputString[0] == '-' ? double.MinValue : double.MaxValue;
+        }
+
         public void Add()
         {
-            //!!! stub
+            TotalValue += GetInputStringValue();
         }
 
         public void Subtract()
