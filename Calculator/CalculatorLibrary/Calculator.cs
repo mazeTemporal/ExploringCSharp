@@ -37,7 +37,10 @@ namespace CalculatorLibrary
 
         public void AppendDecimal()
         {
-            //!!! stub
+            if (InputString.IndexOf(".") == -1)
+            {
+                InputString += ".";
+            }
         }
 
         public void RemoveLastDigit()
