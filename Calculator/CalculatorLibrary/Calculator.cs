@@ -109,7 +109,7 @@ namespace CalculatorLibrary
 
         public void Percent()
         {
-            //!!! stub
+            InputString = (TotalValue / 100 * GetInputStringValue()).ToString();
         }
 
         public void Calculate()
