@@ -208,5 +208,41 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
         }
+
+        [Theory]
+        [InlineData("7", 0, 0)]
+        [InlineData("-8", -4, 0.5)]
+        [InlineData("-8", 4, -0.5)]
+        [InlineData("8", -4, -0.5)]
+        [InlineData("6.9", 1.5, 1.5 / 6.9)]
+        public void Divide_ShouldModifyTotalValue(string inputString, double totalValue, double expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString,
+                TotalValue = totalValue
+            };
+
+            // Act
+            calc.Divide();
+
+            // Assert
+            Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
+        }
+
+        [Fact]
+        public void Divide_ShouldThrowIfInputZero()
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = "0",
+                TotalValue = 25
+            };
+
+            // Assert
+            Assert.Throws<DivideByZeroException>(calc.Divide);
+        }
     }
 }
