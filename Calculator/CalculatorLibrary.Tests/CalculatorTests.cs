@@ -473,5 +473,27 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal("0", calc.InputString);
         }
+
+        [Fact]
+        public void Clear_ShouldResetProperties()
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = "15.8",
+                TotalValue = 8.1,
+                CurrentOperation = Calculator.Operation.Multiply,
+                MemoryValue = 23.4
+            };
+
+            // Act
+            calc.Clear();
+
+            // Assert
+            Assert.Equal("0", calc.InputString);
+            Assert.Equal(0, calc.TotalValue);
+            Assert.Equal(0, calc.MemoryValue);
+            Assert.Equal(Calculator.Operation.None, calc.CurrentOperation);
+        }
     }
 }
