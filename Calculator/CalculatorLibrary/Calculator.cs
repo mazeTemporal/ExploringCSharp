@@ -164,7 +164,7 @@ namespace CalculatorLibrary
 
         public void MemorySave()
         {
-            //!!! stub
+            MemoryValue = GetInputStringValue();
         }
 
         public void MemoryClear()
