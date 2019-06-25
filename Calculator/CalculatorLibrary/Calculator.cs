@@ -156,9 +156,9 @@ namespace CalculatorLibrary
 
         public void Clear()
         {
-            InputString = "0";
+            ClearEntry();
             TotalValue = 0;
-            MemoryValue = 0;
+            MemoryClear();
             CurrentOperation = Operation.None;
         }
 
@@ -169,7 +169,7 @@ namespace CalculatorLibrary
 
         public void MemoryClear()
         {
-            //!!! stub
+            MemoryValue = 0;
         }
 
         public void MemoryReturn()
