@@ -160,6 +160,23 @@ namespace CalculatorLibrary.Tests
             Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
         }
 
+        [Fact]
+        public void Add_ShouldSetCurrentOperation()
+        {
+            // Arrange
+            Calculator.Operation expected = Calculator.Operation.Add;
+            Calculator calc = new Calculator()
+            {
+                CurrentOperation = Calculator.Operation.None
+            };
+
+            // Act
+            calc.Add();
+
+            // Assert
+            Assert.Equal(expected, calc.CurrentOperation);
+        }
+
         [Theory]
         [InlineData("7.94", 5.2, -2.74)]
         [InlineData("4.67", 47, 42.33)]
@@ -180,6 +197,23 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
+        }
+
+        [Fact]
+        public void Subtract_ShouldSetCurrentOperation()
+        {
+            // Arrange
+            Calculator.Operation expected = Calculator.Operation.Subtract;
+            Calculator calc = new Calculator()
+            {
+                CurrentOperation = Calculator.Operation.None
+            };
+
+            // Act
+            calc.Subtract();
+
+            // Assert
+            Assert.Equal(expected, calc.CurrentOperation);
         }
 
         [Theory]
@@ -207,6 +241,23 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Equal(expected, calc.TotalValue, DOUBLE_PRECISION);
+        }
+
+        [Fact]
+        public void Multiply_ShouldSetCurrentOperation()
+        {
+            // Arrange
+            Calculator.Operation expected = Calculator.Operation.Multiply;
+            Calculator calc = new Calculator()
+            {
+                CurrentOperation = Calculator.Operation.None
+            };
+
+            // Act
+            calc.Multiply();
+
+            // Assert
+            Assert.Equal(expected, calc.CurrentOperation);
         }
 
         [Theory]
@@ -243,6 +294,24 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Throws<DivideByZeroException>(() => calc.Divide());
+        }
+
+        [Fact]
+        public void Divide_ShouldSetCurrentOperation()
+        {
+            // Arrange
+            Calculator.Operation expected = Calculator.Operation.Divide;
+            Calculator calc = new Calculator()
+            {
+                CurrentOperation = Calculator.Operation.None,
+                InputString = "1"
+            };
+
+            // Act
+            calc.Divide();
+
+            // Assert
+            Assert.Equal(expected, calc.CurrentOperation);
         }
 
         [Theory]
