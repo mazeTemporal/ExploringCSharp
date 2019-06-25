@@ -179,5 +179,32 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(expected, calc.TotalValue);
         }
+
+        [Theory]
+        [InlineData("5", 0, 0)]
+        [InlineData("0", 7, 0)]
+        [InlineData("-8", -4, 32)]
+        [InlineData("-8", 4, -32)]
+        [InlineData("8", -4, -32)]
+        [InlineData("6.9", 1.5, 10.35)]
+        [InlineData("3", double.MaxValue, double.MaxValue)]
+        [InlineData("3", double.MinValue, double.MinValue)]
+        [InlineData("-3", double.MaxValue, double.MinValue)]
+        [InlineData("-3", double.MinValue, double.MaxValue)]
+        public void Multiply_ShouldModifyTotalValue(string inputString, double totalValue, double expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString,
+                TotalValue = totalValue
+            };
+
+            // Act
+            calc.Multiply();
+
+            // Assert
+            Assert.Equal(expected, calc.TotalValue);
+        }
     }
 }
