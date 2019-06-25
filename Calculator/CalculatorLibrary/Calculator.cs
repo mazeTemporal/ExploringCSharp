@@ -95,7 +95,11 @@ namespace CalculatorLibrary
 
         public void MultiplicitiveInverse()
         {
-            //!!! stub
+            if (InputString == "0")
+            {
+                throw new DivideByZeroException();
+            }
+            InputString = (1 / GetInputStringValue()).ToString();
         }
 
         public void AdditiveInverse()
