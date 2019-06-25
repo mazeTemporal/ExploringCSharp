@@ -495,5 +495,23 @@ namespace CalculatorLibrary.Tests
             Assert.Equal(0, calc.MemoryValue);
             Assert.Equal(Calculator.Operation.None, calc.CurrentOperation);
         }
+
+        [Fact]
+        public void MemorySave_ShouldModifyMemoryValue()
+        {
+            // Arrange
+            string inputString = "15.8";
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString,
+                MemoryValue = 0
+            };
+
+            // Act
+            calc.MemorySave();
+
+            // Assert
+            Assert.Equal(double.Parse(inputString), calc.MemoryValue, DOUBLE_PRECISION);
+        }
     }
 }
