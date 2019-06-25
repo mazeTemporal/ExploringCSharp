@@ -118,7 +118,26 @@ namespace CalculatorLibrary
 
         public void Calculate()
         {
-            //!!! stub
+            switch(CurrentOperation)
+            {
+                default:
+                    throw new NotImplementedException();
+                case Operation.None:
+                    // do nothing
+                    break;
+                case Operation.Add:
+                    Add();
+                    break;
+                case Operation.Subtract:
+                    Subtract();
+                    break;
+                case Operation.Multiply:
+                    Multiply();
+                    break;
+                case Operation.Divide:
+                    Divide();
+                    break;
+            }
         }
 
         public void SquareRoot()
