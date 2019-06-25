@@ -529,5 +529,23 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(0, calc.MemoryValue);
         }
+
+        [Fact]
+        public void MemoryRetrieve_ShouldModifyInputString()
+        {
+            // Arrange
+            double memoryValue = -2.63;
+            Calculator calc = new Calculator()
+            {
+                InputString = "0",
+                MemoryValue = memoryValue
+            };
+
+            // Act
+            calc.MemoryRetrieve();
+
+            // Assert
+            Assert.Equal(memoryValue.ToString(), calc.InputString);
+        }
     }
 }

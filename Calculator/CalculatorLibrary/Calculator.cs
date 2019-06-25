@@ -172,7 +172,7 @@ namespace CalculatorLibrary
             MemoryValue = 0;
         }
 
-        public void MemoryReturn()
+        public void MemoryRetrieve()
         {
             //!!! stub
         }
