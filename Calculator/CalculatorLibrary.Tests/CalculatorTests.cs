@@ -570,5 +570,28 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(expected, calc.MemoryValue, DOUBLE_PRECISION);
         }
+
+        [Theory]
+        [InlineData(1.2, "5.74", -4.54)]
+        [InlineData(-87.4, "9.5", -96.9)]
+        [InlineData(87.4, "-9.5", 96.9)]
+        [InlineData(-87.4, "-9.5", -77.9)]
+        [InlineData(double.MaxValue, "-12", double.MaxValue)]
+        [InlineData(double.MinValue, "12", double.MinValue)]
+        public void MemorySubtract_ShouldModifyMemoryValue(double memoryValue, string inputString, double expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                InputString = inputString,
+                MemoryValue = memoryValue
+            };
+
+            // Act
+            calc.MemorySubtract();
+
+            // Assert
+            Assert.Equal(expected, calc.MemoryValue, DOUBLE_PRECISION);
+        }
     }
 }
