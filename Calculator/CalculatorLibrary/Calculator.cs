@@ -142,7 +142,11 @@ namespace CalculatorLibrary
 
         public void SquareRoot()
         {
-            //!!! stub
+            if (InputString[0] == '-')
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            InputString = Math.Sqrt(GetInputStringValue()).ToString();
         }
 
         public void ClearEntry()
