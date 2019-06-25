@@ -151,7 +151,7 @@ namespace CalculatorLibrary
 
         public void ClearEntry()
         {
-            //!!! stub
+            InputString = "0";
         }
 
         public void Clear()
