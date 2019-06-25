@@ -174,7 +174,7 @@ namespace CalculatorLibrary
 
         public void MemoryRetrieve()
         {
-            //!!! stub
+            InputString = MemoryValue.ToString();
         }
 
         public void MemoryAdd()
