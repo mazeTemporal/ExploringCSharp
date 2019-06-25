@@ -401,5 +401,28 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(expected, calc.InputString);
         }
+
+        [Theory]
+        [InlineData(Calculator.Operation.None, 20)]
+        [InlineData(Calculator.Operation.Add, 25)]
+        [InlineData(Calculator.Operation.Subtract, 15)]
+        [InlineData(Calculator.Operation.Multiply, 100)]
+        [InlineData(Calculator.Operation.Divide, 4)]
+        public void Calculate_ShouldCallCorrectOperation(Calculator.Operation operation, double expectedTotal)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                CurrentOperation = operation,
+                InputString = "5",
+                TotalValue = 20
+            };
+
+            // Act
+            calc.Calculate();
+
+            // Assert
+            Assert.Equal(expectedTotal, calc.TotalValue, DOUBLE_PRECISION);
+        }
     }
 }
