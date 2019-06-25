@@ -71,7 +71,7 @@ namespace CalculatorLibrary
 
         public void Subtract()
         {
-            //!!! stub
+            TotalValue -= GetInputStringValue();
         }
 
         public void Multiply()
