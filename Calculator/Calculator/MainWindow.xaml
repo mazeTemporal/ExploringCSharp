@@ -35,7 +35,7 @@
             </Grid.RowDefinitions>
 
             <!-- Screen -->
-            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+            <TextBlock x:Name="Screen" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
                        Text="0" />
 
             <!-- Buttons -->
@@ -69,7 +69,7 @@
             <Button Grid.Row="4" Grid.Column="4" Content="1/x" />
 
             <!-- Row 5 -->
-            <Button Grid.Row="5" Grid.Column="0" Content="1" />
+            <Button Grid.Row="5" Grid.Column="0" Content="1" x:Name="Button_1" Click="Button_1_Handler" />
             <Button Grid.Row="5" Grid.Column="1" Content="2" />
             <Button Grid.Row="5" Grid.Column="2" Content="3" />
             <Button Grid.Row="5" Grid.Column="3" Content="-" />

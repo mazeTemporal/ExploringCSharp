@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CalculatorLibrary;
 
 namespace Calculator
 {
@@ -20,9 +21,37 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
+        public CalculatorLibrary.Calculator calc = new CalculatorLibrary.Calculator();
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public string GetInputString()
+        {
+            return calc.InputString;
+        }
+
+        public string GetValueString()
+        {
+            return calc.TotalValue.ToString();
+        }
+
+        public void SetScreenContent(string s)
+        {
+            Screen.Text = s;
+        }
+
+        public void SetScreenInput()
+        {
+            SetScreenContent(GetInputString());
+        }
+
+        public void Button_1_Handler(object sender, EventArgs e)
+        {
+            calc.AppendDigit(1);
+            SetScreenInput();
         }
     }
 }
