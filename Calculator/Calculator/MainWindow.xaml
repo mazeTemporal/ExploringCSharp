@@ -51,34 +51,34 @@
             <Button Grid.Row="2" Grid.Column="0" Content="&lt;-" />
             <Button Grid.Row="2" Grid.Column="1" Content="CE" />
             <Button Grid.Row="2" Grid.Column="2" Content="C" />
-            <Button Grid.Row="2" Grid.Column="3" Content="+-" />
-            <Button Grid.Row="2" Grid.Column="4" Content="root" />
+            <Button Grid.Row="2" Grid.Column="3" Content="+-" Click="Button_Additive_Inverse_Click" />
+            <Button Grid.Row="2" Grid.Column="4" Content="root" Click="Button_Square_Root_Click" />
             
             <!-- Row 3 -->
-            <Button Grid.Row="3" Grid.Column="0" Content="7" />
-            <Button Grid.Row="3" Grid.Column="1" Content="8" />
-            <Button Grid.Row="3" Grid.Column="2" Content="9" />
-            <Button Grid.Row="3" Grid.Column="3" Content="/" />
-            <Button Grid.Row="3" Grid.Column="4" Content="%" />
+            <Button Grid.Row="3" Grid.Column="0" Content="7" Click="Button_7_Click" />
+            <Button Grid.Row="3" Grid.Column="1" Content="8" Click="Button_8_Click" />
+            <Button Grid.Row="3" Grid.Column="2" Content="9" Click="Button_9_Click" />
+            <Button Grid.Row="3" Grid.Column="3" Content="/" Click="Button_Divide_Click" />
+            <Button Grid.Row="3" Grid.Column="4" Content="%" Click="Button_Percent_Click" />
 
             <!-- Row 4 -->
-            <Button Grid.Row="4" Grid.Column="0" Content="4" />
-            <Button Grid.Row="4" Grid.Column="1" Content="5" />
-            <Button Grid.Row="4" Grid.Column="2" Content="6" />
-            <Button Grid.Row="4" Grid.Column="3" Content="*" />
-            <Button Grid.Row="4" Grid.Column="4" Content="1/x" />
+            <Button Grid.Row="4" Grid.Column="0" Content="4" Click="Button_4_Click"  />
+            <Button Grid.Row="4" Grid.Column="1" Content="5" Click="Button_5_Click"  />
+            <Button Grid.Row="4" Grid.Column="2" Content="6" Click="Button_6_Click"  />
+            <Button Grid.Row="4" Grid.Column="3" Content="*" Click="Button_Multiply_Click"  />
+            <Button Grid.Row="4" Grid.Column="4" Content="1/x" Click="Button_Multiplicitive_Inverse_Click" />
 
             <!-- Row 5 -->
-            <Button Grid.Row="5" Grid.Column="0" Content="1" x:Name="Button_1" Click="Button_1_Handler" />
-            <Button Grid.Row="5" Grid.Column="1" Content="2" />
-            <Button Grid.Row="5" Grid.Column="2" Content="3" />
-            <Button Grid.Row="5" Grid.Column="3" Content="-" />
-            <Button Grid.Row="5" Grid.Column="4" Content="=" Grid.RowSpan="2" />
+            <Button Grid.Row="5" Grid.Column="0" Content="1" Click="Button_1_Click" />
+            <Button Grid.Row="5" Grid.Column="1" Content="2" Click="Button_2_Click" />
+            <Button Grid.Row="5" Grid.Column="2" Content="3" Click="Button_3_Click" />
+            <Button Grid.Row="5" Grid.Column="3" Content="-" Click="Button_Minus_Click" />
+            <Button Grid.Row="5" Grid.Column="4" Content="=" Grid.RowSpan="2" Click="Button_Equals_Click" />
 
             <!-- Row 6 -->
-            <Button Grid.Row="6" Grid.Column="0" Content="0" Grid.ColumnSpan="2" />
-            <Button Grid.Row="6" Grid.Column="2" Content="." />
-            <Button Grid.Row="6" Grid.Column="3" Content="+" />
+            <Button Grid.Row="6" Grid.Column="0" Content="0" Grid.ColumnSpan="2" Click="Button_0_Click" />
+            <Button Grid.Row="6" Grid.Column="2" Content="." Click="Button_Dot_Click" />
+            <Button Grid.Row="6" Grid.Column="3" Content="+" Click="Button_Plus_Click" />
         </Grid>
     </DockPanel>
 </Window>
