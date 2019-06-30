@@ -35,7 +35,8 @@ namespace CalculatorLibrary
 
         public void ExitEntryMode()
         {
-            //!!! stub
+            EntryString = "0";
+            IsEntryMode = false;
         }
 
         public void AppendDigit(int digit)
