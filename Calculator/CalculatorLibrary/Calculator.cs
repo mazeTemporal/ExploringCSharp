@@ -63,13 +63,17 @@ namespace CalculatorLibrary
 
         public void RemoveLastDigit()
         {
-            if (EntryString.Length == 1 || EntryString.Length == 2 && EntryString[0] == '-')
+            if (IsEntryMode)
             {
-                EntryString = "0";
-            }
-            else
-            {
-                EntryString = EntryString.Substring(0, EntryString.Length - 1);
+                if (EntryString.Length == 1 || EntryString.Length == 2 && EntryString[0] == '-')
+                {
+                    EntryString = "0";
+                }
+                else
+                {
+                    EntryString = EntryString.Substring(0, EntryString.Length - 1);
+                }
+                EntryStringUpdate();
             }
         }
 
