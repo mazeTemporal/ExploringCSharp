@@ -13,6 +13,29 @@ namespace CalculatorLibrary.Tests
         const int DOUBLE_PRECISION = 14;
 
         [Theory]
+        [InlineData(true,  true,  15, 23, "0.7", "0.7")]
+        [InlineData(true,  false, 15, 23, "0.7", "0.7")]
+        [InlineData(false, true,  15, 23, "0.7", "23")]
+        [InlineData(false, false, 15, 23, "0.7", "15")]
+        public void DisplayValue_ShouldReturnCorrectValue( bool isEntryMode, bool shouldOverwriteOperation,
+            double totalValue, double operationValue, string entryString,
+            string expected)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                IsEntryMode = isEntryMode,
+                ShouldOverwriteOperation = shouldOverwriteOperation,
+                EntryString = entryString,
+                TotalValue = totalValue,
+                OperationValue = operationValue
+            };
+
+            // Assert
+            Assert.Equal(expected, calc.DisplayValue);
+        }
+
+        [Theory]
         [InlineData(0)]
         [InlineData(5)]
         public void AppendDigit_ShouldReplaceEntryStringZero(int digit)
@@ -52,6 +75,32 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
+        [InlineData(true,  5, 5, 4, 1)]
+        [InlineData(false, 5, 1, 4, 4)]
+        public void AppendDigit_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
+        {
+            // Arrange
+            string entryString = "0";
+            int digit = 1;
+            Calculator calculator = new Calculator()
+            {
+                EntryString = entryString,
+                ShouldOverwriteOperation = shouldOverwriteOperation,
+                TotalValue = totalValue,
+                OperationValue = operationValue
+            };
+
+            // Act
+            calculator.AppendDigit(digit);
+
+            // Assert
+            Assert.Equal(expectedTotal, calculator.TotalValue);
+            Assert.Equal(expectedOperation, calculator.OperationValue);
+        }
+
+        [Theory]
         [InlineData(-1)]
         [InlineData(10)]
         public void AppendDigit_ShouldThrowIfNotValidDigit(int digit)
@@ -61,6 +110,25 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => calc.AppendDigit(digit));
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AppendDigit_ShouldSetIsEntryModeTrue(bool isEntryMode)
+        {
+            // Arrange
+            int digit = 5;
+            Calculator calc = new Calculator()
+            {
+                IsEntryMode = isEntryMode
+            };
+
+            // Act
+            calc.AppendDigit(digit);
+
+            // Assert
+            Assert.True(calc.IsEntryMode);
         }
 
         [Theory]
@@ -97,6 +165,50 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Equal(entryString, calc.EntryString);
+        }
+
+        [Theory]
+        [InlineData(true,  5, 5, 4, 4)]
+        [InlineData(false, 5, 0, 4, 4)]
+        public void AppendDecimal_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
+        {
+            // Arrange
+            string entryString = "0";
+            Calculator calculator = new Calculator()
+            {
+                EntryString = entryString,
+                ShouldOverwriteOperation = shouldOverwriteOperation,
+                TotalValue = totalValue,
+                OperationValue = operationValue
+            };
+
+            // Act
+            calculator.AppendDecimal();
+
+            // Assert
+            Assert.Equal(expectedTotal, calculator.TotalValue);
+            Assert.Equal(expectedOperation, calculator.OperationValue);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AppendDecimal_ShouldSetIsEntryModeTrue(bool isEntryMode)
+        {
+            // Arrange
+            int digit = 5;
+            Calculator calc = new Calculator()
+            {
+                IsEntryMode = isEntryMode
+            };
+
+            // Act
+            calc.AppendDigit(digit);
+
+            // Assert
+            Assert.True(calc.IsEntryMode);
         }
 
         [Theory]
