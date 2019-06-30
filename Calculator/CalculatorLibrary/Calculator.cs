@@ -35,6 +35,7 @@ namespace CalculatorLibrary
 
         public void AppendDigit(int digit)
         {
+            IsEntryMode = true;
             if (digit < 0 || digit > 9)
             {
                 throw new ArgumentOutOfRangeException();
@@ -47,14 +48,17 @@ namespace CalculatorLibrary
             {
                 EntryString += digit;
             }
+            EntryStringUpdate();
         }
 
         public void AppendDecimal()
         {
+            IsEntryMode = true;
             if (EntryString.IndexOf(".") == -1)
             {
                 EntryString += ".";
             }
+            EntryStringUpdate();
         }
 
         public void RemoveLastDigit()
@@ -66,6 +70,19 @@ namespace CalculatorLibrary
             else
             {
                 EntryString = EntryString.Substring(0, EntryString.Length - 1);
+            }
+        }
+
+        private void EntryStringUpdate()
+        {
+            double entryValue = double.Parse(EntryString);
+            if (ShouldOverwriteOperation)
+            {
+                OperationValue = entryValue;
+            }
+            else
+            {
+                TotalValue = entryValue;
             }
         }
 

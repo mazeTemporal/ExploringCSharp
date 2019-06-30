@@ -168,7 +168,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData(true,  5, 5, 4, 4)]
+        [InlineData(true,  5, 5, 4, 0)]
         [InlineData(false, 5, 0, 4, 4)]
         public void AppendDecimal_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
             double totalValue, double expectedTotal,
