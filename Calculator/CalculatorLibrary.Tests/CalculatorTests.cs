@@ -212,16 +212,20 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("20", "2")]
-        [InlineData("1.5", "1.")]
-        [InlineData("84.", "84")]
-        [InlineData("-34", "-3")]
-        public void RemoveLastDigit_ShouldModifyEntryString(string entryString, string expected)
+        [InlineData(true, "20", "2")]
+        [InlineData(false, "20", "20")]
+        [InlineData(true, "1.5", "1.")]
+        [InlineData(true, "84.", "84")]
+        [InlineData(false, "84.", "84.")]
+        [InlineData(true, "-34", "-3")]
+        [InlineData(false, "-34", "-34")]
+        public void RemoveLastDigit_ShouldModifyEntryString(bool isEntryMode, string entryString, string expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString
+                EntryString = entryString,
+                IsEntryMode = isEntryMode
             };
 
             // Act
@@ -240,7 +244,8 @@ namespace CalculatorLibrary.Tests
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString
+                EntryString = entryString,
+                IsEntryMode = true
             };
 
             // Act
@@ -248,6 +253,35 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Equal("0", calc.EntryString);
+        }
+
+        //!!!
+        [Theory]
+        [InlineData(true,  true,  5, 5, 4, 1)]
+        [InlineData(true,  false, 5, 1, 4, 4)]
+        [InlineData(false, true,  5, 5, 4, 4)]
+        [InlineData(false, false, 5, 5, 4, 4)]
+        public void RemoveLastDigit_ShouldUpdateCorrectValue(bool isEntryMode, bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
+        {
+            // Arrange
+            string entryString = "10";
+            Calculator calculator = new Calculator()
+            {
+                EntryString = entryString,
+                IsEntryMode = isEntryMode,
+                ShouldOverwriteOperation = shouldOverwriteOperation,
+                TotalValue = totalValue,
+                OperationValue = operationValue
+            };
+
+            // Act
+            calculator.RemoveLastDigit();
+
+            // Assert
+            Assert.Equal(expectedTotal, calculator.TotalValue);
+            Assert.Equal(expectedOperation, calculator.OperationValue);
         }
 
         [Theory]
