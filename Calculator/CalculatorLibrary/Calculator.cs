@@ -33,71 +33,67 @@ namespace CalculatorLibrary
             }
         }
 
-
-
-        public string InputString { get; set; } = "0"; //!!! will be removed
-
         public void AppendDigit(int digit)
         {
             if (digit < 0 || digit > 9)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            if (InputString == "0")
+            if (EntryString == "0")
             {
-                InputString = digit.ToString();
+                EntryString = digit.ToString();
             }
             else
             {
-                InputString += digit;
+                EntryString += digit;
             }
         }
 
         public void AppendDecimal()
         {
-            if (InputString.IndexOf(".") == -1)
+            if (EntryString.IndexOf(".") == -1)
             {
-                InputString += ".";
+                EntryString += ".";
             }
         }
 
         public void RemoveLastDigit()
         {
-            if (InputString.Length == 1 || InputString.Length == 2 && InputString[0] == '-')
+            if (EntryString.Length == 1 || EntryString.Length == 2 && EntryString[0] == '-')
             {
-                InputString = "0";
+                EntryString = "0";
             }
             else
             {
-                InputString = InputString.Substring(0, InputString.Length - 1);
+                EntryString = EntryString.Substring(0, EntryString.Length - 1);
             }
         }
 
-        private double GetInputStringValue()
+        private double GetEntryStringValue()
         {
-            if (double.TryParse(InputString, out double output))
+            if (double.TryParse(EntryString, out double output))
             {
                 return output;
             }
-            return InputString[0] == '-' ? double.MinValue : double.MaxValue;
+            return EntryString[0] == '-' ? double.MinValue : double.MaxValue;
         }
 
         public void Add()
         {
             CurrentOperation = Operation.Add;
-            TotalValue += GetInputStringValue();
+            TotalValue += GetEntryStringValue();
         }
 
         public void Subtract()
         {
             CurrentOperation = Operation.Subtract;
-            TotalValue -= GetInputStringValue();
+            TotalValue -= GetEntryStringValue();
         }
 
         public void Multiply()
         {
             CurrentOperation = Operation.Multiply;
-            double total = TotalValue * GetInputStringValue();
+            double total = TotalValue * GetEntryStringValue();
             if (double.IsInfinity(total))
             {
                 total = double.IsPositiveInfinity(total) ? double.MaxValue : double.MinValue;
@@ -108,30 +104,30 @@ namespace CalculatorLibrary
         public void Divide()
         {
             CurrentOperation = Operation.Divide;
-            if (InputString == "0")
+            if (EntryString == "0")
             {
                 throw new DivideByZeroException();
             }
-            TotalValue /= GetInputStringValue();
+            TotalValue /= GetEntryStringValue();
         }
 
         public void MultiplicitiveInverse()
         {
-            if (InputString == "0")
+            if (EntryString == "0")
             {
                 throw new DivideByZeroException();
             }
-            InputString = (1 / GetInputStringValue()).ToString();
+            EntryString = (1 / GetEntryStringValue()).ToString();
         }
 
         public void AdditiveInverse()
         {
-            InputString = (-1 * GetInputStringValue()).ToString();
+            EntryString = (-1 * GetEntryStringValue()).ToString();
         }
 
         public void Percent()
         {
-            InputString = (TotalValue / 100 * GetInputStringValue()).ToString();
+            EntryString = (TotalValue / 100 * GetEntryStringValue()).ToString();
         }
 
         public void Calculate()
@@ -160,16 +156,16 @@ namespace CalculatorLibrary
 
         public void SquareRoot()
         {
-            if (InputString[0] == '-')
+            if (EntryString[0] == '-')
             {
                 throw new ArgumentOutOfRangeException();
             }
-            InputString = Math.Sqrt(GetInputStringValue()).ToString();
+            EntryString = Math.Sqrt(GetEntryStringValue()).ToString();
         }
 
         public void ClearEntry()
         {
-            InputString = "0";
+            EntryString = "0";
         }
 
         public void Clear()
@@ -182,7 +178,7 @@ namespace CalculatorLibrary
 
         public void MemorySave()
         {
-            MemoryValue = GetInputStringValue();
+            MemoryValue = GetEntryStringValue();
         }
 
         public void MemoryClear()
@@ -192,17 +188,17 @@ namespace CalculatorLibrary
 
         public void MemoryRecall()
         {
-            InputString = MemoryValue.ToString();
+            EntryString = MemoryValue.ToString();
         }
 
         public void MemoryAdd()
         {
-            MemoryValue += GetInputStringValue();
+            MemoryValue += GetEntryStringValue();
         }
 
         public void MemorySubtract()
         {
-            MemoryValue -= GetInputStringValue();
+            MemoryValue -= GetEntryStringValue();
         }
     }
 }

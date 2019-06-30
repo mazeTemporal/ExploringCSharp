@@ -28,9 +28,9 @@ namespace Calculator
             InitializeComponent();
         }
 
-        private string GetInputString()
+        private string GetEntryString()
         {
-            return calc.InputString;
+            return calc.EntryString;
         }
 
         private string GetTotalValueString()
@@ -45,7 +45,7 @@ namespace Calculator
 
         private void SetScreenInput()
         {
-            SetScreenContent(GetInputString());
+            SetScreenContent(GetEntryString());
         }
 
         private void SetScreenTotal()
