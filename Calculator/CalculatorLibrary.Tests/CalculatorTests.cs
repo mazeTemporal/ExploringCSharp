@@ -198,14 +198,13 @@ namespace CalculatorLibrary.Tests
         public void AppendDecimal_ShouldSetIsEntryModeTrue(bool isEntryMode)
         {
             // Arrange
-            int digit = 5;
             Calculator calc = new Calculator()
             {
                 IsEntryMode = isEntryMode
             };
 
             // Act
-            calc.AppendDigit(digit);
+            calc.AppendDecimal();
 
             // Assert
             Assert.True(calc.IsEntryMode);
@@ -255,7 +254,6 @@ namespace CalculatorLibrary.Tests
             Assert.Equal("0", calc.EntryString);
         }
 
-        //!!!
         [Theory]
         [InlineData(true,  true,  5, 5, 4, 1)]
         [InlineData(true,  false, 5, 1, 4, 4)]
