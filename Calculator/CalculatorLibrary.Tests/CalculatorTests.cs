@@ -283,6 +283,40 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void ExitEntryMode_ShouldSetIsEntryModeFalse(bool isEntryMode)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                IsEntryMode = isEntryMode
+            };
+
+            // Act
+            calc.ExitEntryMode();
+
+            // Assert
+            Assert.False(calc.IsEntryMode);
+        }
+
+        [Fact]
+        public void ExitEntryMode_ShouldSetEntryStringZero()
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                EntryString = "48"
+            };
+
+            // Act
+            calc.ExitEntryMode();
+
+            // Assert
+            Assert.Equal("0", calc.EntryString);
+        }
+
+        [Theory]
         [InlineData("7.94", 5.2, 13.14)]
         [InlineData("47", -4.67, 42.33)]
         [InlineData("-56", 12, -44)]

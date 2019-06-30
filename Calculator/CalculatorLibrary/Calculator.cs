@@ -33,6 +33,11 @@ namespace CalculatorLibrary
             }
         }
 
+        public void ExitEntryMode()
+        {
+            //!!! stub
+        }
+
         public void AppendDigit(int digit)
         {
             IsEntryMode = true;
