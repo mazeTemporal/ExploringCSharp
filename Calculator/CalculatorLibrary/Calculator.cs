@@ -14,10 +14,28 @@ namespace CalculatorLibrary
             Multiply,
             Divide
         };
-        public string InputString { get; set; } = "0";
         public double TotalValue { get; set; } = 0;
+        public double OperationValue { get; set; } = 0;
         public double MemoryValue { get; set; } = 0;
+        public string EntryString = "0";
         public Operation CurrentOperation { get; set; } = Operation.None;
+        public bool IsEntryMode = false;
+        public bool ShouldOverwriteOperation = false;
+        public string DisplayValue
+        {
+            get
+            {
+                if (IsEntryMode)
+                {
+                    return EntryString;
+                }
+                return (ShouldOverwriteOperation ? OperationValue : TotalValue).ToString();
+            }
+        }
+
+
+
+        public string InputString { get; set; } = "0"; //!!! will be removed
 
         public void AppendDigit(int digit)
         {
