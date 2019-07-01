@@ -255,6 +255,7 @@ namespace CalculatorLibrary
         {
             ClearEntry();
             TotalValue = 0;
+            OperationValue = 0;
             MemoryClear();
             CurrentOperation = Operation.None;
         }
