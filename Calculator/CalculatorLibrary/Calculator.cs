@@ -241,6 +241,14 @@ namespace CalculatorLibrary
         public void ClearEntry()
         {
             EntryString = "0";
+            if (ShouldOverwriteOperation)
+            {
+                OperationValue = 0;
+            }
+            else
+            {
+                TotalValue = 0;
+            }
         }
 
         public void Clear()
