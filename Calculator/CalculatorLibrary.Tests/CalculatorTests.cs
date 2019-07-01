@@ -653,38 +653,53 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("0", "0")]
-        [InlineData("1", "1")]
-        [InlineData("16", "4")]
-        [InlineData("3.24", "1.8")]
-        //!!!
-        public void SquareRoot_ShouldModifyEntryString(string entryString, string expected)
+        [InlineData(true,  25, 25, 16, 4)]
+        [InlineData(false, 25, 5, 16, 16)]
+        public void SquareRoot_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Act
             calc.SquareRoot();
 
             // Assert
-            Assert.Equal(expected, calc.EntryString);
+            Assert.Equal(expectedTotal, calc.TotalValue);
+            Assert.Equal(expectedOperation, calc.OperationValue);
         }
 
-        [Fact]
-        //!!!
-        public void SquareRoot_ShouldThrowIfInputNegative()
+        [Theory]
+        [InlineData(false,  1, -1, false)]
+        [InlineData(false, -1,  1, true)]
+        [InlineData(true,   1, -1, true)]
+        [InlineData(true,  -1,  1, false)]
+        public void SquareRoot_ShouldThrowIfValueNegative(bool shouldOverwriteOperation,
+            double totalValue, double operationValue, bool shouldThrow)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = "-1"
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() =>calc.SquareRoot());
+            if (shouldThrow)
+            {
+                Assert.Throws<ArgumentOutOfRangeException>(() => calc.SquareRoot());
+            }
+            else
+            {
+                calc.SquareRoot();
+            }
         }
 
         [Fact]
