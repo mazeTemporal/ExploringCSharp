@@ -262,7 +262,14 @@ namespace CalculatorLibrary
 
         public void MemorySave()
         {
-            MemoryValue = GetEntryStringValue();
+            if (ShouldOverwriteOperation)
+            {
+                MemoryValue = OperationValue;
+            }
+            else
+            {
+                MemoryValue = TotalValue;
+            }
         }
 
         public void MemoryClear()
