@@ -526,16 +526,20 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("4", "-4")]
-        [InlineData("-4", "4")]
-        [InlineData("0.18", "-0.18")]
-        //!!!
-        public void AdditiveInverse_ShouldModifyEntryString(string entryString, string expected)
+        [InlineData(true, "4", "-4")]
+        [InlineData(false, "4", "4")]
+        [InlineData(true, "-4", "4")]
+        [InlineData(false, "-4", "-4")]
+        [InlineData(true, "0.18", "-0.18")]
+        [InlineData(true, "0.", "-0.")]
+        public void AdditiveInverse_ShouldModifyEntryStringIfIsEntryMode(
+            bool isEntryMode, string entryString, string expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString
+                EntryString = entryString,
+                IsEntryMode = isEntryMode
             };
 
             // Act
@@ -546,13 +550,13 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
-        //!!!
-        public void AdditiveInverse_ShouldIgnoreInputZero()
+        public void AdditiveInverse_ShouldIgnoreEntryStringZero()
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = "0"
+                EntryString = "0",
+                IsEntryMode = true
             };
 
             // Act
@@ -560,6 +564,29 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Equal("0", calc.EntryString);
+        }
+
+        [Theory]
+        [InlineData(true, 5, 5, 4, -4)]
+        [InlineData(false, 5, -5, 4, 4)]
+        public void AdditiveInverse_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
+            };
+
+            // Act
+            calc.AdditiveInverse();
+
+            // Assert
+            Assert.Equal(expectedTotal, calc.TotalValue);
+            Assert.Equal(expectedOperation, calc.OperationValue);
         }
 
         [Theory]
