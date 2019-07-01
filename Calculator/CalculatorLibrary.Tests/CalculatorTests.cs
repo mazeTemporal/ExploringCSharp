@@ -803,23 +803,29 @@ namespace CalculatorLibrary.Tests
             Assert.Equal(0, calc.MemoryValue);
         }
 
-        [Fact]
-        //!!!
-        public void MemoryRecall_ShouldModifyEntryString()
+        [Theory]
+        [InlineData(true, 5, 5, 4, -2.63)]
+        [InlineData(false, 5, -2.63, 4, 4)]
+        public void MemoryRecall_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
         {
             // Arrange
             double memoryValue = -2.63;
             Calculator calc = new Calculator()
             {
-                EntryString = "0",
-                MemoryValue = memoryValue
+                MemoryValue = memoryValue,
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Act
             calc.MemoryRecall();
 
             // Assert
-            Assert.Equal(memoryValue.ToString(), calc.EntryString);
+            Assert.Equal(expectedTotal, calc.TotalValue);
+            Assert.Equal(expectedOperation, calc.OperationValue);
         }
 
         [Theory]
