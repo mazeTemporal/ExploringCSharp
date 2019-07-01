@@ -140,11 +140,22 @@ namespace CalculatorLibrary
 
         public void MultiplicitiveInverse()
         {
-            if (EntryString == "0")
+            if (ShouldOverwriteOperation)
             {
-                throw new DivideByZeroException();
+                if (0 == OperationValue)
+                {
+                    throw new DivideByZeroException();
+                }
+                OperationValue = 1 / OperationValue;
             }
-            EntryString = (1 / GetEntryStringValue()).ToString();
+            else
+            {
+                if (0 == TotalValue)
+                {
+                    throw new DivideByZeroException();
+                }
+                TotalValue = 1 / TotalValue;
+            }
         }
 
         public void AdditiveInverse()
