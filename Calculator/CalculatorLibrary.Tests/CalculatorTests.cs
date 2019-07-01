@@ -765,23 +765,26 @@ namespace CalculatorLibrary.Tests
             Assert.Equal(Calculator.Operation.None, calc.CurrentOperation);
         }
 
-        [Fact]
-        //!!!
-        public void MemorySave_ShouldModifyMemoryValue()
+        [Theory]
+        [InlineData(true, 5, 4, 4)]
+        [InlineData(false, 5, 4, 5)]
+        public void MemorySave_ShouldUpdateMemoryValueWithCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double operationValue, double expected)
         {
             // Arrange
-            string entryString = "15.8";
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
-                MemoryValue = 0
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                MemoryValue = 0,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Act
             calc.MemorySave();
 
             // Assert
-            Assert.Equal(double.Parse(entryString), calc.MemoryValue, DOUBLE_PRECISION);
+            Assert.Equal(expected, calc.MemoryValue, DOUBLE_PRECISION);
         }
 
         [Fact]
