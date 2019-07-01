@@ -220,11 +220,22 @@ namespace CalculatorLibrary
 
         public void SquareRoot()
         {
-            if (EntryString[0] == '-')
+            if (ShouldOverwriteOperation)
             {
-                throw new ArgumentOutOfRangeException();
+                if (OperationValue < 0)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                OperationValue = Math.Sqrt(OperationValue);
             }
-            EntryString = Math.Sqrt(GetEntryStringValue()).ToString();
+            else
+            {
+                if (TotalValue < 0)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                TotalValue = Math.Sqrt(TotalValue);
+            }
         }
 
         public void ClearEntry()
