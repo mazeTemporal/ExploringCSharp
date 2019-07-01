@@ -279,7 +279,14 @@ namespace CalculatorLibrary
 
         public void MemoryRecall()
         {
-            EntryString = MemoryValue.ToString();
+            if (ShouldOverwriteOperation)
+            {
+                OperationValue = MemoryValue;
+            }
+            else
+            {
+                TotalValue = MemoryValue;
+            }
         }
 
         public void MemoryAdd()
