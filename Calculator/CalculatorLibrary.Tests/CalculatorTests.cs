@@ -607,26 +607,26 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("0", 5, "0")]
-        [InlineData("78", 0, "0")]
-        [InlineData("20", 10, "2")]
-        [InlineData("1.2", -30, "-0.36")]
-        [InlineData("-30", 1.2, "-0.36")]
-        //!!!
-        public void Percent_ShouldModifyEntryString(string entryString, double totalValue, string expected)
+        [InlineData(true,  5, 5, 4, 0.2)]
+        [InlineData(false, 5, 0.25, 4, 4)]
+        public void Percent_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
-                TotalValue = totalValue
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Act
             calc.Percent();
 
             // Assert
-            Assert.Equal(expected, calc.EntryString);
+            Assert.Equal(expectedTotal, calc.TotalValue);
+            Assert.Equal(expectedOperation, calc.OperationValue);
         }
 
         [Theory]
