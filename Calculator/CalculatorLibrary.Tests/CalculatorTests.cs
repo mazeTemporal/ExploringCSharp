@@ -491,38 +491,55 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal(expected, calc.CurrentOperation);
         }
-
+      
         [Theory]
-        [InlineData("4", "0.25")]
-        [InlineData("-4", "-0.25")]
-        //!!!
-        public void MultiplicitiveInverse_ShouldModifyEntryString(string entryString, string expected)
+        [InlineData(true,  5, 5, 4, 0.25)]
+        [InlineData(false, 5, 0.2, 4, 4)]
+        public void MultiplicitiveInverse_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Act
             calc.MultiplicitiveInverse();
 
             // Assert
-            Assert.Equal(expected, calc.EntryString);
+            Assert.Equal(expectedTotal, calc.TotalValue);
+            Assert.Equal(expectedOperation, calc.OperationValue);
         }
 
-        [Fact]
-        //!!!
-        public void MultiplicitiveInverse_ShouldThrowIfInputZero()
+        [Theory]
+        [InlineData(false, 5, 0, false)]
+        [InlineData(false, 0, 5, true)]
+        [InlineData(true,  5, 0, true)]
+        [InlineData(true,  0, 5, false)]
+        public void MultiplicitiveInverse_ShouldThrowIfValueZero(bool shouldOverwriteOperation,
+            double totalValue, double operationValue, bool shouldThrow)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = "0"
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Assert
-            Assert.Throws<DivideByZeroException>(() => calc.MultiplicitiveInverse());
+            if (shouldThrow)
+            {
+                Assert.Throws<DivideByZeroException>(() => calc.MultiplicitiveInverse());
+            }
+            else
+            {
+                calc.MultiplicitiveInverse();
+            }
         }
 
         [Theory]
