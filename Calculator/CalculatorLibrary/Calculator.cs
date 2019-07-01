@@ -291,12 +291,26 @@ namespace CalculatorLibrary
 
         public void MemoryAdd()
         {
-            MemoryValue += GetEntryStringValue();
+            if (ShouldOverwriteOperation)
+            {
+                MemoryValue += OperationValue;
+            }
+            else
+            {
+                MemoryValue += TotalValue;
+            }
         }
 
         public void MemorySubtract()
         {
-            MemoryValue -= GetEntryStringValue();
+            if (ShouldOverwriteOperation)
+            {
+                MemoryValue -= OperationValue;
+            }
+            else
+            {
+                MemoryValue -= TotalValue;
+            }
         }
     }
 }
