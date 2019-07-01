@@ -742,7 +742,6 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
-        //!!!
         public void Clear_ShouldResetProperties()
         {
             // Arrange
@@ -750,6 +749,7 @@ namespace CalculatorLibrary.Tests
             {
                 EntryString = "15.8",
                 TotalValue = 8.1,
+                OperationValue = 3.7,
                 CurrentOperation = Calculator.Operation.Multiply,
                 MemoryValue = 23.4
             };
@@ -760,6 +760,7 @@ namespace CalculatorLibrary.Tests
             // Assert
             Assert.Equal("0", calc.EntryString);
             Assert.Equal(0, calc.TotalValue);
+            Assert.Equal(0, calc.OperationValue);
             Assert.Equal(0, calc.MemoryValue);
             Assert.Equal(Calculator.Operation.None, calc.CurrentOperation);
         }
