@@ -703,7 +703,6 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
-        //!!!
         public void ClearEntry_ShouldModifyEntryString()
         {
             // Arrange
@@ -717,6 +716,29 @@ namespace CalculatorLibrary.Tests
 
             // Assert
             Assert.Equal("0", calc.EntryString);
+        }
+
+        [Theory]
+        [InlineData(true, 5, 5, 4, 0)]
+        [InlineData(false, 5, 0, 4, 4)]
+        public void ClearEntry_ShouldUpdateCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double expectedTotal,
+            double operationValue, double expectedOperation)
+        {
+            // Arrange
+            Calculator calc = new Calculator()
+            {
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
+            };
+
+            // Act
+            calc.ClearEntry();
+
+            // Assert
+            Assert.Equal(expectedTotal, calc.TotalValue);
+            Assert.Equal(expectedOperation, calc.OperationValue);
         }
 
         [Fact]
