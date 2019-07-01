@@ -149,7 +149,26 @@ namespace CalculatorLibrary
 
         public void AdditiveInverse()
         {
-            EntryString = (-1 * GetEntryStringValue()).ToString();
+            if (IsEntryMode && EntryString != "0")
+            {
+                if (EntryString[0] == '-')
+                {
+                    EntryString = EntryString.Substring(1);
+                }
+                else
+                {
+                    EntryString = "-" + EntryString;
+                }
+            }
+
+            if (ShouldOverwriteOperation)
+            {
+                OperationValue *= -1;
+            }
+            else
+            {
+                TotalValue *= -1;
+            }
         }
 
         public void Percent()
