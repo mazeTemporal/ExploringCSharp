@@ -591,14 +591,13 @@ namespace CalculatorLibrary.Tests
         [InlineData(Calculator.Operation.Subtract, 15)]
         [InlineData(Calculator.Operation.Multiply, 100)]
         [InlineData(Calculator.Operation.Divide, 4)]
-        //!!!
         public void Calculate_ShouldCallCorrectOperation(Calculator.Operation operation, double expectedTotal)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
                 CurrentOperation = operation,
-                EntryString = "5",
+                OperationValue = 5,
                 TotalValue = 20
             };
 
