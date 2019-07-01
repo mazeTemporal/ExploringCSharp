@@ -184,7 +184,14 @@ namespace CalculatorLibrary
 
         public void Percent()
         {
-            EntryString = (TotalValue / 100 * GetEntryStringValue()).ToString();
+            if (ShouldOverwriteOperation)
+            {
+                OperationValue = TotalValue / 100 * OperationValue;
+            }
+            else
+            {
+                TotalValue = TotalValue / 100 * TotalValue;
+            }
         }
 
         public void Calculate()
