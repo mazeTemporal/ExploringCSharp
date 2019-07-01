@@ -829,20 +829,22 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData(1.2, "5.74", 6.94)]
-        [InlineData(-87.4, "9.5", -77.9)]
-        [InlineData(87.4, "-9.5", 77.9)]
-        [InlineData(-87.4, "-9.5", -96.9)]
-        [InlineData(double.MaxValue, "12", double.MaxValue)]
-        [InlineData(double.MinValue, "-12", double.MinValue)]
-        //!!!
-        public void MemoryAdd_ShouldModifyMemoryValue(double memoryValue, string entryString, double expected)
+        [InlineData(true, 5, -4, 10, 6)]
+        [InlineData(true, 5, 4, 10, 14)]
+        [InlineData(false, 5, -4, 10, 15)]
+        [InlineData(false, -5, 4, 10, 5)]
+        [InlineData(false, -5, 5, double.MaxValue, double.MaxValue)]
+        [InlineData(false, 5, -4, double.MinValue, double.MinValue)]
+        public void MemoryAdd_ShouldUpdateMemoryValueWithCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double operationValue, double memoryValue, double expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
-                MemoryValue = memoryValue
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                MemoryValue = memoryValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Act
@@ -853,20 +855,22 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData(1.2, "5.74", -4.54)]
-        [InlineData(-87.4, "9.5", -96.9)]
-        [InlineData(87.4, "-9.5", 96.9)]
-        [InlineData(-87.4, "-9.5", -77.9)]
-        [InlineData(double.MaxValue, "-12", double.MaxValue)]
-        [InlineData(double.MinValue, "12", double.MinValue)]
-        //!!!
-        public void MemorySubtract_ShouldModifyMemoryValue(double memoryValue, string entryString, double expected)
+        [InlineData(true, 5, -4, 10, 14)]
+        [InlineData(true, 5, 4, 10, 6)]
+        [InlineData(false, 5, -4, 10, 5)]
+        [InlineData(false, -5, 4, 10, 15)]
+        [InlineData(false, 5, -5, double.MaxValue, double.MaxValue)]
+        [InlineData(false, -5, 4, double.MinValue, double.MinValue)]
+        public void MemorySubtract_ShouldUpdateMemoryValueWithCorrectValue(bool shouldOverwriteOperation,
+            double totalValue, double operationValue, double memoryValue, double expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
-                MemoryValue = memoryValue
+                TotalValue = totalValue,
+                OperationValue = operationValue,
+                MemoryValue = memoryValue,
+                ShouldOverwriteOperation = shouldOverwriteOperation
             };
 
             // Act
