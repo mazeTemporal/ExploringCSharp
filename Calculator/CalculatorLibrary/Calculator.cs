@@ -96,7 +96,7 @@ namespace CalculatorLibrary
             }
         }
 
-        private double GetEntryStringValue()
+        private double GetEntryStringValue() //!!! this should be removed
         {
             if (double.TryParse(EntryString, out double output))
             {
@@ -108,19 +108,19 @@ namespace CalculatorLibrary
         public void Add()
         {
             CurrentOperation = Operation.Add;
-            TotalValue += GetEntryStringValue();
+            TotalValue += OperationValue;
         }
 
         public void Subtract()
         {
             CurrentOperation = Operation.Subtract;
-            TotalValue -= GetEntryStringValue();
+            TotalValue -= OperationValue;
         }
 
         public void Multiply()
         {
             CurrentOperation = Operation.Multiply;
-            double total = TotalValue * GetEntryStringValue();
+            double total = TotalValue * OperationValue;
             if (double.IsInfinity(total))
             {
                 total = double.IsPositiveInfinity(total) ? double.MaxValue : double.MinValue;
@@ -131,11 +131,11 @@ namespace CalculatorLibrary
         public void Divide()
         {
             CurrentOperation = Operation.Divide;
-            if (EntryString == "0")
+            if (OperationValue == 0)
             {
                 throw new DivideByZeroException();
             }
-            TotalValue /= GetEntryStringValue();
+            TotalValue /= OperationValue;
         }
 
         public void MultiplicitiveInverse()
