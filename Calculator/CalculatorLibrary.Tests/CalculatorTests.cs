@@ -317,17 +317,17 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("7.94", 5.2, 13.14)]
-        [InlineData("47", -4.67, 42.33)]
-        [InlineData("-56", 12, -44)]
-        [InlineData("14", double.MaxValue, double.MaxValue)]
-        [InlineData("-4", double.MinValue, double.MinValue)]
-        public void Add_ShouldModifyTotalValue(string entryString, double totalValue, double expected)
+        [InlineData(7.94, 5.2, 13.14)]
+        [InlineData(47, -4.67, 42.33)]
+        [InlineData(-56, 12, -44)]
+        [InlineData(14, double.MaxValue, double.MaxValue)]
+        [InlineData(-4, double.MinValue, double.MinValue)]
+        public void Add_ShouldModifyTotalValue(double operationValue, double totalValue, double expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
+                OperationValue = operationValue,
                 TotalValue = totalValue
             };
 
@@ -356,17 +356,17 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("7.94", 5.2, -2.74)]
-        [InlineData("4.67", 47, 42.33)]
-        [InlineData("-56", 12, 68)]
-        [InlineData("-14", double.MaxValue, double.MaxValue)]
-        [InlineData("4", double.MinValue, double.MinValue)]
-        public void Subtract_ShouldModifyTotalValue(string entryString, double totalValue, double expected)
+        [InlineData(7.94, 5.2, -2.74)]
+        [InlineData(4.67, 47, 42.33)]
+        [InlineData(-56, 12, 68)]
+        [InlineData(-14, double.MaxValue, double.MaxValue)]
+        [InlineData(4, double.MinValue, double.MinValue)]
+        public void Subtract_ShouldModifyTotalValue(double operationValue, double totalValue, double expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
+                OperationValue = operationValue,
                 TotalValue = totalValue
             };
 
@@ -395,22 +395,22 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("5", 0, 0)]
-        [InlineData("0", 7, 0)]
-        [InlineData("-8", -4, 32)]
-        [InlineData("-8", 4, -32)]
-        [InlineData("8", -4, -32)]
-        [InlineData("6.9", 1.5, 10.35)]
-        [InlineData("3", double.MaxValue, double.MaxValue)]
-        [InlineData("3", double.MinValue, double.MinValue)]
-        [InlineData("-3", double.MaxValue, double.MinValue)]
-        [InlineData("-3", double.MinValue, double.MaxValue)]
-        public void Multiply_ShouldModifyTotalValue(string entryString, double totalValue, double expected)
+        [InlineData(5, 0, 0)]
+        [InlineData(0, 7, 0)]
+        [InlineData(-8, -4, 32)]
+        [InlineData(-8, 4, -32)]
+        [InlineData(8, -4, -32)]
+        [InlineData(6.9, 1.5, 10.35)]
+        [InlineData(3, double.MaxValue, double.MaxValue)]
+        [InlineData(3, double.MinValue, double.MinValue)]
+        [InlineData(-3, double.MaxValue, double.MinValue)]
+        [InlineData(-3, double.MinValue, double.MaxValue)]
+        public void Multiply_ShouldModifyTotalValue(double operationValue, double totalValue, double expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
+                OperationValue = operationValue,
                 TotalValue = totalValue
             };
 
@@ -439,17 +439,17 @@ namespace CalculatorLibrary.Tests
         }
 
         [Theory]
-        [InlineData("7", 0, 0)]
-        [InlineData("-8", -4, 0.5)]
-        [InlineData("-8", 4, -0.5)]
-        [InlineData("8", -4, -0.5)]
-        [InlineData("6.9", 1.5, 1.5 / 6.9)]
-        public void Divide_ShouldModifyTotalValue(string entryString, double totalValue, double expected)
+        [InlineData(7, 0, 0)]
+        [InlineData(-8, -4, 0.5)]
+        [InlineData(-8, 4, -0.5)]
+        [InlineData(8, -4, -0.5)]
+        [InlineData(6.9, 1.5, 1.5 / 6.9)]
+        public void Divide_ShouldModifyTotalValue(double operationValue, double totalValue, double expected)
         {
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = entryString,
+                OperationValue = operationValue,
                 TotalValue = totalValue
             };
 
@@ -466,7 +466,7 @@ namespace CalculatorLibrary.Tests
             // Arrange
             Calculator calc = new Calculator()
             {
-                EntryString = "0",
+                OperationValue = 0,
                 TotalValue = 25
             };
 
@@ -482,7 +482,7 @@ namespace CalculatorLibrary.Tests
             Calculator calc = new Calculator()
             {
                 CurrentOperation = Calculator.Operation.None,
-                EntryString = "1"
+                OperationValue = 1
             };
 
             // Act
@@ -495,6 +495,7 @@ namespace CalculatorLibrary.Tests
         [Theory]
         [InlineData("4", "0.25")]
         [InlineData("-4", "-0.25")]
+        //!!!
         public void MultiplicitiveInverse_ShouldModifyEntryString(string entryString, string expected)
         {
             // Arrange
@@ -511,6 +512,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
+        //!!!
         public void MultiplicitiveInverse_ShouldThrowIfInputZero()
         {
             // Arrange
@@ -527,6 +529,7 @@ namespace CalculatorLibrary.Tests
         [InlineData("4", "-4")]
         [InlineData("-4", "4")]
         [InlineData("0.18", "-0.18")]
+        //!!!
         public void AdditiveInverse_ShouldModifyEntryString(string entryString, string expected)
         {
             // Arrange
@@ -543,6 +546,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
+        //!!!
         public void AdditiveInverse_ShouldIgnoreInputZero()
         {
             // Arrange
@@ -564,6 +568,7 @@ namespace CalculatorLibrary.Tests
         [InlineData("20", 10, "2")]
         [InlineData("1.2", -30, "-0.36")]
         [InlineData("-30", 1.2, "-0.36")]
+        //!!!
         public void Percent_ShouldModifyEntryString(string entryString, double totalValue, string expected)
         {
             // Arrange
@@ -586,6 +591,7 @@ namespace CalculatorLibrary.Tests
         [InlineData(Calculator.Operation.Subtract, 15)]
         [InlineData(Calculator.Operation.Multiply, 100)]
         [InlineData(Calculator.Operation.Divide, 4)]
+        //!!!
         public void Calculate_ShouldCallCorrectOperation(Calculator.Operation operation, double expectedTotal)
         {
             // Arrange
@@ -608,6 +614,7 @@ namespace CalculatorLibrary.Tests
         [InlineData("1", "1")]
         [InlineData("16", "4")]
         [InlineData("3.24", "1.8")]
+        //!!!
         public void SquareRoot_ShouldModifyEntryString(string entryString, string expected)
         {
             // Arrange
@@ -624,6 +631,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
+        //!!!
         public void SquareRoot_ShouldThrowIfInputNegative()
         {
             // Arrange
@@ -637,6 +645,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
+        //!!!
         public void ClearEntry_ShouldModifyEntryString()
         {
             // Arrange
@@ -653,6 +662,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
+        //!!!
         public void Clear_ShouldResetProperties()
         {
             // Arrange
@@ -675,6 +685,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
+        //!!!
         public void MemorySave_ShouldModifyMemoryValue()
         {
             // Arrange
@@ -709,6 +720,7 @@ namespace CalculatorLibrary.Tests
         }
 
         [Fact]
+        //!!!
         public void MemoryRecall_ShouldModifyEntryString()
         {
             // Arrange
@@ -733,6 +745,7 @@ namespace CalculatorLibrary.Tests
         [InlineData(-87.4, "-9.5", -96.9)]
         [InlineData(double.MaxValue, "12", double.MaxValue)]
         [InlineData(double.MinValue, "-12", double.MinValue)]
+        //!!!
         public void MemoryAdd_ShouldModifyMemoryValue(double memoryValue, string entryString, double expected)
         {
             // Arrange
@@ -756,6 +769,7 @@ namespace CalculatorLibrary.Tests
         [InlineData(-87.4, "-9.5", -77.9)]
         [InlineData(double.MaxValue, "-12", double.MaxValue)]
         [InlineData(double.MinValue, "12", double.MinValue)]
+        //!!!
         public void MemorySubtract_ShouldModifyMemoryValue(double memoryValue, string entryString, double expected)
         {
             // Arrange
