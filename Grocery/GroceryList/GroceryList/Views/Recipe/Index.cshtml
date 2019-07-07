@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GroceryList.Models.RecipeModel>
+﻿@model GroceryList.Models.RecipeListModel
 
 @{
   ViewBag.Title = "Recipes";
@@ -6,28 +6,38 @@
 
 <h2>@ViewBag.Title: (@Html.ActionLink("Create New", "Create", "Recipe"))</h2>
 
-<table>
-  <thead>
-    <tr>
-      <th>
-        @Html.DisplayNameFor(model => model.Name)
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var recipe in Model)
-    {
+@using ( Html.BeginForm("ShoppingList", "Recipe", FormMethod.Post, null) )
+{
+  <table>
+    <thead>
       <tr>
-        <td>
-          @Html.ActionLink(
-            recipe.Name,
-            "Show",
-            "Recipe",
-            new { name = recipe.Name },
-            null
-          )
-        </td>
+        <th>
+          Selected
+        </th>
+        <th>
+          Name
+        </th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      @foreach (var recipe in Model.Recipes)
+      {
+        <tr>
+          <td>
+            <input type="checkbox" name="SelectedRecipes" value="@recipe.Value">
+          </td>
+          <td>
+            @Html.ActionLink(
+              recipe.Value,
+              "Show",
+              "Recipe",
+              new { name = recipe.Value },
+              null
+            )
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <button type="submit">Generate Shopping List</button>
+}

@@ -13,10 +13,14 @@ namespace GroceryList.Controllers
   {
     public ActionResult Index()
     {
-      List<RecipeModel> recipes = RecipeProcessor.ReadAllRecipes()
-        .Select(ModelTranslator.TranslateRecipeModel)
-        .ToList();
-      return View(recipes);
+      RecipeListModel recipeList = new RecipeListModel()
+      {
+        Recipes = RecipeProcessor.ReadAllRecipes()
+          .Select(ModelTranslator.TranslateRecipeModel)
+          .Select(x => new SelectListItem { Text = x.Name, Value = x.Name })
+          .ToList()
+      };
+      return View(recipeList);
     }
 
     [HttpGet]
@@ -83,6 +87,21 @@ namespace GroceryList.Controllers
     {
       //!!! should be database action
       return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult ShoppingList(RecipeListModel recipeList)
+    {
+      List<IngredientModel> ingredients = recipeList.SelectedRecipes
+        .Select(RecipeProcessor.ReadRecipe)
+        .Select(ModelTranslator.TranslateRecipeModel)
+        .Select(x => x.Ingredients)
+        .Aggregate((a, b) =>
+        { 
+          a.AddRange(b);
+          return a;
+        });
+      return View(ingredients);
     }
   }
 }
