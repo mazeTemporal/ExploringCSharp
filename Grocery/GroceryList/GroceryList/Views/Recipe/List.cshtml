@@ -1,0 +1,39 @@
+﻿@model GroceryList.Models.GroceryListModel
+
+@{
+  ViewBag.Title = "Grocery List";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+  <ul>
+    @foreach (var category in Model.IngredientCategories)
+    {
+      <li>
+        <h3>@category.Key</h3>
+        <table>
+        <thead>
+          <tr>
+            <th>@Html.DisplayNameFor(model => model.IngredientCategories.Values.ElementAt(0)[0].Name)</th>
+            <th>@Html.DisplayNameFor(model => model.IngredientCategories.Values.ElementAt(0)[0].UsAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.IngredientCategories.Values.ElementAt(0)[0].UsUnit)</th>
+            <th>@Html.DisplayNameFor(model => model.IngredientCategories.Values.ElementAt(0)[0].MetricAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.IngredientCategories.Values.ElementAt(0)[0].MetricUnit)</th>
+          </tr>
+        </thead>
+          @foreach (var ingredient in category.Value)
+          {
+            <tr>
+              <td>@ingredient.Name</td>
+              <td>@ingredient.UsAmount</td>
+              <td>@ingredient.UsUnit</td>
+              <td>@ingredient.MetricAmount</td>
+              <td>@ingredient.MetricUnit</td>
+            </tr>
+          }
+        </table>
+      </li>
+    }
+  </ul>
+</div>

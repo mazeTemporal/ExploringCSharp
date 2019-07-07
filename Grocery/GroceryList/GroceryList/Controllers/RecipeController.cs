@@ -90,18 +90,17 @@ namespace GroceryList.Controllers
     }
 
     [HttpPost]
-    public ActionResult ShoppingList(RecipeListModel recipeList)
+    public ActionResult List(RecipeListModel recipeList)
     {
-      List<IngredientModel> ingredients = recipeList.SelectedRecipes
-        .Select(RecipeProcessor.ReadRecipe)
-        .Select(ModelTranslator.TranslateRecipeModel)
-        .Select(x => x.Ingredients)
-        .Aggregate((a, b) =>
-        { 
-          a.AddRange(b);
-          return a;
-        });
-      return View(ingredients);
+      if (recipeList.SelectedRecipes.Count == 0)
+      {
+        return RedirectToAction("Index");
+      }
+      GroceryListModel groceryList = ModelTranslator.RecipeToGroceryList(
+        ModelTranslator.TranslateRecipeModel(
+        RecipeProcessor.CombineRecipes(recipeList.SelectedRecipes)));
+
+      return View(groceryList);
     }
   }
 }

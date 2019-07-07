@@ -4,9 +4,23 @@
   ViewBag.Title = "Recipes";
 }
 
+@section headerScripts {
+  <script src="~/Scripts/jquery-3.4.0.min.js"></script>
+}
+
+<script>
+  function validate(){
+    var isValid = $("input:checked").length > 0;
+    if (!isValid){
+      $('#validationMessage').html('You must select at least one recipe');
+    }
+    return isValid;
+  }
+</script>
+
 <h2>@ViewBag.Title: (@Html.ActionLink("Create New", "Create", "Recipe"))</h2>
 
-@using ( Html.BeginForm("ShoppingList", "Recipe", FormMethod.Post, null) )
+@using ( Html.BeginForm("List", "Recipe", FormMethod.Post, null) )
 {
   <table>
     <thead>
@@ -39,5 +53,6 @@
       }
     </tbody>
   </table>
-  <button type="submit">Generate Shopping List</button>
+  <div id="validationMessage"></div>
+  <button type="submit" onclick="return validate();">Generate Grocery List</button>
 }

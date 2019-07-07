@@ -113,5 +113,19 @@ namespace GroceryList.Translate
 
       return dbUnit;
     }
+
+    public static Models.GroceryListModel RecipeToGroceryList(Models.RecipeModel recipe)
+    {
+      Models.GroceryListModel groceryList = new Models.GroceryListModel();
+      foreach (Models.IngredientModel ingredient in recipe.Ingredients)
+      {
+        if (!groceryList.IngredientCategories.ContainsKey(ingredient.Category))
+        {
+          groceryList.IngredientCategories[ingredient.Category] = new List<Models.IngredientModel>();
+        }
+        groceryList.IngredientCategories[ingredient.Category].Add(ingredient);
+      }
+      return groceryList;
+    }
   }
 }

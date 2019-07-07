@@ -96,6 +96,7 @@
     <Compile Include="Translate\ModelTranslator.cs" />
     <Compile Include="Models\UnitConversionModel.cs" />
     <Compile Include="Models\RecipeListModel.cs" />
+    <Compile Include="Models\GroceryListModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
@@ -116,7 +117,7 @@
     <Content Include="Scripts\dynamic-form.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Views\Recipe\ShoppingList.cshtml" />
+    <Content Include="Views\Recipe\List.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

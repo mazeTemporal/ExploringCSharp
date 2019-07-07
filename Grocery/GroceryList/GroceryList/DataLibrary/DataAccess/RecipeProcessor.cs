@@ -145,6 +145,50 @@ namespace DataLibrary.DataAccess
       }
     }
 
+    public static RecipeModel CombineRecipes(List<string> recipeNames)
+    {
+      // model to be populated with nested data
+      RecipeModel output = null;
+
+      using (IDbConnection connection = SQLiteDataAccess.GetConnection())
+      {
+        // get recipe
+        string sql = @"
+          SELECT R.*, RI.*, SUM(RI.Amount) AS 'Amount', I.*, U.*, C.*
+          FROM Recipe R
+          JOIN RecipeIngredient RI ON R.Id = RI.RecipeId
+          JOIN Unit U ON RI.UnitId = U.Id
+          JOIN Ingredient I ON RI.IngredientId = I.Id
+          JOIN Category C ON I.CategoryId = C.Id
+          WHERE R.Name in @recipeNames
+          GROUP BY RI.IngredientId, RI.UnitId
+        ";
+
+        connection.Query<
+          RecipeModel,
+          RecipeIngredientModel,
+          IngredientModel,
+          UnitModel,
+          CategoryModel,
+          RecipeModel // not used, populate external object
+          >(sql, (recipe, recipeIngredient, ingredient, unit, category) =>
+          {
+            if (output == null)
+            {
+              recipe.RecipeIngredients = new List<RecipeIngredientModel>();
+              output = recipe;
+            }
+            ingredient.Category = category;
+            recipeIngredient.Unit = unit;
+            recipeIngredient.Ingredient = ingredient;
+            output.RecipeIngredients.Add(recipeIngredient);
+            return (recipe); // not used
+          }, new { recipeNames });
+
+        return output;
+      }
+    }
+
     public static int UpdateRecipe(RecipeModel recipe)
     {
       using (IDbConnection connection = SQLiteDataAccess.GetConnection())
